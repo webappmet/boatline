@@ -1,11 +1,11 @@
 # Prosjektoppgave for Webapplikasjoner Del 1, 2021
 
-# Oppgave
+## Oppgave
 Det skal implementeres en applikasjon for bestille billetter til båtturer med f.eks Color Line eller Fjord Line.
 Grupper
 
 Oppgaven skal løses i grupper med 3-5 studenter i hver gruppe. Løsningen skal leveres i Inspera som en gruppeinnlevering.
-Mål
+ ### Mål
 
 > Lage en komplett løsning med mulighet for å foreta kjøp av billetter for oppgraderte sider for båtturer.
 Løsningen skal lages i .NET Core.

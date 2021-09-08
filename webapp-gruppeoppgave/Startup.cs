@@ -27,6 +27,9 @@ namespace webapp_gruppeoppgave
             }
 
             app.UseRouting();
+            
+            app.UseStaticFiles();
+
 
             app.UseEndpoints(endpoints =>
             {
