@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/home/cere/.dotnet/store/|arch|/|tfm|",
+      "/home/cere/.nuget/packages"
+    ]
+  }
+}
