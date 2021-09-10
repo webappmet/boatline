@@ -59,7 +59,10 @@ namespace webapp_gruppeoppgave.Controllers
         {
             try
             {
-                 return _boatLineDb.Customers.ToList();
+                //TODO figure out why this is this way
+                // get will litterarily not work if we do not have this line and i have no idea
+                List<Ticket> tickets = _boatLineDb.Tickets.ToList();
+                return _boatLineDb.Customers.ToList();
             }
             catch (Exception e)
             {

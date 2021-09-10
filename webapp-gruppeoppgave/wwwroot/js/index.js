@@ -19,15 +19,16 @@ function formatCustomers(customers) {
         "<th>Phone</th>" +
         "</tr>";
     
+    // Use lowercase names, JSON atribute names gets turned to lowercase somehow
     for (let c of customers) {
-        if (c && c.Tickets) { // asserting that the tickets actually are there
-            for (let t of c.Tickets) {
+        if (c && c.tickets) { // asserting that the tickets actually are there
+            for (let t of c.tickets) {
                 out += "<tr>" +
-                    "<td>" + t.Route + "</td>" +
-                    "<td>" + c.FirstName + "</td>" +
-                    "<td>" + c.LastName + "</td>" +
-                    "<td>" + c.Address + "</td>" +
-                    "<td>" + c.Phone + "</td>" +
+                    "<td>" + t.route + "</td>" +
+                    "<td>" + c.firstName + "</td>" +
+                    "<td>" + c.lastName + "</td>" +
+                    "<td>" + c.address + "</td>" +
+                    "<td>" + c.phone + "</td>" +
                     "</tr>";
             }
         }
