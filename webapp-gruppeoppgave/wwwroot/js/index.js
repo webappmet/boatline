@@ -1,15 +1,15 @@
 $(() => {
-    getAllTickets();
+    getAllCustomers();
 });
 
-function getAllTickets() {
-    $.get("Tur/Tur/getRoutes", (routes) => {
-        formatRoutes(routes);
+function getAllCustomers() {
+    $.get("Tur/getCustomers", (customers) => {
+        formatCustomers(customers);
         }
     );
 }
 
-function formatRoutes(routes) {
+function formatCustomers(customers) {
     let out = "<table class='table table-striped'>" +
         "<tr>" +
         "<th>Route</th>" +
@@ -19,14 +19,14 @@ function formatRoutes(routes) {
         "<th>Phone</th>" +
         "</tr>";
     
-    for (let r of routes) {
+    for (let c of customers) {
 
         // used this i dunno : https://hackernoon.com/accessing-nested-objects-in-javascript-f02f1bd6387f
         // Didn't really use this but good to have: https://stackoverflow.com/questions/2098276/nested-json-objects-do-i-have-to-use-arrays-for-everything
-        const type = r && r.pizza ? r.pizza.type : null;
-        const name = r && r.kunde ? r.kunde.navn : null;
-        const adresse = r && r.kunde ? r.kunde.adresse : null;
-        const tlfNr = r && r.kunde ? r.kunde.tlfNr : null;
+        const type = c && c.pizza ? c.pizza.type : null;
+        const name = c && c.kunde ? c.kunde.navn : null;
+        const adresse = c && c.kunde ? c.kunde.adresse : null;
+        const tlfNr = c && c.kunde ? c.kunde.tlfNr : null;
         
         
         out += "<tr>" +
@@ -34,8 +34,8 @@ function formatRoutes(routes) {
             // "<td>" + b.pizza.type + "</td>" + // kan man ha nested objects i JSON?
             // "<td>" + b && b.pizza ? b.pizza.type : null + "</td>" + // kan man ha nested objects i JSON?
             "<td>" + type + "</td>" +
-            "<td>" + (r.tykk ? "Tykk" : "Tynn") + "</td>" + // tester fordi jeg dum og bruker bool i type erklæring
-            "<td>" + r.antall + "</td>" +
+            "<td>" + (c.tykk ? "Tykk" : "Tynn") + "</td>" + // tester fordi jeg dum og bruker bool i type erklæring
+            "<td>" + c.antall + "</td>" +
             "<td>" + name + "</td>" +
             "<td>" + adresse + "</td>" +
             "<td>" + tlfNr + "</td>" +
