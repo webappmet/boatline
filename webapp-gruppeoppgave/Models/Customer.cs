@@ -10,7 +10,7 @@ namespace webapp_gruppeoppgave.Models
         public string adress { get; set; }
         public string tlfNr { get; set; }
         
-        // Ha kunde som hoved tabell, bestilling sterkt avhengig av kunde, pizza avhengig av bestilling
+        // Ha customer som hoved tabell, bestilling sterkt avhengig av customer, pizza avhengig av bestilling
         public virtual List<Ticket> Tickets { get; set; }
     }
 }

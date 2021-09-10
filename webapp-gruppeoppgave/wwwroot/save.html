@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Ticket</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="js/save.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>New Ticket</h1>
+    <form action="" class="form">
+        <div class="form-group">
+            <label for="route">Route</label>
+            <select id="route">
+            </select>
+<!--            <input type="text" id="type" />-->
+        </div>
+        <div class="form-group">
+            <label for="">Name</label>
+            <input type="text" id="name"/>
+        </div>
+        <div class="form-group">
+            <label for="">Adresse</label>
+            <input type="text" id="adress"/>
+        </div>
+        <div class="form-group">
+            <label for="">Telefon</label>
+            <input type="text" id="phone"/>
+        </div>
+        <div class="form-group">
+            <input type="button" id="reg" value="Save Ticket" onclick="saveTicket()" class="btn btn-primary" />
+        </div>
+        <div id="feil" style="color: red"></div>
+    </form>
+</div>
+</body>
+</html>

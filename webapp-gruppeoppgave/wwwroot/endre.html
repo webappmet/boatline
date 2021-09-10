@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebApp Kunde Endring</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="js/endre.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Endre Kunde</h1>
+    <form action="" class="form">
+        <input type="hidden" id="id" />
+        <div class="form-group">
+            <label for="">Navn</label>
+            <input type="text" id="navn" />
+        </div>
+        <div class="form-group">
+            <label for="">Adresse</label>
+            <input type="text" id="adresse" />
+        </div>
+        <div class="form-group">
+            <input type="button" id="reg" value="Endre" onclick="endreKunde()" class="btn btn-primary" />
+        </div>
+        <div id="feil" style="color: red"></div>
+    </form>
+</div>
+</body>
+</html>
