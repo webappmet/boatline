@@ -3,7 +3,7 @@ $(() => {
 });
 
 function getAllCustomers() {
-    $.get("Tur/getCustomers", (customers) => {
+    $.get("BoatLine/getCustomers", (customers) => {
         formatCustomers(customers);
         }
     );
@@ -14,32 +14,23 @@ function formatCustomers(customers) {
         "<tr>" +
         "<th>Route</th>" +
         "<th>Name</th>" +
-        "<th></th>" +
+        "<th></th>" + // holder for lastname
         "<th>Adress</th>" +
         "<th>Phone</th>" +
         "</tr>";
     
     for (let c of customers) {
-
-        // used this i dunno : https://hackernoon.com/accessing-nested-objects-in-javascript-f02f1bd6387f
-        // Didn't really use this but good to have: https://stackoverflow.com/questions/2098276/nested-json-objects-do-i-have-to-use-arrays-for-everything
-        const type = c && c.pizza ? c.pizza.type : null;
-        const name = c && c.kunde ? c.kunde.navn : null;
-        const adresse = c && c.kunde ? c.kunde.adresse : null;
-        const tlfNr = c && c.kunde ? c.kunde.tlfNr : null;
-        
-        
-        out += "<tr>" +
-            // user && user.personalInfo ? user.personalInfo.name : null
-            // "<td>" + b.pizza.type + "</td>" + // kan man ha nested objects i JSON?
-            // "<td>" + b && b.pizza ? b.pizza.type : null + "</td>" + // kan man ha nested objects i JSON?
-            "<td>" + type + "</td>" +
-            "<td>" + (c.tykk ? "Tykk" : "Tynn") + "</td>" + // tester fordi jeg dum og bruker bool i type erklæring
-            "<td>" + c.antall + "</td>" +
-            "<td>" + name + "</td>" +
-            "<td>" + adresse + "</td>" +
-            "<td>" + tlfNr + "</td>" +
-            "</tr>";
+        if (c && c.Tickets) { // asserting that the tickets actually are there
+            for (let t of c.Tickets) {
+                out += "<tr>" +
+                    "<td>" + t.Route + "</td>" +
+                    "<td>" + c.FirstName + "</td>" +
+                    "<td>" + c.LastName + "</td>" +
+                    "<td>" + c.Address + "</td>" +
+                    "<td>" + c.Phone + "</td>" +
+                    "</tr>";
+            }
+        }
     }
     out += "</table>"
     $("#inDiv").html(out);

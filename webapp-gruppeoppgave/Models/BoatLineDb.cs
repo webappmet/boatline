@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace webapp_gruppeoppgave.Models
 {
-    public class RouteDb : DbContext
+    public class BoatLineDb : DbContext
     {
-        public RouteDb(DbContextOptions<RouteDb> options) : base(options)
+        public BoatLineDb(DbContextOptions<BoatLineDb> options) : base(options)
         {
             Database.EnsureCreated();
         }

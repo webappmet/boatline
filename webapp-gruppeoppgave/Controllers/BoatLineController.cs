@@ -8,13 +8,13 @@ using webapp_gruppeoppgave.Models;
 namespace webapp_gruppeoppgave.Controllers
 {
     [Route("[controller]/[action]")]
-    public class RouteController : ControllerBase
+    public class BoatLineController : ControllerBase
     {
-        private readonly RouteDb _routeDb;
+        private readonly BoatLineDb _boatLineDb;
 
-        public RouteController(RouteDb routeDb)
+        public BoatLineController(BoatLineDb boatLineDb)
         {
-            _routeDb = routeDb;
+            _boatLineDb = boatLineDb;
         }
 
         /* Method that tries to take inn a customer and their proposed ticket, so that it can be saved to the DB
@@ -24,8 +24,8 @@ namespace webapp_gruppeoppgave.Controllers
             try
             {
                 // Testing if the customer is already in the DB
-                Customer dbCustomer = _routeDb.Customers.FirstOrDefault(c =>
-                    c.firstName == frontCustomer.firstName && c.lastName == frontCustomer.lastName);
+                Customer dbCustomer = _boatLineDb.Customers.FirstOrDefault(c =>
+                    c.FirstName == frontCustomer.FirstName && c.LastName == frontCustomer.LastName);
 
                 // If customer does exist in the DB
                 if (dbCustomer is not null)
@@ -38,10 +38,10 @@ namespace webapp_gruppeoppgave.Controllers
                     // I think that the constructor runs and gives it an empty list, and that is how we can add to
                     // frontCustomer immediately but not sure
                     frontCustomer.Tickets.Add(frontTicket);
-                    _routeDb.Customers.Add(frontCustomer);
+                    _boatLineDb.Customers.Add(frontCustomer);
                 }
                 
-                _routeDb.SaveChanges();
+                _boatLineDb.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -50,7 +50,6 @@ namespace webapp_gruppeoppgave.Controllers
                 // throw; // rider default i dunno
                 return false;
             }
-            return false;
         }
 
         /* Method that tries to to get all the customers to the frontend, so that the customers and their lists of
@@ -60,7 +59,7 @@ namespace webapp_gruppeoppgave.Controllers
         {
             try
             {
-                 return _routeDb.Customers.ToList();
+                 return _boatLineDb.Customers.ToList();
             }
             catch (Exception e)
             {
