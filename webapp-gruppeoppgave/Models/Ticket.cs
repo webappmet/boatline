@@ -6,7 +6,7 @@ namespace webapp_gruppeoppgave.Models
         // [Key]
         // [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
-        public string Route { get; set; }
+        public virtual Route Route { get; set; }
         public string Date { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }

@@ -43,7 +43,7 @@ namespace webapp_gruppeoppgave.Controllers
                     _boatLineDb.Customers.Add(frontCustomer);
                 }
                 
-                _boatLineDb.SaveChangesAsync();
+                await _boatLineDb.SaveChangesAsync();
                 return true;
             }
             catch (Exception e)
