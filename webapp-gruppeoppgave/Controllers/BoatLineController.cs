@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using webapp_gruppeoppgave.Models;
 
 
@@ -19,7 +21,7 @@ namespace webapp_gruppeoppgave.Controllers
 
         /* Method that tries to take inn a customer and their proposed ticket, so that it can be saved to the DB
          * Makes a new customer if there is none, and then appends the ticket to their customer list, then saves to DB*/
-        public bool Save(Customer frontCustomer, Ticket frontTicket)
+        public async Task<bool> Save(Customer frontCustomer, Ticket frontTicket)
         {
             try
             {
@@ -41,7 +43,7 @@ namespace webapp_gruppeoppgave.Controllers
                     _boatLineDb.Customers.Add(frontCustomer);
                 }
                 
-                _boatLineDb.SaveChanges();
+                _boatLineDb.SaveChangesAsync();
                 return true;
             }
             catch (Exception e)
@@ -55,14 +57,11 @@ namespace webapp_gruppeoppgave.Controllers
         /* Method that tries to to get all the customers to the frontend, so that the customers and their lists of
          * tickets can be formatted into a table of customers and tickets. Probably will be user based later, for
          * as of now they will be sorted per customers which is kind of strage*/
-        public List<Customer> GetCustomers()
+        public async Task<List<Customer>> GetCustomers()
         {
             try
             {
-                //TODO figure out why this is this way
-                // get will litterarily not work if we do not have this line and i have no idea
-                List<Ticket> tickets = _boatLineDb.Tickets.ToList();
-                return _boatLineDb.Customers.ToList();
+                return await _boatLineDb.Customers.ToListAsync();
             }
             catch (Exception e)
             {
