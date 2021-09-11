@@ -19,3 +19,4 @@ Gotta git gud, hussle hussle
 - Set save as frontpage, and index as tickets.html or something
 - Do everything related to saving your shit
 - Make sure DB is on 3NF
+- ***SOMEONE*** needs to refactor to WebAppGroup9, *smh...*
