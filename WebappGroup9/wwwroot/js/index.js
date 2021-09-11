@@ -12,7 +12,8 @@ function getAllCustomers() {
 function formatCustomers(customers) {
     let out = "<table class='table table-striped'>" +
         "<tr>" +
-        "<th>Route</th>" +
+        "<th>Departure</th>" +
+        "<th>Destination</th>" +
         "<th>Name</th>" +
         "<th></th>" + // holder for lastname
         "<th>Adress</th>" +
@@ -23,13 +24,17 @@ function formatCustomers(customers) {
     for (let c of customers) {
         if (c && c.tickets) { // asserting that the tickets actually are there
             for (let t of c.tickets) {
-                out += "<tr>" +
-                    "<td>" + t.route + "</td>" +
-                    "<td>" + c.firstName + "</td>" +
-                    "<td>" + c.lastName + "</td>" +
-                    "<td>" + c.address + "</td>" +
-                    "<td>" + c.phone + "</td>" +
-                    "</tr>";
+                if (t && t.route) {
+                    out += "<tr>" +
+                        "<td>" + t.route.departure + "</td>" +
+                        "<td>" + t.route.destination + "</td>" +
+                        "<td>" + c.firstName + "</td>" +
+                        "<td>" + c.lastName + "</td>" +
+                        "<td>" + c.address + "</td>" +
+                        "<td>" + c.phone + "</td>" +
+                        "</tr>";
+                }
+
             }
         }
     }

@@ -14,3 +14,7 @@ Gotta git gud, hussle hussle
 - Make navbar autogen via javascript for ez maintainability
 - Make a secret method to generate values on DB in case we need to kill it for when we add Route Type and develop the classes more.
 - Consider having option to add severap enteties on same ticket.
+- Fix Route display on frontend.
+- Set save as frontpage, and index as tickets.html or something
+- Do everything related to saving your shit
+- Make sure DB is on 3NF

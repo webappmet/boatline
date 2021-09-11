@@ -15,8 +15,8 @@ namespace WebappGroup9.Models
                 boatLineContext.Database.EnsureDeleted();
                 boatLineContext.Database.EnsureCreated();
 
-                var route1 = new Route {Id = 1, Departure = "Vermillion City", Destionation = "Sevii Islands"};
-                var route2 = new Route {Id = 2, Departure = "Oslo", Destionation = "Copenhagen"};
+                var route1 = new Route {Id = 1, Departure = "Vermillion City", Destination = "Sevii Islands"};
+                var route2 = new Route {Id = 2, Departure = "Oslo", Destination = "Copenhagen"};
 
                 var auroraTicket = new Ticket {Date = "01.10.21", StartTime = "10:00", EndTime = "14:00", Route = route1};
                 var mysticTicket = new Ticket {Date = "92.23.97", StartTime = "91:00", EndTime = "23:00", Route = route2};

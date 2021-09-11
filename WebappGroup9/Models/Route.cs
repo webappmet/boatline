@@ -10,6 +10,6 @@ namespace WebappGroup9.Models
         [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         public string Departure { get; set; }
-        public string Destionation { get; set; }
+        public string Destination { get; set; }
     }
 }
