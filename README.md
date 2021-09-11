@@ -1,7 +1,11 @@
 # Innlevering 1 Erik, Mats og Ulrik
 Gotta git gud, hussle hussle
 
-Capitalization conventions we followed: [Link](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/capitalization-conventions)
+
+## References
+[Capitalization conventions](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/capitalization-conventions)
+[Hosting options](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-5.0)
+[ColourLine](https://www.colorline.no/)
 
 ## TODO
 - Make a route class (route currently as string under Ticket class, not good enough)
