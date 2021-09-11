@@ -9,3 +9,4 @@ Capitalization conventions we followed: [Link](https://docs.microsoft.com/en-us/
 - Do shit Async
 - Make navbar autogen via javascript for ez maintainability
 - Make a secret method to generate values on DB in case we need to kill it for when we add Route Type and develop the classes more.
+- Consider having option to add severap enteties on same ticket.

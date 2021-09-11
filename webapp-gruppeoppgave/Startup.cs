@@ -29,6 +29,7 @@ namespace webapp_gruppeoppgave
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                DbInit.Initialize(app);
             }
 
             app.UseRouting();

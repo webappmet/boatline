@@ -11,6 +11,7 @@ namespace webapp_gruppeoppgave.Models
 
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Route> Routes { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
