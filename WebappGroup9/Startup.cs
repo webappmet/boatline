@@ -15,6 +15,7 @@ namespace WebappGroup9
         {
             services.AddControllers();
             services.AddDbContext<BoatLineDb>(options => options.UseSqlite("Data Source=BoatLine.db"));
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
