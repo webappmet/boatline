@@ -16,7 +16,7 @@ Gotta git gud, hussle hussle
 ## TODO
 Moved everything to [Trello Kanban Board](https://trello.com/b/Mz4hNbRH/webapp-kanban)
 
-## Q&A
+## Q&A @Tor
 Q: Why aspnet 3.1?  
 A: Just because it was the most recent at the time of making the things.
 
@@ -41,4 +41,8 @@ form a visual design standpoint.
 You are allowed to copy assets from Colourline and other stuff, just make it look
 good and make it super useable
 
-Q: We made a list of tickets fronted but the task does not really expect it, should we make 
+Q: Will there be an induvivual task?  
+A: Nope, that was only last year
+
+Q: We made a list of tickets fronted but the task does not really expect it, should we make   
+A: Woops forgot to ask i dunno 
