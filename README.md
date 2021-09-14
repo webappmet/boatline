@@ -3,21 +3,15 @@ Gotta git gud, hussle hussle
 
 
 ## Link & References
+- [Link to localhost](https://localhost:5001/index.html)
+
+
+- [Bootstrap Docs](https://getbootstrap.com/docs/4.1/getting-started/introduction/#css)
 - [Capitalization conventions](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/capitalization-conventions)
 - [Hosting options](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-5.0)
-- [Trello Kanban Board](https://trello.com/b/Mz4hNbRH/webapp-kanban)
-- [Bootstrap Docs](https://getbootstrap.com/docs/4.1/getting-started/introduction/#css)
+
+
 - [ColourLine](https://www.colorline.no/)
 
 ## TODO
-- Make a route class (route currently as string under Ticket class, not good enough)
-- Incorporate that class into the Ticket
-- Do shit Async
-- Make navbar autogen via javascript for ez maintainability
-- Make a secret method to generate values on DB in case we need to kill it for when we add Route Type and develop the classes more.
-- Consider having option to add severap enteties on same ticket.
-- Fix Route display on frontend.
-- Set save as frontpage, and index as tickets.html or something
-- Do everything related to saving your shit
-- Make sure DB is on 3NF
-- ***SOMEONE*** needs to refactor to WebAppGroup9, *smh...*
+Moved everything to [Trello Kanban Board](https://trello.com/b/Mz4hNbRH/webapp-kanban)
