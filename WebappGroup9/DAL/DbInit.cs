@@ -1,22 +1,20 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using WebappGroup9.Models;
 
-namespace WebappGroup9.Models
+namespace WebappGroup9.DAL
 {
     public static class DbInit
     {
         public static void Initialize(IApplicationBuilder app)
         {
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var boatLineContext = serviceScope.ServiceProvider.GetService<BoatLineDb>();
+            using var serviceScope = app.ApplicationServices.CreateScope();
+            var boatLineContext = serviceScope.ServiceProvider.GetService<BoatLineDb>();
 
-                boatLineContext.Database.EnsureDeleted();
-                boatLineContext.Database.EnsureCreated();
-
-                var route1 = new Route {Id = 1, Departure = "Vermillion City", Destination = "Sevii Islands"};
-                var route2 = new Route {Id = 2, Departure = "Oslo", Destination = "Copenhagen"};
+            if (boatLineContext == null) return;
+            boatLineContext.Database.EnsureDeleted();
+            boatLineContext.Database.EnsureCreated();
 
                 var cabin1 = new Cabin() {Id = 1, Type = "Luksus"};
                 var cabin2 = new Cabin() {Id = 2, Type = "Super Luksus"};
