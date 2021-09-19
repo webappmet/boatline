@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+
 namespace WebappGroup9.Models
 {
     public class Ticket
@@ -11,6 +14,11 @@ namespace WebappGroup9.Models
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         
-        // add Lugar here
+        public int CabinAmount { get; set; }
+        public virtual List<Cabin> Cabin { get; set; }
+
+        // TODO add customer list for when we do several customers per line.
+        // public virtual List<Customer> Customers { get; set; }
+
     }
 }

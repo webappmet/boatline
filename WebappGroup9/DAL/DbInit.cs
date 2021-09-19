@@ -18,9 +18,18 @@ namespace WebappGroup9.Models
                 var route1 = new Route {Id = 1, Departure = "Vermillion City", Destination = "Sevii Islands"};
                 var route2 = new Route {Id = 2, Departure = "Oslo", Destination = "Copenhagen"};
 
-                var auroraTicket = new Ticket {Date = "01.10.21", StartTime = "10:00", EndTime = "14:00", Route = route1};
-                var mysticTicket = new Ticket {Date = "92.23.97", StartTime = "91:00", EndTime = "23:00", Route = route2};
+                var cabin1 = new Cabin() {Id = 1, Type = "Luksus"};
+                var cabin2 = new Cabin() {Id = 2, Type = "Super Luksus"};
+                var cabin3 = new Cabin() {Id = 3, Type = "Billig"};
+                
 
+                var auroraTicket = new Ticket {Date = "01.10.21", StartTime = "10:00", EndTime = "14:00", Route = route1, CabinAmount = 1, Cabin = new List<Cabin>()};
+                auroraTicket.Cabin.Add(cabin1);
+                
+                var mysticTicket = new Ticket {Date = "92.23.97", StartTime = "91:00", EndTime = "23:00", Route = route2, CabinAmount = 2, Cabin = new List<Cabin>()};
+                mysticTicket.Cabin.Add(cabin2);
+                mysticTicket.Cabin.Add(cabin3);
+                
                 var customer1 = new Customer
                     {FirstName = "Tor", LastName = "Kratte", Address = "Oslomet P35", Phone = "12349872", Tickets = new List<Ticket>()};
                 customer1.Tickets.Add(auroraTicket);
@@ -32,8 +41,6 @@ namespace WebappGroup9.Models
                 boatLineContext.Add(customer2);
                 
                 boatLineContext.SaveChanges();
-
-
             }
         }
     }

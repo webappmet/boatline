@@ -46,3 +46,21 @@ A: Nope, that was only last year
 
 Q: We made a list of tickets fronted but the task does not really expect it, should we make   
 A: Woops forgot to ask i dunno 
+
+## Feature Creep
+#### Frontend Save:
+- Responsive amount of customers
+- One customer field per customer
+
+- Responsive cabins
+- One input field per cabin
+- Check if ammont of customers exceeds space in set cabins
+
+#### Frontend List:
+- Have QR code based on JSON
+- Have list of customer full names on the list.
+- Format it sorta like an actual ticked, plain ticket perhaps i dunno
+
+#### Backend:
+- Ticket has list of customers
+- Ticket object is added onto every customer list that it concerns.
