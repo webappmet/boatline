@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WebappGroup9.Models;
 
-namespace WebappGroup9.Models
+namespace WebappGroup9.DAL
 {
     public class CustomerRepository : ICustomerRepository
     {

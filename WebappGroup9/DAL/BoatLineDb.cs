@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using WebappGroup9.Models;
 
-namespace WebappGroup9.Models
+namespace WebappGroup9.DAL
 {
-    public class BoatLineDb : DbContext
+    public sealed class BoatLineDb : DbContext
     {
         public BoatLineDb(DbContextOptions<BoatLineDb> options) : base(options)
         {
