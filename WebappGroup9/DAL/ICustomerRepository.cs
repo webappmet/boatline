@@ -8,5 +8,8 @@ namespace WebappGroup9.DAL
     {
         Task<bool> Save(Customer frontCustomer, Ticket frontTicket);
         Task<List<Customer>> GetCustomers();
+        Task<Customer> GetOne(int id);
+        Task<bool> Delete(int id);
+        Task<bool> Update(Customer customer);
     }
 }

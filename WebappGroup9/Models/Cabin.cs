@@ -11,10 +11,11 @@ namespace WebappGroup9.Models
          * type (string)
          * amount of people being able to live
          */
-        
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
+
         public string Type { get; set; }
     }
 }

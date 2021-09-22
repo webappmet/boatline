@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebappGroup9.DAL;
 using WebappGroup9.Models;
 
@@ -11,36 +11,69 @@ namespace WebappGroup9.Controllers
     {
         private readonly ICustomerRepository _db;
 
-        public BoatLineController(ICustomerRepository db)
+        private readonly ILogger<BoatLineController> _log;
+
+        public BoatLineController(ICustomerRepository db, ILogger<BoatLineController> log)
         {
             _db = db;
-        }
-        
-        public async Task<bool> Save(Customer frontCustomer, Ticket frontTicket)
-        {
-            return await _db.Save(frontCustomer, frontTicket);
+            _log = log;
         }
 
-        public async Task<List<Customer>> GetCustomers()
+        public async Task<ActionResult> Save(Customer frontCustomer, Ticket frontTicket)
         {
-            return await _db.GetCustomers();
-        }
-        /*
-        public async Task<bool> Delete(int id)
-        {
-            return await _db.Delete(id);
+            if (ModelState.IsValid)
+            {
+                var res = await _db.Save(frontCustomer, frontTicket);
+
+                if (res) return Ok("Ticket saved");
+                _log.LogInformation("Customer ticket was not saved");
+                return BadRequest("Customer ticket was not saved");
+            }
+
+            _log.LogInformation("Input validation failed");
+            return BadRequest("Input validation failed");
         }
 
-        public async Task<Customer> GetOne(int id)
+        public async Task<ActionResult> GetCustomers()
         {
-            return await _db.GetOne(id);
+            var list = await _db.GetCustomers();
+
+            if (list != null) return Ok(list);
+            _log.LogInformation("Could not get all customers");
+            return NotFound("Could not get all customers");
         }
 
-        public async Task<bool> Update(Customer customer)
+        public async Task<ActionResult> GetOne(int id)
         {
-            return await _db.Update(customer);
+            var customer = await _db.GetOne(id);
+
+            if (customer != null) return Ok(customer);
+            _log.LogInformation("Customer was not found");
+            return NotFound("Customer was not found");
         }
-        */
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            var ret = await _db.Delete(id);
+
+            if (ret) return Ok("Customer deleted");
+            _log.LogInformation("Customer was not deleted");
+            return NotFound("Customer was not deleted");
+        }
+
+        public async Task<ActionResult> Update(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                var ret = await _db.Update(customer);
+
+                if (ret) return Ok("Customer updated");
+                _log.LogInformation("Customer was not found");
+                return NotFound("Customer was not found");
+            }
+
+            _log.LogInformation("Input validation failed");
+            return BadRequest("Input validation failed");
+        }
     }
-
 }
