@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WebappGroup9.Models;
 
 namespace WebappGroup9.DAL
@@ -11,9 +12,12 @@ namespace WebappGroup9.DAL
     {
         private readonly BoatLineDb _boatLineDb;
 
-        public CustomerRepository(BoatLineDb boatLineDb)
+        private readonly ILogger<CustomerRepository> _log;
+
+        public CustomerRepository(BoatLineDb boatLineDb, ILogger<CustomerRepository> log)
         {
             _boatLineDb = boatLineDb;
+            _log = log;
         }
 
         /* Method that tries to take inn a customer and their proposed ticket, so that it can be saved to the DB
@@ -23,7 +27,7 @@ namespace WebappGroup9.DAL
             try
             {
                 // Testing if the customer is already in the DB
-                Customer dbCustomer = _boatLineDb.Customers.FirstOrDefault(c =>
+                var dbCustomer = _boatLineDb.Customers.FirstOrDefault(c =>
                     c.FirstName == frontCustomer.FirstName && c.LastName == frontCustomer.LastName);
 
                 // If customer does exist in the DB
@@ -45,8 +49,7 @@ namespace WebappGroup9.DAL
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                // throw; // rider default i dunno
+                _log.LogInformation(e.Message);
                 return false;
             }
         }
@@ -62,8 +65,7 @@ namespace WebappGroup9.DAL
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                // throw;
+                _log.LogInformation(e.Message);
                 return null;
             }
         }
