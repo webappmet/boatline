@@ -13,12 +13,11 @@ namespace WebappGroup9.Models
         public string Date { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
-        
+
         public int CabinAmount { get; set; }
         public virtual List<Cabin> Cabin { get; set; }
 
         // TODO add customer list for when we do several customers per line.
         // public virtual List<Customer> Customers { get; set; }
-
     }
 }

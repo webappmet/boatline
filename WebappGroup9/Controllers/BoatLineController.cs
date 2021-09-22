@@ -29,6 +29,7 @@ namespace WebappGroup9.Controllers
                 _log.LogInformation("Customer ticket was not saved");
                 return BadRequest("Customer ticket was not saved");
             }
+
             _log.LogInformation("Input validation failed");
             return BadRequest("Input validation failed");
         }
@@ -41,7 +42,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all customers");
             return NotFound("Could not get all customers");
         }
-        
+
         public async Task<ActionResult> GetOne(int id)
         {
             var customer = await _db.GetOne(id);
@@ -50,6 +51,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Customer was not found");
             return NotFound("Customer was not found");
         }
+
         public async Task<ActionResult> Delete(int id)
         {
             var ret = await _db.Delete(id);
@@ -68,8 +70,8 @@ namespace WebappGroup9.Controllers
                 if (ret) return Ok("Customer updated");
                 _log.LogInformation("Customer was not found");
                 return NotFound("Customer was not found");
-
             }
+
             _log.LogInformation("Input validation failed");
             return BadRequest("Input validation failed");
         }

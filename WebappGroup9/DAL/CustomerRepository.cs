@@ -43,7 +43,7 @@ namespace WebappGroup9.DAL
                     frontCustomer.Tickets.Add(frontTicket);
                     _boatLineDb.Customers.Add(frontCustomer);
                 }
-                
+
                 await _boatLineDb.SaveChangesAsync();
                 return true;
             }

@@ -16,12 +16,12 @@ namespace WebappGroup9.DAL
             boatLineContext.Database.EnsureDeleted();
             boatLineContext.Database.EnsureCreated();
 
-            var route1 = new Route {Id = 1, Departure = "Vermillion City", Destination = "Sevii Islands"};
-            var route2 = new Route {Id = 2, Departure = "Oslo", Destination = "Copenhagen"};
+            var route1 = new Route { Id = 1, Departure = "Vermillion City", Destination = "Sevii Islands" };
+            var route2 = new Route { Id = 2, Departure = "Oslo", Destination = "Copenhagen" };
 
-            var cabin1 = new Cabin() {Id = 1, Type = "Luksus"};
-            var cabin2 = new Cabin() {Id = 2, Type = "Super Luksus"};
-            var cabin3 = new Cabin() {Id = 3, Type = "Billig"};
+            var cabin1 = new Cabin() { Id = 1, Type = "Luksus" };
+            var cabin2 = new Cabin() { Id = 2, Type = "Super Luksus" };
+            var cabin3 = new Cabin() { Id = 3, Type = "Billig" };
 
 
             var auroraTicket = new Ticket
