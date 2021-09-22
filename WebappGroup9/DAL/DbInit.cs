@@ -27,30 +27,29 @@ namespace WebappGroup9.DAL
             var auroraTicket = new Ticket
             {
                 Date = "01.10.21", StartTime = "10:00", EndTime = "14:00", Route = route1, CabinAmount = 1,
-                Cabin = new List<Cabin>()
+                Cabin = new List<Cabin> { cabin1 }
             };
-            auroraTicket.Cabin.Add(cabin1);
 
             var mysticTicket = new Ticket
             {
                 Date = "92.23.97", StartTime = "91:00", EndTime = "23:00", Route = route2, CabinAmount = 2,
-                Cabin = new List<Cabin>()
+                Cabin = new List<Cabin>
+                {
+                    cabin2,
+                    cabin3
+                }
             };
-            mysticTicket.Cabin.Add(cabin2);
-            mysticTicket.Cabin.Add(cabin3);
 
             var customer1 = new Customer
             {
                 FirstName = "Tor", LastName = "Kratte", Address = "Oslomet P35", Phone = "12349872",
-                Tickets = new List<Ticket>()
+                Tickets = new List<Ticket> { auroraTicket }
             };
-            customer1.Tickets.Add(auroraTicket);
             var customer2 = new Customer
             {
                 FirstName = "Anthony", LastName = "GioGio", Address = "Oslomet P52", Phone = "REDACTED",
-                Tickets = new List<Ticket>()
+                Tickets = new List<Ticket> { mysticTicket }
             };
-            customer2.Tickets.Add(mysticTicket);
 
             boatLineContext.Add(customer1);
             boatLineContext.Add(customer2);
