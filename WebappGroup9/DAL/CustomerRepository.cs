@@ -67,5 +67,20 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
+
+        public Task<Customer> GetOne(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Update(Customer customer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
