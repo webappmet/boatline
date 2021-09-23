@@ -1,9 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
+import Container from "./components/Container";
+import TicketForm from './components/TicketForm';
+import TicketList from './components/TicketList';
 
-function App() {
+const App = () => {
   return (
-    <h1>Hello World</h1>
+    <Container>
+      <TicketForm />
+      <TicketList />
+    </Container>
   );
 }
 
