@@ -1,13 +1,3 @@
-<head>
-<style>
-    img {
-        display: block;
-        width: 441px;
-        margin: auto;
-    }
-</style>
-</head>
-
 # Innlevering 1 Erik, Mats og Ulrik
 
 Gotta git gud, hussle hussle
@@ -24,7 +14,7 @@ Gotta git gud, hussle hussle
 
 ## ER Model
 
-![ER Model of Models](boatlineER.png)
+<img src="boatlineER.png" style="display: block; width: 441px; margin: auto;" alt="ER of Models">
 
 ## TODO
 
