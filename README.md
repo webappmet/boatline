@@ -1,3 +1,4 @@
+<head>
 <style>
     img {
         display: block;
@@ -5,6 +6,7 @@
         margin: auto;
     }
 </style>
+</head>
 
 # Innlevering 1 Erik, Mats og Ulrik
 
