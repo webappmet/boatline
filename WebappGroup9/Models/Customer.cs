@@ -16,9 +16,16 @@ namespace WebappGroup9.Models
 
         [RegularExpression(@"[0-9a-zA-ZæøåÆØÅ. \-]{2,50}")]
         public string Address { get; set; }
+        
+        //TODO get regex here
+        //TODO link this on the postal number object
+        public string PostalNr { get; set; }
 
         [RegularExpression(@"^[0-9]{8}$")] // TODO Just to get started, needs more work
         public string Phone { get; set; }
+        
+        //TODO regex
+        public string Email { get; set; }
 
         // Ha customer som hoved tabell, bestilling sterkt avhengig av customer, pizza avhengig av bestilling
         public virtual List<Ticket> Tickets { get; set; }

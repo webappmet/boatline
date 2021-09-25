@@ -11,6 +11,7 @@ namespace WebappGroup9.DAL
         }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<PostalNr> PostalNrs { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<Cabin> Cabins { get; set; }

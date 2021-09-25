@@ -13,7 +13,9 @@ namespace WebappGroup9.Models
         public virtual Route Route { get; set; }
         public string Date { get; set; }
         public string StartTime { get; set; }
-        public string EndTime { get; set; }
+
+        // Endtime will be calculated from route duration
+        // public string EndTime { get; set; }
 
         public int CabinAmount { get; set; }
         
