@@ -14,7 +14,13 @@ Gotta git gud, hussle hussle
 
 ## ER Model
 
-<img src="boatlineER.png" style="display: block; width: 441px; margin: auto;" alt="ER of Models">
+<p align="center">
+<img src="boatlineER.png" style="width: 441px;" alt="ER of Models">
+</p>
+
+- Could have split Cabin price into own table, but only makes sense if price is not affected by floor level
+- Should remove Adress for 3NF, if we don't seed with every postal number imaginable
+- Total price is calculated with cabin price \* route duration
 
 ## TODO
 
@@ -54,6 +60,8 @@ A: Nope, that was only last year
 Q: We made a list of tickets fronted but the task does not really expect it, should we make  
 A: Woops forgot to ask i dunno
 
+Q: Skal vi legge inn postNr
+
 ## Feature Creep
 
 #### Frontend Save:
@@ -71,7 +79,13 @@ A: Woops forgot to ask i dunno
 - Have list of customer full names on the list.
 - Format it sorta like an actual ticked, plain ticket perhaps i dunno
 
-#### Backend:
+- Post Request gir tilbake id (eller liste med TicketId)
+- (Vis biletter med liste med TickedId som stemmer (ikke kunde Id for da får de alle gamle biletter))
 
-- Ticket has list of customers
-- Ticket object is added onto every customer list that it concerns.
+#### Backend List:
+
+- 3NF
+
+#### Assumptions:
+
+- har ikke med postnr siden 3NF krever at vi da seeder med alle poststeder
