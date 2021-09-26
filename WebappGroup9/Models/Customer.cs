@@ -15,10 +15,17 @@ namespace WebappGroup9.Models
         public string LastName { get; set; }
 
         [RegularExpression(@"[0-9a-zA-ZæøåÆØÅ. \-]{2,50}")]
-        public string Address { get; set; }
+        public string StreetAddress { get; set; }
+        
+        //TODO get regex here
+        //TODO link this on the postal number object
+        public virtual PostalCode PostalCode { get; set; }
 
         [RegularExpression(@"^[0-9]{8}$")] // TODO Just to get started, needs more work
         public string Phone { get; set; }
+        
+        //TODO regex
+        public string Email { get; set; }
 
         // Ha customer som hoved tabell, bestilling sterkt avhengig av customer, pizza avhengig av bestilling
         public virtual List<Ticket> Tickets { get; set; }

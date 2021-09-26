@@ -11,6 +11,7 @@ namespace WebappGroup9.DAL
         }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<PostalCode> PostalCodes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<Cabin> Cabins { get; set; }
@@ -22,10 +23,17 @@ namespace WebappGroup9.DAL
             optionsBuilder.UseLazyLoadingProxies();
         }
         
+        //TODO - in case JSON gets wierd
+        // Set up foreign keys with info from this link: https://docs.microsoft.com/en-us/ef/core/modeling/relationships?tabs=fluent-api%2Cfluent-api-composite-key%2Csimple-key
+        
         // For a small ammount of time it needed this thing to work with many to many, but now it does not.
         // protected override void OnModelCreating(ModelBuilder modelBuilder)
         // {
-        //     base.OnModelCreating(modelBuilder);
+        //     // base.OnModelCreating(modelBuilder);
+        //     modelBuilder.Entity<Ticket>()
+        //         .HasMany(t => t.Cabins)
+        //         .WithOne(Tickets);
+        //     
         // }
                 
         // Some guide wanted me to use this stuff, did not work, now it doesn't compile without the stuff on top
