@@ -17,6 +17,12 @@ namespace WebappGroup9
             services.AddControllers();
             services.AddDbContext<BoatLineDb>(options => options.UseSqlite("Data Source=BoatLine.db"));
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            // Source: https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
+            // We needed a new package to handle our complicated JSON structure, seems to just work out the box like this
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
