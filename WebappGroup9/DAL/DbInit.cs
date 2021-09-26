@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,20 +21,24 @@ namespace WebappGroup9.DAL
             
             //TODO read postNr values from file
             // Source: https://www.bring.no/tjenester/adressetjenester/postnummer
-            string[] PostInfo = System.IO.File.ReadAllLines("Postnummerregister-ansi.txt");
-            foreach (string line in PostInfo)
+            // Extra source: https://social.msdn.microsoft.com/Forums/vstudio/en-US/3d482df5-226f-41a4-a0a6-a67f16b2b4a1/how-to-parse-efficiently-a-tab-separated-text-file?forum=csharpgeneral
+            string[] postInfo = System.IO.File.ReadAllLines("Postnummerregister-ansi.txt");
+            foreach (string line in postInfo)
             {
                 // Cool debug line uncommet for a billion souts
                 // Console.WriteLine(line.Substring(0,4) + " " + line.Split("\t")[1]);
-                var temp = new PostalNr() { Id = Int32.Parse(line.Substring(0, 4)), Name = line.Split("\t")[1]};
-                boatLineContext.PostalNrs.Add(temp);
+                var temp = new PostalCode() { Code = line.Substring(0, 4), Name = line.Split("\t")[1]};
+                boatLineContext.PostalCodes.Add(temp);
                 
 
             }
 
+            // need to save these changes here so that things can be attached to postal numbers later
+            boatLineContext.SaveChanges();
+
             // for (int i = 0; i < PostInfo.Length; i++)
             // {
-            //     boatLineContext.Add(new PostalNr() {Id: })
+            //     boatLineContext.Add(new PostalCode() {Code: })
             // }
             
             
@@ -41,8 +46,8 @@ namespace WebappGroup9.DAL
             
             // foreach (string line in PostInfo)
             // {
-            //     PostalNr temp = new PostalNr()
-            //     boatLineContext.Add(new PostalNr());
+            //     PostalCode temp = new PostalCode()
+            //     boatLineContext.Add(new PostalCode());
             //     
             // }
 
@@ -74,12 +79,12 @@ namespace WebappGroup9.DAL
 
             var customer1 = new Customer
             {
-                FirstName = "Tor", LastName = "Kratte", Address = "Oslomet P35", Phone = "12349872", Email = "blah@oslomet.no",
+                FirstName = "Tor", LastName = "Kratte", Address = "Oslomet P35", PostalCode = boatLineContext.PostalCodes.FirstOrDefault(c => c.Code == "0170"), Phone = "12349872", Email = "blah@oslomet.no",
                 Tickets = new List<Ticket> { auroraTicket }
             };
             var customer2 = new Customer
             {
-                FirstName = "Anthony", LastName = "GioGio", Address = "Oslomet P52", Phone = "REDACTED", Email = "blugh@oslomet.no",
+                FirstName = "Anthony", LastName = "GioGio", Address = "Oslomet P52", PostalCode = boatLineContext.PostalCodes.FirstOrDefault(c => c.Code == "1353"), Phone = "REDACTED", Email = "blugh@oslomet.no",
                 Tickets = new List<Ticket> { mysticTicket }
             };
             var customer3 = new Customer()

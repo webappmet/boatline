@@ -19,7 +19,7 @@ namespace WebappGroup9.Models
         
         //TODO get regex here
         //TODO link this on the postal number object
-        public string PostalNr { get; set; }
+        public virtual PostalCode PostalCode { get; set; }
 
         [RegularExpression(@"^[0-9]{8}$")] // TODO Just to get started, needs more work
         public string Phone { get; set; }

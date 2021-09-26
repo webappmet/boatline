@@ -11,7 +11,7 @@ namespace WebappGroup9.DAL
         }
 
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<PostalNr> PostalNrs { get; set; }
+        public DbSet<PostalCode> PostalCodes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<Cabin> Cabins { get; set; }
@@ -22,6 +22,9 @@ namespace WebappGroup9.DAL
         {
             optionsBuilder.UseLazyLoadingProxies();
         }
+        
+        //TODO
+        // Set up foreign keys with info from this link: https://docs.microsoft.com/en-us/ef/core/modeling/relationships?tabs=fluent-api%2Cfluent-api-composite-key%2Csimple-key
         
         // For a small ammount of time it needed this thing to work with many to many, but now it does not.
         // protected override void OnModelCreating(ModelBuilder modelBuilder)
