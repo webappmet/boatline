@@ -3,7 +3,7 @@ $(() => {
 });
 
 function getAllCustomers() {
-    $.get("BoatLine/getCustomers", (customers) => {
+    $.get("BoatLine/GetCustomers", (customers) => {
         formatCustomers(customers);
         }
     );
