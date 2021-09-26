@@ -19,7 +19,6 @@ namespace WebappGroup9.DAL
             boatLineContext.Database.EnsureDeleted();
             boatLineContext.Database.EnsureCreated();
             
-            //TODO read postNr values from file
             // Source: https://www.bring.no/tjenester/adressetjenester/postnummer
             // Extra source: https://social.msdn.microsoft.com/Forums/vstudio/en-US/3d482df5-226f-41a4-a0a6-a67f16b2b4a1/how-to-parse-efficiently-a-tab-separated-text-file?forum=csharpgeneral
             string[] postInfo = System.IO.File.ReadAllLines("Postnummerregister-ansi.txt");
@@ -33,24 +32,13 @@ namespace WebappGroup9.DAL
 
             }
 
-            // need to save these changes here so that things can be attached to postal numbers later
+            /*
+             * need to save these changes here so that things can be attached to postal numbers later
+             * Though could also do it like they discuss on this site:
+             * https://docs.microsoft.com/en-us/answers/questions/181032/having-trouble-with-foreign-key-in-entity-can39t-t.html
+             */
             boatLineContext.SaveChanges();
-
-            // for (int i = 0; i < PostInfo.Length; i++)
-            // {
-            //     boatLineContext.Add(new PostalCode() {Code: })
-            // }
             
-            
-            // Console.WriteLine(PostInfo.ToString());
-            
-            // foreach (string line in PostInfo)
-            // {
-            //     PostalCode temp = new PostalCode()
-            //     boatLineContext.Add(new PostalCode());
-            //     
-            // }
-
             var route1 = new Route { Id = 1, Departure = "Vermillion City", Destination = "Sevii Islands", DurationDays = 3, DurationHours = 17};
             var route2 = new Route { Id = 2, Departure = "Oslo", Destination = "Copenhagen", DurationDays = 17, DurationHours = 11};
 
@@ -79,17 +67,17 @@ namespace WebappGroup9.DAL
 
             var customer1 = new Customer
             {
-                FirstName = "Tor", LastName = "Kratte", Address = "Oslomet P35", PostalCode = boatLineContext.PostalCodes.FirstOrDefault(c => c.Code == "0170"), Phone = "12349872", Email = "blah@oslomet.no",
+                FirstName = "Tor", LastName = "Kratte", StreetAddress = "Oslomet P35", PostalCode = boatLineContext.PostalCodes.FirstOrDefault(c => c.Code == "0170"), Phone = "12349872", Email = "blah@oslomet.no",
                 Tickets = new List<Ticket> { auroraTicket }
             };
             var customer2 = new Customer
             {
-                FirstName = "Anthony", LastName = "GioGio", Address = "Oslomet P52", PostalCode = boatLineContext.PostalCodes.FirstOrDefault(c => c.Code == "1353"), Phone = "REDACTED", Email = "blugh@oslomet.no",
+                FirstName = "Anthony", LastName = "GioGio", StreetAddress = "Oslomet P52", PostalCode = boatLineContext.PostalCodes.FirstOrDefault(c => c.Code == "1353"), Phone = "REDACTED", Email = "blugh@oslomet.no",
                 Tickets = new List<Ticket> { mysticTicket }
             };
             var customer3 = new Customer()
             {
-                FirstName = "Tengel", LastName = "UniDes", Address = "Datatorget", Phone = "93828393", Email = "bleee@oslomet.no",
+                FirstName = "Tengel", LastName = "UniDes", StreetAddress = "Datatorget", Phone = "93828393", Email = "bleee@oslomet.no",
                 Tickets = new List<Ticket>()
             };
 
