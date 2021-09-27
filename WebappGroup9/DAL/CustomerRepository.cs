@@ -35,6 +35,7 @@ namespace WebappGroup9.DAL
                 // If customer does exist in the DB
                 if (dbCustomer is not null)
                 {
+                    //TODO make tostrings for cabin and route, and see if you need to add them in nested for loops, or via ID
                     // Adds all of the frontend customers tickets onto the dbCustomers list
                     for (int i = 0; i < customer.Tickets.Count; i++)
                     {
