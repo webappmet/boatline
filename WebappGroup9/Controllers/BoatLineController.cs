@@ -19,11 +19,11 @@ namespace WebappGroup9.Controllers
             _log = log;
         }
 
-        public async Task<ActionResult> Save(Customer customer, Ticket ticket)
+        public async Task<ActionResult> SaveOne(Customer customer)
         {
             if (ModelState.IsValid)
             {
-                var res = await _db.Save(customer, ticket);
+                var res = await _db.SaveOne(customer);
 
                 if (res) return Ok("Ticket saved");
                 _log.LogInformation("Customer ticket was not saved");
@@ -43,6 +43,7 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get all customers");
         }
 
+        //TODO refactor to clearer name
         public async Task<ActionResult> GetOne(int id)
         {
             var customer = await _db.GetOne(id);
@@ -50,6 +51,33 @@ namespace WebappGroup9.Controllers
             if (customer != null) return Ok(customer);
             _log.LogInformation("Customer was not found");
             return NotFound("Customer was not found");
+        }
+        
+        public async Task<ActionResult> GetCabins()
+        {
+            var list = await _db.GetCabins();
+
+            if (list != null) return Ok(list);
+            _log.LogInformation("Could not get all cabins");
+            return NotFound("Could not get all cabins");
+        }
+        
+        public async Task<ActionResult> GetRoutes()
+        {
+            var list = await _db.GetRoutes();
+
+            if (list != null) return Ok(list);
+            _log.LogInformation("Could not get all routes");
+            return NotFound("Could not get all routes");
+        }
+        
+        public async Task<ActionResult> GetTickets()
+        {
+            var list = await _db.GetTickets();
+
+            if (list != null) return Ok(list);
+            _log.LogInformation("Could not get all tickets");
+            return NotFound("Could not get all tickets");
         }
 
         public async Task<ActionResult> Delete(int id)
