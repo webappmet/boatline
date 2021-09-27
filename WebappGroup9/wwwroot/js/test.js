@@ -37,6 +37,8 @@ function testGetTickets() {
     });
 }
 
+
+//TODO fix JSON route and cabin
 function testSaveCustomer() {
     const customer = {
         firstName: "NewCustomer",
@@ -49,31 +51,31 @@ function testSaveCustomer() {
             [
                 // Ticket 1
                 {
-                    route: {
-                        id: 2,
-                        departure: "Oslo",
-                        destination: "Copenhagen",
-                        durationDays: 17,
-                        durationHours: 11
-                    },
-                    cabins: [
-                        {
-                            id: 1,
-                            type: "Luksus",
-                            floor: "1st",
-                            room: "02",
-                            price: 1890.99,
-                            beds: 4
-                        },
-                        {
-                            id: 3,
-                            type: "Billig",
-                            floor: null,
-                            room: null,
-                            price: 0,
-                            beds: 0
-                        }
-                    ],
+                    // route: {
+                    //     id: 2,
+                    //     departure: "Oslo",
+                    //     destination: "Copenhagen",
+                    //     durationDays: 17,
+                    //     durationHours: 11
+                    // },
+                    // cabins: [
+                    //     {
+                    //         id: 1,
+                    //         type: "Luksus",
+                    //         floor: "1st",
+                    //         room: "02",
+                    //         price: 1890.99,
+                    //         beds: 4
+                    //     },
+                    //     {
+                    //         id: 3,
+                    //         type: "Billig",
+                    //         floor: null,
+                    //         room: null,
+                    //         price: 0,
+                    //         beds: 0
+                    //     }
+                    // ],
                     // id: 1,  // ticket ids are autogenerate so just commenting these out
                     date: "12.34.45",
                     startTime: "23:45",
@@ -81,31 +83,31 @@ function testSaveCustomer() {
                 },
                 // Ticket 2
                 {
-                    route: {
-                        id: 1,
-                        departure: "Vermillion City",
-                        destination: "Sevii Islands",
-                        durationDays: 3,
-                        durationHours: 17
-                    },
-                    cabins: [
-                        {
-                            id: 1,
-                            type: "Luksus",
-                            floor: "1st",
-                            room: "02",
-                            price: 1890.99,
-                            beds: 4
-                        },
-                        {
-                            id: 2,
-                            type: "Super Luksus",
-                            floor: null,
-                            room: null,
-                            price: 0,
-                            beds: 0
-                        }
-                    ],
+                    // route: {
+                    //     id: 1,
+                    //     departure: "Vermillion City",
+                    //     destination: "Sevii Islands",
+                    //     durationDays: 3,
+                    //     durationHours: 17
+                    // },
+                    // cabins: [
+                    //     {
+                    //         id: 1,
+                    //         type: "Luksus",
+                    //         floor: "1st",
+                    //         room: "02",
+                    //         price: 1890.99,
+                    //         beds: 4
+                    //     },
+                    //     {
+                    //         id: 2,
+                    //         type: "Super Luksus",
+                    //         floor: null,
+                    //         room: null,
+                    //         price: 0,
+                    //         beds: 0
+                    //     }
+                    // ],
                     // id: 2,
                     date: "12.23.34",
                     startTime: "87:00",
