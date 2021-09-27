@@ -19,11 +19,11 @@ namespace WebappGroup9.Controllers
             _log = log;
         }
 
-        public async Task<ActionResult> Save(Customer frontCustomer, Ticket frontTicket)
+        public async Task<ActionResult> Save(Customer customer, Ticket ticket)
         {
             if (ModelState.IsValid)
             {
-                var res = await _db.Save(frontCustomer, frontTicket);
+                var res = await _db.Save(customer, ticket);
 
                 if (res) return Ok("Ticket saved");
                 _log.LogInformation("Customer ticket was not saved");

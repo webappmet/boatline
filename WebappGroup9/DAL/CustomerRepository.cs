@@ -22,26 +22,26 @@ namespace WebappGroup9.DAL
 
         /* Method that tries to take inn a customer and their proposed ticket, so that it can be saved to the DB
          * Makes a new customer if there is none, and then appends the ticket to their customer list, then saves to DB*/
-        public async Task<bool> Save(Customer frontCustomer, Ticket frontTicket)
+        public async Task<bool> Save(Customer customer, Ticket ticket)
         {
             try
             {
                 // Testing if the customer is already in the DB
                 var dbCustomer = _boatLineDb.Customers.FirstOrDefault(c =>
-                    c.FirstName == frontCustomer.FirstName && c.LastName == frontCustomer.LastName);
+                    c.FirstName == customer.FirstName && c.LastName == customer.LastName);
 
                 // If customer does exist in the DB
                 if (dbCustomer is not null)
                 {
-                    dbCustomer.Tickets.Add(frontTicket);
+                    dbCustomer.Tickets.Add(ticket);
                 }
                 // If The customer does not exist in the DB, adding the ticket to the customer, then adding to DB
                 else
                 {
                     // I think that the constructor runs and gives it an empty list, and that is how we can add to
                     // frontCustomer immediately but not sure
-                    frontCustomer.Tickets.Add(frontTicket);
-                    _boatLineDb.Customers.Add(frontCustomer);
+                    customer.Tickets.Add(ticket);
+                    _boatLineDb.Customers.Add(customer);
                 }
 
                 await _boatLineDb.SaveChangesAsync();
@@ -70,17 +70,25 @@ namespace WebappGroup9.DAL
             }
         }
 
-        public Task<Customer> GetOne(int id)
+        public async Task<Customer> GetOne(int id)
+        {
+            try
+            {
+                 return await _boatLineDb.Customers.FindAsync(id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<bool> Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> Update(Customer customer)
+        public async Task<bool> Update(Customer customer)
         {
             throw new NotImplementedException();
         }
