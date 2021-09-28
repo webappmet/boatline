@@ -1,10 +1,10 @@
 $(() => {
+    testSaveCustomer();
     testGetCustomers();
     testGetCustomer();
     testGetCabins();
     testGetRoutes();
     testGetTickets();
-    testSaveCustomer();
 });
 
 function testGetCustomers() {
@@ -37,8 +37,6 @@ function testGetTickets() {
     });
 }
 
-
-//TODO fix JSON route and cabin
 function testSaveCustomer() {
     const customer = {
         firstName: "NewCustomer",
@@ -49,65 +47,43 @@ function testSaveCustomer() {
         streetAddress: "NewAdress",
         phone: "73829462",
         email: "testtest@oslomet.no",
-        tickets:
-            [
-                // Ticket 1
-                {
-                    route: {
-                        id: 2
-                    },
-/*                    cabins: [
-                        {
-                            id: 1
-                            // type: "Luksus",
-                            // floor: "1st",
-                            // room: "02",
-                            // price: 1890.99,
-                            // beds: 4
-                        },
-                        {
-                            id: 3
-                            // type: "Billig",
-                            // floor: null,
-                            // room: null,
-                            // price: 0,
-                            // beds: 0
-                        }
-                    ],*/
-                    // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out
-                    date: "12.34.45",
-                    startTime: "23:45",
-                    cabinAmount: 2
+        tickets: [
+            // Ticket 1
+            {
+                route: {
+                    id: 2
                 },
-                // Ticket 2
-                {
-                    route: {
+                cabins: [
+                    {
                         id: 1
                     },
-                    // cabins: [
-                    //     {
-                    //         id: 1,
-                    //         type: "Luksus",
-                    //         floor: "1st",
-                    //         room: "02",
-                    //         price: 1890.99,
-                    //         beds: 4
-                    //     },
-                    //     {
-                    //         id: 2,
-                    //         type: "Super Luksus",
-                    //         floor: null,
-                    //         room: null,
-                    //         price: 0,
-                    //         beds: 0
-                    //     }
-                    // ],
-                    // id: 2,
-                    date: "12.23.34",
-                    startTime: "87:00",
-                    cabinAmount: 1
-                }
-            ]
+                    {
+                        id: 3
+                    }
+                ],
+                // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out as placeholder for saving known customers if they have Id
+                date: "12.34.45",
+                startTime: "23:45",
+                cabinAmount: 2
+            },
+            // Ticket 2
+            {
+                route: {
+                    id: 1
+                },
+                cabins: [
+                    {
+                        id: 1
+                    },
+                    {
+                        id: 2
+                    }
+                ],
+                // id: 2,
+                date: "12.23.34",
+                startTime: "87:00",
+                cabinAmount: 1
+            }]
     };
 
     $.post("BoatLine/SaveOne", customer, (OK) => {

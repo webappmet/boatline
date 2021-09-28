@@ -69,20 +69,18 @@ namespace WebappGroup9.DAL
                     for (int i = 0; i < customer.Tickets.Count; i++)
                     {
                         // setting route right
-                        Console.WriteLine(customer.Tickets[i].Route.Id);
                         customer.Tickets[i].Route =
                             _boatLineDb.Routes.FirstOrDefault(r => r.Id == customer.Tickets[i].Route.Id);
-                        Console.WriteLine(customer.Tickets[i].Route.Destination);
                         
                         // Setting cabin right
-                        // var newCabinHash = new Collection<Cabin>();
-                        //
-                        // foreach (var cabin in customer.Tickets[i].Cabins)
-                        // {
-                        //     newCabinHash.Add(_boatLineDb.Cabins.FirstOrDefault(c => c.Id == cabin.Id));
-                        // }
-                        //
-                        // customer.Tickets[i].Cabins = newCabinHash;
+                        var newCabinHash = new Collection<Cabin>();
+                        
+                        foreach (var cabin in customer.Tickets[i].Cabins)
+                        {
+                            newCabinHash.Add(_boatLineDb.Cabins.FirstOrDefault(c => c.Id == cabin.Id));
+                        }
+                        
+                        customer.Tickets[i].Cabins = newCabinHash;
                     }
                     
                     _boatLineDb.Customers.Add(customer);
