@@ -50,16 +50,10 @@ function testSaveCustomer() {
         tickets: [
             // Ticket 1
             {
-                route: {
-                    id: 2
-                },
+                route: {id: 2},
                 cabins: [
-                    {
-                        id: 1
-                    },
-                    {
-                        id: 3
-                    }
+                    {id: 1 },
+                    {id: 3}
                 ],
                 // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out as placeholder for saving known customers if they have Id
                 date: "12.34.45",

@@ -7,6 +7,7 @@ namespace WebappGroup9.DAL
     public interface ICustomerRepository
     {
         Task<bool> SaveOne(Customer frontCustomer);
+        Task<bool> SaveMany(List<Customer> frontCustomers);
         Task<List<Customer>> GetCustomers();
         Task<Customer> GetOne(int id);
         Task<List<Cabin>> GetCabins();

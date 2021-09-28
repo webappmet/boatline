@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,21 @@ namespace WebappGroup9.Controllers
             if (ModelState.IsValid)
             {
                 var res = await _db.SaveOne(customer);
+
+                if (res) return Ok("Ticket saved");
+                _log.LogInformation("Customer ticket was not saved");
+                return BadRequest("Customer ticket was not saved");
+            }
+
+            _log.LogInformation("Input validation failed");
+            return BadRequest("Input validation failed");
+        }
+        
+        public async Task<ActionResult> SaveMany(List<Customer> customers)
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _db.SaveMany(customers);
 
                 if (res) return Ok("Ticket saved");
                 _log.LogInformation("Customer ticket was not saved");
