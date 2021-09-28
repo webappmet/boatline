@@ -43,7 +43,9 @@ function testSaveCustomer() {
     const customer = {
         firstName: "NewCustomer",
         lastName: "NewLastName",
-        postalCode: "0170",
+        postalCode: {
+            code: "0170"
+        },
         streetAddress: "NewAdress",
         phone: "73829462",
         email: "testtest@oslomet.no",
@@ -51,45 +53,37 @@ function testSaveCustomer() {
             [
                 // Ticket 1
                 {
-                    // route: {
-                    //     id: 2,
-                    //     departure: "Oslo",
-                    //     destination: "Copenhagen",
-                    //     durationDays: 17,
-                    //     durationHours: 11
-                    // },
-                    // cabins: [
-                    //     {
-                    //         id: 1,
-                    //         type: "Luksus",
-                    //         floor: "1st",
-                    //         room: "02",
-                    //         price: 1890.99,
-                    //         beds: 4
-                    //     },
-                    //     {
-                    //         id: 3,
-                    //         type: "Billig",
-                    //         floor: null,
-                    //         room: null,
-                    //         price: 0,
-                    //         beds: 0
-                    //     }
-                    // ],
-                    // id: 1,  // ticket ids are autogenerate so just commenting these out
+                    route: {
+                        id: 2
+                    },
+/*                    cabins: [
+                        {
+                            id: 1
+                            // type: "Luksus",
+                            // floor: "1st",
+                            // room: "02",
+                            // price: 1890.99,
+                            // beds: 4
+                        },
+                        {
+                            id: 3
+                            // type: "Billig",
+                            // floor: null,
+                            // room: null,
+                            // price: 0,
+                            // beds: 0
+                        }
+                    ],*/
+                    // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out
                     date: "12.34.45",
                     startTime: "23:45",
                     cabinAmount: 2
                 },
                 // Ticket 2
                 {
-                    // route: {
-                    //     id: 1,
-                    //     departure: "Vermillion City",
-                    //     destination: "Sevii Islands",
-                    //     durationDays: 3,
-                    //     durationHours: 17
-                    // },
+                    route: {
+                        id: 1
+                    },
                     // cabins: [
                     //     {
                     //         id: 1,
