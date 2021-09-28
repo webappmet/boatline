@@ -28,8 +28,6 @@ namespace WebappGroup9.DAL
                 // Console.WriteLine(line.Substring(0,4) + " " + line.Split("\t")[1]);
                 var temp = new PostalCode() { Code = line.Substring(0, 4), Name = line.Split("\t")[1]};
                 boatLineContext.PostalCodes.Add(temp);
-                
-
             }
 
             /*

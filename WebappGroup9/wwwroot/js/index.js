@@ -1,6 +1,6 @@
 $(() => {
     hentPizzaer();
-})
+});
 
 function hentPizzaer() {
     $.get("Holberg/hentPizza", (pizzaer) => {

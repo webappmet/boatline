@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -22,25 +23,49 @@ namespace WebappGroup9.DAL
 
         /* Method that tries to take inn a customer and their proposed ticket, so that it can be saved to the DB
          * Makes a new customer if there is none, and then appends the ticket to their customer list, then saves to DB*/
-        public async Task<bool> Save(Customer customer, Ticket ticket)
+        // TODO - make sure that it is properly async
+        public async Task<bool> SaveOne(Customer customer)
         {
             try
             {
-                // Testing if the customer is already in the DB
+                // Testing if the customer is already in the DB on id first, and then name if ID fails
+                // (assuming things behind OR is never run when first passes, like in java)
                 var dbCustomer = _boatLineDb.Customers.FirstOrDefault(c =>
-                    c.FirstName == customer.FirstName && c.LastName == customer.LastName);
+                    c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
 
+                // Setting front customer ticket's sub values to be tied to the DB
+                for (int i = 0; i < customer.Tickets.Count; i++)
+                {
+                    // setting route right
+                    customer.Tickets[i].Route =
+                        _boatLineDb.Routes.FirstOrDefault(r => r.Id == customer.Tickets[i].Route.Id);
+                        
+                    // Setting cabin right
+                    var newCabinHash = new Collection<Cabin>();
+                        
+                    foreach (var cabin in customer.Tickets[i].Cabins)
+                    {
+                        newCabinHash.Add(_boatLineDb.Cabins.FirstOrDefault(c => c.Id == cabin.Id));
+                    }
+                        
+                    customer.Tickets[i].Cabins = newCabinHash;
+                }
+                
                 // If customer does exist in the DB
                 if (dbCustomer is not null)
                 {
-                    dbCustomer.Tickets.Add(ticket);
+                    // Adds all of the frontend customers tickets onto the dbCustomers list
+                    for (int i = 0; i < customer.Tickets.Count; i++)
+                    {
+                        dbCustomer.Tickets.Add(customer.Tickets[i]);
+                    }
                 }
-                // If The customer does not exist in the DB, adding the ticket to the customer, then adding to DB
-                else
+                else // If The customer does not exist in the DB, adding the customer with the tickets automatically.
                 {
-                    // I think that the constructor runs and gives it an empty list, and that is how we can add to
-                    // frontCustomer immediately but not sure
-                    customer.Tickets.Add(ticket);
+                    // fixing that the postal code info is sett right
+                    customer.PostalCode =
+                        _boatLineDb.PostalCodes.FirstOrDefault(p => p.Code.Equals(customer.PostalCode.Code));
+
                     _boatLineDb.Customers.Add(customer);
                 }
 
@@ -53,6 +78,31 @@ namespace WebappGroup9.DAL
                 return false;
             }
         }
+        
+        // TODO make sure that this is properly async as well
+        public async Task<bool> SaveMany(List<Customer> customers)
+        {
+            var holder = false;
+            foreach (var c in customers)
+            {
+                holder = await SaveOne(c);
+            }
+
+            return holder;
+        }
+        
+        /* old version of testing for customer
+         * if (customer.Id != -1)
+                {
+                    var dbCustomer = _boatLineDb.Customers.FirstOrDefault(c => c.Id == customer.Id);
+                }
+                else                 // if the customer does not have id, adding 
+                {
+                    // Testing if the customer is already in the DB on id first, and then name if ID fails (assuming things behind OR is never run when first passes, like in java
+                    var dbCustomer = _boatLineDb.Customers.FirstOrDefault(c =>
+                        c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
+                }
+         */
 
         /* Method that tries to to get all the customers to the frontend, so that the customers and their lists of
          * tickets can be formatted into a table of customers and tickets. Probably will be user based later, for
@@ -62,6 +112,45 @@ namespace WebappGroup9.DAL
             try
             {
                 return await _boatLineDb.Customers.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+        
+        public async Task<List<Cabin>> GetCabins()
+        {
+            try
+            {
+                return await _boatLineDb.Cabins.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+        
+        public async Task<List<Route>> GetRoutes()
+        {
+            try
+            {
+                return await _boatLineDb.Routes.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+        
+        public async Task<List<Ticket>> GetTickets()
+        {
+            try
+            {
+                return await _boatLineDb.Tickets.ToListAsync();
             }
             catch (Exception e)
             {
