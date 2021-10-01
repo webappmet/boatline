@@ -30,7 +30,7 @@ namespace WebappGroup9.DAL
             {
                 // Testing if the customer is already in the DB on id first, and then name if ID fails
                 // (assuming things behind OR is never run when first passes, like in java)
-                var dbCustomer = _boatLineDb.Customers.FirstOrDefault(c =>
+                var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
                     c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
 
                 // Setting front customer ticket's sub values to be tied to the DB
@@ -38,14 +38,14 @@ namespace WebappGroup9.DAL
                 {
                     // setting route right
                     customer.Tickets[i].Route =
-                        _boatLineDb.Routes.FirstOrDefault(r => r.Id == customer.Tickets[i].Route.Id);
+                        await _boatLineDb.Routes.FirstOrDefaultAsync(r => r.Id == customer.Tickets[i].Route.Id);
                         
                     // Setting cabin right
                     var newCabinHash = new Collection<Cabin>();
                         
                     foreach (var cabin in customer.Tickets[i].Cabins)
                     {
-                        newCabinHash.Add(_boatLineDb.Cabins.FirstOrDefault(c => c.Id == cabin.Id));
+                        newCabinHash.Add(await _boatLineDb.Cabins.FirstOrDefaultAsync(c => c.Id == cabin.Id));
                     }
                         
                     customer.Tickets[i].Cabins = newCabinHash;
@@ -64,7 +64,7 @@ namespace WebappGroup9.DAL
                 {
                     // fixing that the postal code info is sett right
                     customer.PostalCode =
-                        _boatLineDb.PostalCodes.FirstOrDefault(p => p.Code.Equals(customer.PostalCode.Code));
+                        await _boatLineDb.PostalCodes.FirstOrDefaultAsync(p => p.Code.Equals(customer.PostalCode.Code));
 
                     _boatLineDb.Customers.Add(customer);
                 }
