@@ -13,6 +13,7 @@ const Route = ({ routes, setDeparture, setDestination, departure, destination })
             if (route.departure === departure && desList.indexOf(route.destination) === -1) desList.push(route.destination);
         }
         setDestinationList(desList);
+        setDestination(desList[0])
     }
 
     useEffect(() => {
@@ -34,12 +35,15 @@ const Route = ({ routes, setDeparture, setDestination, departure, destination })
     }
 
     return (
-        <div className="route">
-            <div className="departure">
-                <Select changeHandler={departureChange} id="departure" value={departure} label="Departure" name="Departure" options={departureList} />
-            </div>
-            <div className="destination">
-                <Select changeHandler={destinationChange} id="destination" value={destination} label="Destination" name="Destination" options={destinationList} />
+        <div>
+            <h3 className="route__headline">Where do you want to go?</h3>
+            <div className="route">
+                <div className="departure">
+                    <Select changeHandler={departureChange} id="departure" value={departure} label="Departure" name="Departure" options={departureList} />
+                </div>
+                <div className="destination">
+                    <Select changeHandler={destinationChange} id="destination" value={destination} label="Destination" name="Destination" options={destinationList} />
+                </div>
             </div>
         </div>        
     );
