@@ -10,7 +10,7 @@ const Route = ({ routes, setDeparture, setDestination, departure, destination })
     const updateDestChoise = (departure) => {
         let desList = [];
         for (const route of routes) {
-            if (route[0] === departure && desList.indexOf(route[1]) === -1) desList.push(route[1]);
+            if (route.departure === departure && desList.indexOf(route.destination) === -1) desList.push(route.destination);
         }
         setDestinationList(desList);
     }
@@ -18,7 +18,7 @@ const Route = ({ routes, setDeparture, setDestination, departure, destination })
     useEffect(() => {
         let depList = [];
         for (const route of routes) {
-            if (depList.indexOf(route[0]) === -1) depList.push(route[0])
+            if (depList.indexOf(route.departure) === -1) depList.push(route.departure)
         }
         setDepartureList(depList);
         updateDestChoise(departure);

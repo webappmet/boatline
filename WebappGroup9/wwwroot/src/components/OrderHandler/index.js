@@ -11,12 +11,13 @@ const OrderHandler = () => {
     const [routes, setRoutes] = useState([]);
     const [departure, setDeparture] = useState();
     const [destination, setDestination] = useState();
+    const [dateFrom, setDateFrom] = useState();
+    const [dateUntil, setDateUntil] = useState();
 
     const fetchRoutes = async () => {
         try {
             const routes = await getRoutes();
-            console.log(routes)
-            setDeparture(routes[0][0])
+            setDeparture(routes[0].departure)
             setRoutes(routes);
         }
         catch (e) {
@@ -36,7 +37,7 @@ const OrderHandler = () => {
     return (
         <Walker title="Bestill billett" message={message} setMessage={setMessage} confirm={confirm} message={message}>
             <Route routes={routes} setDeparture={setDeparture} setDestination={setDestination} destination={destination} departure={departure} />
-            <span>hi there everybody</span>
+            <div></div>
         </Walker>
     );
 }
