@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using WebappGroup9.DAL;
 using WebappGroup9.Models;
@@ -31,7 +33,9 @@ namespace WebappGroup9.Controllers
                 return BadRequest("Customer ticket was not saved");
             }
 
-            _log.LogInformation("Input validation failed");
+            _log.LogInformation("Modelstate error in BoatLineController");
+            //_log.LogInformation(ModelState.Values.SelectMany(m => m.Errors).ToString());
+            //_log.LogInformation(ModelState.Select(c => c.Value.Errors).ToString());
             return BadRequest("Input validation failed");
         }
         
