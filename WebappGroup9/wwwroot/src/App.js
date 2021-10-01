@@ -3,12 +3,13 @@ import './App.css';
 import Container from "./components/Container";
 import TicketForm from './components/TicketForm';
 import TicketList from './components/TicketList';
+import Walker from './components/Walker';
+import OrderHandler from './components/OrderHandler'
 
 const App = () => {
   return (
     <Container>
-      <TicketForm />
-      <TicketList />
+      <OrderHandler />
     </Container>
   );
 }

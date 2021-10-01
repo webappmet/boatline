@@ -2,7 +2,7 @@
 import Input from '../Input';
 import Select from '../Select';
 import valid from './validator';
-import './styled.css'
+import './styled.css';
 
 const TicketFrom = () => {
     
@@ -18,7 +18,7 @@ const TicketFrom = () => {
     
     useEffect(() => {
         let r = true;
-        const thresold = ['departure-date', 'arrival-date', 'cabin', 'first-name', 'last-name', 'address', 'phone', 'email']
+        const thresold = ['departure-date', 'arrival-date', 'first-name', 'last-name', 'address', 'phone', 'email']
         for (const id of thresold) {
             if (validList.indexOf(id) === -1) r = false;
         }

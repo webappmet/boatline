@@ -4,7 +4,8 @@ import Ticket from './Ticket';
 
 const sampleTicket = { 
     departure: 'oslo', 
-    destination: 'københavn', 
+    destination: 'københavn',
+    date: '1. sept 2021',
     name: 'ulrik nome sommer', 
     address: 'ca st.hans', 
     phone: '3402849032'
@@ -13,6 +14,7 @@ const sampleTicket = {
 const sampleTicket2 = {
     departure: 'oslo',
     destination: 'københavn',
+    date: '1. sep 2021',
     name: 'ulrik nome sommer',
     address: 'ca st.hans',
     phone: '3402849032'
