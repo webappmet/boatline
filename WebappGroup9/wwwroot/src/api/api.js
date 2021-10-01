@@ -8,6 +8,12 @@
     ]
 }
 
+export const getCabins = async () => {
+    return [
+        {id: 1, type: "Large", floor: 8, room: 34, price: 49.99, beds: 4},
+    ]
+}
+
 export const saveTicket = async () => {
     
 }
