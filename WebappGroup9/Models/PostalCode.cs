@@ -7,8 +7,9 @@ namespace WebappGroup9.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        //TODO perhaps change this to string anyways. It doesn't retain the 0 in 0170 and such in the DB with the type being int
+        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Invalid postal code")]
         public string Code { get; set; }
+        [RegularExpression(@"^[a-zA-ZæøåÆØÅ. \-]{1,20}$", ErrorMessage = "Invalid city name")]
         public string Name { get; set; }
     }
 }
