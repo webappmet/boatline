@@ -46,7 +46,8 @@ function testSaveCustomer() {
         },
         payment: {
             cardHolderName: "Anthony GioGio",
-            cardNumber: "1234 1234 1234 1234",
+            cardNumber: "5643 1234 4353 1234",
+            cSC: "123",
             expirationMonth: "06",
             expirationYear: "24"
         },

@@ -24,6 +24,7 @@ namespace WebappGroup9.DAL
 
         private bool PaymentCheck(Payment payment)
         {
+            // Just a psuedo method to act as actual payment verifcation, which we are not doing because we are not letting people pay for a fictional ticket
             return payment != null;
         }
 
@@ -34,57 +35,58 @@ namespace WebappGroup9.DAL
         {
             try
             {
-                if (PaymentCheck(customer.Payment))
+                // Psuedo payment validation
+                if (!PaymentCheck(customer.Payment))
                 {
-                    // Testing if the customer is already in the DB on id first, and then name if ID fails
-                    // (assuming things behind OR is never run when first passes, like in java)
-                    var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
-                        c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
-                    
-                    // Setting front customer ticket's sub values to be tied to the DB
+                    return false;
+                }
+                
+                // Testing if the customer is already in the DB on id first, and then name if ID fails
+                // (assuming things behind OR is never run when first passes, like in java)
+                var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
+                    c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
+                
+                // Setting front customer ticket's sub values to be tied to the DB
+                for (int i = 0; i < customer.Tickets.Count; i++)
+                {
+                    // setting route right
+                    customer.Tickets[i].Route =
+                        await _boatLineDb.Routes.FirstOrDefaultAsync(r => r.Id == customer.Tickets[i].Route.Id);
+
+                    // Setting cabin right
+                    var newCabinHash = new Collection<Cabin>();
+
+                    foreach (var cabin in customer.Tickets[i].Cabins)
+                    {
+                        newCabinHash.Add(await _boatLineDb.Cabins.FirstOrDefaultAsync(c => c.Id == cabin.Id));
+                    }
+
+                    customer.Tickets[i].Cabins = newCabinHash;
+                }
+                
+                
+
+                // If customer does exist in the DB
+                if (dbCustomer is not null)
+                {
+                    // Adds all of the frontend customers tickets onto the dbCustomers list
                     for (int i = 0; i < customer.Tickets.Count; i++)
                     {
-                        // setting route right
-                        customer.Tickets[i].Route =
-                            await _boatLineDb.Routes.FirstOrDefaultAsync(r => r.Id == customer.Tickets[i].Route.Id);
-
-                        // Setting cabin right
-                        var newCabinHash = new Collection<Cabin>();
-
-                        foreach (var cabin in customer.Tickets[i].Cabins)
-                        {
-                            newCabinHash.Add(await _boatLineDb.Cabins.FirstOrDefaultAsync(c => c.Id == cabin.Id));
-                        }
-
-                        customer.Tickets[i].Cabins = newCabinHash;
+                        dbCustomer.Tickets.Add(customer.Tickets[i]);
                     }
-                    
-                    
-
-                    // If customer does exist in the DB
-                    if (dbCustomer is not null)
-                    {
-                        // Adds all of the frontend customers tickets onto the dbCustomers list
-                        for (int i = 0; i < customer.Tickets.Count; i++)
-                        {
-                            dbCustomer.Tickets.Add(customer.Tickets[i]);
-                        }
-                    }
-                    else // If The customer does not exist in the DB, adding the customer with the tickets automatically.
-                    {
-                        // fixing that the postal code info is sett right
-                        customer.PostalCode =
-                            await _boatLineDb.PostalCodes.FirstOrDefaultAsync(p =>
-                                p.Code.Equals(customer.PostalCode.Code));
-
-                        _boatLineDb.Customers.Add(customer);
-                    }
-
-                    await _boatLineDb.SaveChangesAsync();
-                    return true;
                 }
-                _log.LogInformation("Payment failed");
-                return false;
+                else // If The customer does not exist in the DB, adding the customer with the tickets automatically.
+                {
+                    // fixing that the postal code info is sett right
+                    customer.PostalCode =
+                        await _boatLineDb.PostalCodes.FirstOrDefaultAsync(p =>
+                            p.Code.Equals(customer.PostalCode.Code));
+
+                    _boatLineDb.Customers.Add(customer);
+                }
+
+                await _boatLineDb.SaveChangesAsync();
+                return true;
             }
             catch (Exception e)
             {

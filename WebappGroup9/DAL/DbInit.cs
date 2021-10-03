@@ -76,7 +76,7 @@ namespace WebappGroup9.DAL
                 Payment = new Payment
                 {
                     CardHolderName = "Tor Kratte",
-                    CardNumber = "1234 1234 1234 1234",
+                    CardNumber = "1234 3243 3423 1234",
                     ExpirationMonth = "03",
                     ExpirationYear = "23"
                 },
@@ -90,7 +90,7 @@ namespace WebappGroup9.DAL
                 Payment = new Payment
                 {
                     CardHolderName = "Anthony GioGio",
-                    CardNumber = "1234 1234 1234 1234",
+                    CardNumber = "1234 1234 6454 1234",
                     ExpirationMonth = "06",
                     ExpirationYear = "24"
                 },
@@ -104,7 +104,8 @@ namespace WebappGroup9.DAL
                 Payment = new Payment
                 {
                     CardHolderName = "Tengel UniDes",
-                    CardNumber = "1234 1234 1234 1234",
+                    CardNumber = "1234 1232 1234 1234",
+                    CSC = "543",
                     ExpirationMonth = "05",
                     ExpirationYear = "22"
                 },
