@@ -44,6 +44,13 @@ function testSaveCustomer() {
         postalCode: {
             code: "0170"
         },
+        payment: {
+            cardHolderName: "Anthony GioGio",
+            cardNumber: "5643 1234 4353 1234",
+            cSC: "123",
+            expirationMonth: "06",
+            expirationYear: "24"
+        },
         streetAddress: "NewAdress",
         phone: "73829462",
         email: "testtest@oslomet.no",
