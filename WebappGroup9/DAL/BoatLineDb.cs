@@ -17,7 +17,7 @@ namespace WebappGroup9.DAL
         public DbSet<Cabin> Cabins { get; set; }
 
 
-        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
