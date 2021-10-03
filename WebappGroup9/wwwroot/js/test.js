@@ -45,52 +45,6 @@ function testSaveCustomer() {
             code: "0170"
         },
         streetAddress: "NewAdress",
-        phone: "73829462555",
-        email: "testtestoslomet.no",
-        tickets: [
-            // Ticket 1
-            {
-                route: {id: 2},
-                cabins: [
-                    {id: 1 },
-                    {id: 3}
-                ],
-                // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out as placeholder for saving known customers if they have Id
-                date: "12.34.45",
-                startTime: "23:45",
-                cabinAmount: 2
-            },
-            // Ticket 2
-            {
-                route: {
-                    id: 1
-                },
-                cabins: [
-                    {
-                        id: 1
-                    },
-                    {
-                        id: 2
-                    }
-                ],
-                // id: 2,
-                date: "12.23.34",
-                startTime: "87:00",
-                cabinAmount: 1
-            }]
-    };
-
-    $.post("BoatLine/SaveOne", customer, (OK) => {
-        console.log("Saved one")
-    });
-
-    const customer2 = {
-        firstName: "NewCustomer3",
-        lastName: "NewLastName",
-        postalCode: {
-            code: "0170"
-        },
-        streetAddress: "NewAdress",
         phone: "73829462",
         email: "testtest@oslomet.no",
         tickets: [
@@ -126,7 +80,7 @@ function testSaveCustomer() {
             }]
     };
 
-    $.post("BoatLine/SaveOne", customer2, (OK) => {
+    $.post("BoatLine/SaveOne", customer, (OK) => {
         console.log("Saved one")
     });
 }
