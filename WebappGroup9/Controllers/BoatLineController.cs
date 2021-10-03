@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using WebappGroup9.DAL;
 using WebappGroup9.Models;
@@ -22,6 +21,13 @@ namespace WebappGroup9.Controllers
             _log = log;
         }
 
+        private string GetModelStateMessage()
+        {
+            return string.Join(", ", ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage));
+        }
+
         public async Task<ActionResult> SaveOne(Customer customer)
         {
             if (ModelState.IsValid)
@@ -33,10 +39,10 @@ namespace WebappGroup9.Controllers
                 return BadRequest("Customer ticket was not saved");
             }
 
-            _log.LogInformation("Modelstate error in BoatLineController");
-            //_log.LogInformation(ModelState.Values.SelectMany(m => m.Errors).ToString());
-            //_log.LogInformation(ModelState.Select(c => c.Value.Errors).ToString());
-            return BadRequest("Input validation failed");
+            var message = GetModelStateMessage();
+            
+            _log.LogInformation("Customer was not saved: " + message);
+            return BadRequest("Customer was not saved: " + message);
         }
         
         public async Task<ActionResult> SaveMany(List<Customer> customers)
@@ -50,8 +56,10 @@ namespace WebappGroup9.Controllers
                 return BadRequest("Customer ticket was not saved");
             }
 
-            _log.LogInformation("Input validation failed");
-            return BadRequest("Input validation failed");
+            var message = GetModelStateMessage();
+
+            _log.LogInformation("Input validation failed: " + message);
+            return BadRequest("Input validation failed: " + message);
         }
 
         public async Task<ActionResult> GetCustomers()
@@ -62,8 +70,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all customers");
             return NotFound("Could not get all customers");
         }
-
-        //TODO refactor to clearer name
+        
         public async Task<ActionResult> GetOne(int id)
         {
             var customer = await _db.GetOne(id);
@@ -120,8 +127,10 @@ namespace WebappGroup9.Controllers
                 return NotFound("Customer was not found");
             }
 
-            _log.LogInformation("Input validation failed");
-            return BadRequest("Input validation failed");
+            var message = GetModelStateMessage();
+
+            _log.LogInformation("Input validation failed: " + message);
+            return BadRequest("Input validation failed " + message);
         }
     }
 }
