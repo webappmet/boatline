@@ -153,6 +153,19 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
+        
+        public async Task<List<Cabin>> GetCabinUnoccupied()
+        {
+            try
+            {
+                return await _boatLineDb.Cabins.Where(c => c.Tickets.Count == 0).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
 
         [EnableCors("Policy1")]
         public async Task<List<Route>> GetRoutes()
@@ -179,6 +192,20 @@ namespace WebappGroup9.DAL
                 _log.LogInformation(e.Message);
                 return null;
             }
+        }
+
+        public double GeneratePrice(Route route, List<Cabin> cabins)
+        {
+            double sum = 0;
+            foreach (var cabin in cabins)
+            {
+                sum += cabin.Price;
+            }
+
+            sum *= route.DurationDays;
+
+            return sum;
+
         }
 
         public async Task<Customer> GetOne(int id)
