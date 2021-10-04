@@ -18,5 +18,9 @@ namespace WebappGroup9.Models
 
         public string Departure { get; set; }
         public string Destination { get; set; }
+        
+        public int DurationDays { get; set; }
+        
+        public int DurationHours { get; set; }
     }
 }
