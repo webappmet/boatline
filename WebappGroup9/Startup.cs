@@ -1,10 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WebappGroup9.DAL;
+
+// using Microsoft.AspNetCore.Http;
+// using JavaScriptEngineSwitcher.V8;
+// using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+// using React.AspNet;
 
 namespace WebappGroup9
 {
@@ -14,6 +20,7 @@ namespace WebappGroup9
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllers();
             services.AddDbContext<BoatLineDb>(options => options.UseSqlite("Data Source=BoatLine.db"));
             services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -23,6 +30,25 @@ namespace WebappGroup9
                 .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 );
+            
+            
+            
+            // services.AddCors(options =>
+            // {
+            //     options.AddPolicy("AllowAll",
+            //         builder =>
+            //         {
+            //             builder
+            //                 .AllowAnyOrigin()
+            //                 .AllowAnyMethod()
+            //                 .AllowAnyHeader();
+            //         });
+            // });
+            //
+            // services.Configure<MvcOptions>(options =>
+            // {
+            //     options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,15 +60,24 @@ namespace WebappGroup9
                 loggerFactory.AddFile("Logs/log.txt");
                 DbInit.Initialize(app);
             }
+            
+            // app.UseCors(builder => builder
+            //     .AllowAnyOrigin()
+            //     .AllowAnyMethod()
+            //     .AllowAnyHeader()
+            //     .AllowCredentials());
 
             app.UseRouting();
             
+            app.UseCors();
+
             app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }

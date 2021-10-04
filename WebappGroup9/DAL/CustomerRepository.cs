@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -149,6 +150,7 @@ namespace WebappGroup9.DAL
             }
         }
 
+        [EnableCors("Policy1")]
         public async Task<List<Route>> GetRoutes()
         {
             try
