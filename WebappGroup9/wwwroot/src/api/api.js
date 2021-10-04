@@ -188,3 +188,25 @@ export const getCabinUnoccupied = async () => {
             });
     });
 }
+
+export const validatePayment = async () => {
+    //todo actually get these values from frontend
+    const payment = {
+        cardHolderName: "Anthony GioGio",
+        cardNumber: "5643 1234 4353 1234",
+        cSC: "123",
+        expirationMonth: "06",
+        expirationYear: "24"
+    }
+    
+    return new Promise((resolve, reject) => {
+        $.get("BoatLine/ValidatePayment", payment, () => {
+            console.log("payment suceeded")
+            saveTicket();
+            resolve("Payment went well placehodler")
+        })
+            .fail((e) => {
+                reject("Payment wasn't validated" + e);
+            });
+    });
+};
