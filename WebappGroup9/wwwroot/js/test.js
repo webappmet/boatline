@@ -39,12 +39,14 @@ function testGetRoutes() {
     });
 }
 
+//react
 function testGetTickets() {
     $.get("BoatLine/GetTickets", (tickets) => {
         console.log("Got tickets")
     });
 }
 
+//react
 function testSaveCustomer() {
     const customerNoId = {
         firstName: "NewCustomer",

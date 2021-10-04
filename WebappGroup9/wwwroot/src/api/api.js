@@ -26,13 +26,13 @@ export const getRoutes = async () => {
             .fail((e) => {
                 console.log("GetRoutes failed")
                 console.log(e);
-                reject("Getroutes Promise failed");
+                reject("Getroutes Promise failed: ");
             });
     });
 }
 
 export const getCabins = async () => {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         $.get("BoatLine/GetCabins", (cabins) => {
             console.log("Got Cabins")
             console.log(cabins)
@@ -42,12 +42,13 @@ export const getCabins = async () => {
                 console.log(e)
                 reject("GetCabins failed")
             });
-    }));
+    });
 }
 
+// TODO, actually set input instead of hardcoding test values
 export const saveTicket = async () => {
-    return new Promise(((resolve, reject) => {
-        const customer = {
+    return new Promise((resolve, reject) => {
+        const customerNoId = {
             firstName: "NewCustomer",
             lastName: "NewLastName",
             postalCode: {
@@ -95,9 +96,85 @@ export const saveTicket = async () => {
                     cabinAmount: 1
                 }]
         };
-
-        $.post("BoatLine/SaveOne", customer, (OK) => {
-            console.log("Saved one")
+        
+        $.post("BoatLine/SaveOne", customerNoId, (OK) => {
+            console.log("Saved noId")
         });
-    }));
+    });
+}
+
+export const saveTicketHasIdTest = async () => {
+    return new Promise((resolve, reject) => {
+        // just showing how to build json for existing customer, with existing payment. The DB takes nullvalues so just add stuff if you need to add card or whatever
+        const customerHasId = {
+            id: "1",
+            tickets: [
+                // Ticket 1
+                {
+                    route: {id: 1},
+                    cabins: [{id: 2}],
+                    date: "54.34.23",
+                    startTime: "54:12",
+                    cabinAmount: 1
+                }]
+        };
+
+        $.post("BoatLine/SaveOne", customerHasId, (OK) => {
+            console.log("Saved HasId")
+            resolve("Ble lagret")
+        })
+            .fail((e) => {
+                reject(e)
+            });
+    });
+}
+
+export const getTickets = async () => {
+    return new Promise((resolve, reject) => {
+        $.get("BoatLine/GetTickets", (tickets) => {
+            console.log("Got tickets")
+            resolve(tickets)
+        })
+            .fail((e) => {
+                console.log(e);
+                reject("GetTickets failed")
+            });
+    });
+}
+
+export const getCustomers = async () => {
+    return new Promise((resolve, reject) => {
+        $.get("BoatLine/GetCustomers", (customers) => {
+            console.log("Got Customers")
+            resolve(customers)
+        })
+            .fail((e) => {
+                reject("GetCustomers failed")
+            });
+    });
+}
+
+export const getCustomer = async () => {
+    return new Promise((resolve, reject) => {
+        $.get("BoatLine/GetOne?Id=1", (customer) => {
+            console.log("Got Customer")
+            resolve(customer);
+        })
+            .fail((e) => {
+                reject("GetCustomer failed")
+            });
+    });
+}
+
+//TODO do these
+export const getPrice = async () => {
+    return new Promise((resolve, reject) => {
+        
+    });
+}
+
+export const getCabinUnoccupied = async () => {
+    return new Promise((resolve, reject) => {
+        
+    });
 }
