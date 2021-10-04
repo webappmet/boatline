@@ -36,16 +36,19 @@ namespace WebappGroup9.DAL
         {
             try
             {
+
+
+                // Testing if the customer is already in the DB on id first, and then name if ID fails
+                // (assuming things behind OR is never run when first passes, like in java)
+                Console.WriteLine(customer.Id);
+                var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
+                    c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
+                
                 // Psuedo payment validation
-                if (!PaymentCheck(customer.Payment))
+                if (!(PaymentCheck(customer.Payment) || PaymentCheck(dbCustomer.Payment)))
                 {
                     return false;
                 }
-                
-                // Testing if the customer is already in the DB on id first, and then name if ID fails
-                // (assuming things behind OR is never run when first passes, like in java)
-                var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
-                    c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
                 
                 // Setting front customer ticket's sub values to be tied to the DB
                 for (int i = 0; i < customer.Tickets.Count; i++)
@@ -70,6 +73,7 @@ namespace WebappGroup9.DAL
                 // If customer does exist in the DB
                 if (dbCustomer is not null)
                 {
+                    // Console.WriteLine(dbCustomer.ToString());
                     // Adds all of the frontend customers tickets onto the dbCustomers list
                     for (int i = 0; i < customer.Tickets.Count; i++)
                     {
