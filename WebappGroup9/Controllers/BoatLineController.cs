@@ -89,6 +89,14 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all cabins");
             return NotFound("Could not get all cabins");
         }
+
+        public async Task<ActionResult> GetCabinUnoccupied()
+        {
+            var list = await _db.GetCabinUnoccupied();
+            if (list != null) return Ok(list);
+            _log.LogInformation("Not able to get unoccupied cabins");
+            return NotFound("Not able to get unoccupied cabins");
+        }
         
         public async Task<ActionResult> GetRoutes()
         {
@@ -106,6 +114,14 @@ namespace WebappGroup9.Controllers
             if (list != null) return Ok(list);
             _log.LogInformation("Could not get all tickets");
             return NotFound("Could not get all tickets");
+        }
+
+        public async Task<ActionResult> GetPrice(Route route, List<Cabin> cabins)
+        {
+            var price = _db.GeneratePrice(route, cabins);
+            if (double.IsNaN(price)) return Ok(price);
+            _log.LogInformation("Could not generate price");
+            return NotFound("Could not generate price");
         }
 
         public async Task<ActionResult> Delete(int id)

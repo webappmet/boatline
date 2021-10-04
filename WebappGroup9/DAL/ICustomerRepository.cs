@@ -11,8 +11,10 @@ namespace WebappGroup9.DAL
         Task<List<Customer>> GetCustomers();
         Task<Customer> GetOne(int id);
         Task<List<Cabin>> GetCabins();
+        Task<List<Cabin>> GetCabinUnoccupied();
         Task<List<Route>> GetRoutes();
         Task<List<Ticket>> GetTickets();
+        double GeneratePrice(Route route, List<Cabin> cabins);
         Task<bool> Delete(int id);
         Task<bool> Update(Customer customer);
     }
