@@ -169,12 +169,22 @@ export const getCustomer = async () => {
 //TODO do these
 export const getPrice = async () => {
     return new Promise((resolve, reject) => {
-        
+        $.get("BoatLine/GetPrice", (price) => {
+            resolve(price);
+        })
+            .fail((e) => {
+                reject(e);
+            });
     });
 }
 
 export const getCabinUnoccupied = async () => {
     return new Promise((resolve, reject) => {
-        
+        $.get("BoatLine/GetCabinUnoccupied", (cabins) => {
+            resolve(cabins)
+        })
+            .fail((e) => {
+                reject(e);
+            });
     });
 }
