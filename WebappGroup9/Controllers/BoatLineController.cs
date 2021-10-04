@@ -29,6 +29,14 @@ namespace WebappGroup9.Controllers
                 .Select(e => e.ErrorMessage));
         }
 
+        public async Task<ActionResult> ValidatePayment(Payment payment)
+        {
+            var res = _db.PaymentCheck(payment);
+            if (res) return Ok("Payment validation succeeded");
+            _log.LogInformation("Payment validation failed");
+            return BadRequest("Payment validation failed");
+        }
+
         public async Task<ActionResult> SaveOne(Customer customer)
         {
             if (ModelState.IsValid)
@@ -41,11 +49,11 @@ namespace WebappGroup9.Controllers
             }
 
             var message = GetModelStateMessage();
-            
+
             _log.LogInformation("Customer was not saved: " + message);
             return BadRequest("Customer was not saved: " + message);
         }
-        
+
         public async Task<ActionResult> SaveMany(List<Customer> customers)
         {
             if (ModelState.IsValid)
@@ -71,7 +79,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all customers");
             return NotFound("Could not get all customers");
         }
-        
+
         public async Task<ActionResult> GetOne(int id)
         {
             var customer = await _db.GetOne(id);
@@ -80,7 +88,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Customer was not found");
             return NotFound("Customer was not found");
         }
-        
+
         public async Task<ActionResult> GetCabins()
         {
             var list = await _db.GetCabins();
@@ -97,7 +105,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Not able to get unoccupied cabins");
             return NotFound("Not able to get unoccupied cabins");
         }
-        
+
         public async Task<ActionResult> GetRoutes()
         {
             var list = await _db.GetRoutes();
@@ -106,7 +114,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all routes");
             return NotFound("Could not get all routes");
         }
-        
+
         public async Task<ActionResult> GetTickets()
         {
             var list = await _db.GetTickets();

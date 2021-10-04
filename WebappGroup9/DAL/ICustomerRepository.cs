@@ -15,6 +15,7 @@ namespace WebappGroup9.DAL
         Task<List<Route>> GetRoutes();
         Task<List<Ticket>> GetTickets();
         double GeneratePrice(Route route, List<Cabin> cabins);
+        bool PaymentCheck(Payment payment);
         Task<bool> Delete(int id);
         Task<bool> Update(Customer customer);
     }

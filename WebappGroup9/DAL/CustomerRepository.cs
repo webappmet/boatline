@@ -23,7 +23,7 @@ namespace WebappGroup9.DAL
             _log = log;
         }
 
-        private bool PaymentCheck(Payment payment)
+        public bool PaymentCheck(Payment payment)
         {
             // Just a psuedo method to act as actual payment verifcation, which we are not doing because we are not letting people pay for a fictional ticket
             return payment != null;
@@ -36,20 +36,11 @@ namespace WebappGroup9.DAL
         {
             try
             {
-
-
                 // Testing if the customer is already in the DB on id first, and then name if ID fails
                 // (assuming things behind OR is never run when first passes, like in java)
-                Console.WriteLine(customer.Id);
                 var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
                     c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
-                
-                // Psuedo payment validation
-                if (!(PaymentCheck(customer.Payment) || PaymentCheck(dbCustomer.Payment)))
-                {
-                    return false;
-                }
-                
+
                 // Setting front customer ticket's sub values to be tied to the DB
                 for (int i = 0; i < customer.Tickets.Count; i++)
                 {
@@ -67,8 +58,7 @@ namespace WebappGroup9.DAL
 
                     customer.Tickets[i].Cabins = newCabinHash;
                 }
-                
-                
+
 
                 // If customer does exist in the DB
                 if (dbCustomer is not null)
@@ -153,7 +143,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         public async Task<List<Cabin>> GetCabinUnoccupied()
         {
             try
@@ -205,7 +195,6 @@ namespace WebappGroup9.DAL
             sum *= route.DurationDays;
 
             return sum;
-
         }
 
         public async Task<Customer> GetOne(int id)
