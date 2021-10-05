@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.Extensions.DependencyInjection;
 using WebappGroup9.Models;
 
@@ -39,78 +37,170 @@ namespace WebappGroup9.DAL
 
             var route1 = new Route
             {
-                Id = 1, Departure = "Vermillion City", Destination = "Sevii Islands", DurationDays = 3,
-                DurationHours = 17
+                Id = 1, Departure = "Oslo", Destination = "Kiel", DurationDays = 3, DurationHours = 17
             };
+
+            boatLineContext.Routes.Add(route1);
+
             var route2 = new Route
-                { Id = 2, Departure = "Oslo", Destination = "Copenhagen", DurationDays = 17, DurationHours = 11 };
-
-            var cabin1 = new Cabin() { Id = 1, Type = "Luksus", Floor = "1st", Room = "02", Beds = 4, Price = 1890.99 };
-            var cabin2 = new Cabin() { Id = 2, Type = "Super Luksus" };
-            var cabin3 = new Cabin() { Id = 3, Type = "Billig" };
-
-
-            var auroraTicket = new Ticket
             {
-                Date = "01.10.21", StartTime = "10:00", Route = route1, CabinAmount = 1,
-                Cabins = new HashSet<Cabin>() { cabin1, cabin2 }
+                Id = 2, Departure = "Oslo", Destination = "Copenhagen", DurationDays = 3, DurationHours = 11
             };
 
+            boatLineContext.Routes.Add(route2);
 
-            var mysticTicket = new Ticket
+            var route3 = new Route
             {
-                Date = "92.23.97", StartTime = "91:00", Route = route2, CabinAmount = 2,
+                Id = 3, Departure = "Larvik", Destination = "Hirtshals", DurationDays = 4, DurationHours = 11
+            };
+
+            boatLineContext.Routes.Add(route3);
+
+            var route4 = new Route
+            {
+                Id = 4, Departure = "Kristiansand", Destination = "Hirtshals", DurationDays = 2, DurationHours = 15
+            };
+
+            boatLineContext.Routes.Add(route4);
+
+            var route5 = new Route
+            {
+                Id = 5, Departure = "Strømstad", Destination = "Sandefjord", DurationDays = 5, DurationHours = 13
+            };
+
+            boatLineContext.Routes.Add(route5);
+
+            for (int i = 1; i < 4; i++) // i = floor level
+            {
+                for (int j = 1; j < 27; j++) // j = room number
+                {
+                    var cabin = new Cabin
+                    {
+                        Id = i * 100 + j
+                    };
+                    switch (j)
+                    {
+                        case <= 10:
+                            cabin.Beds = 2;
+                            cabin.Type = "Economy";
+                            cabin.Price = 500 * (10 + i) / 10;
+                            break;
+                        case <= 17:
+                            cabin.Beds = 5;
+                            cabin.Type = "Premium economy";
+                            cabin.Price = 700 * (10 + i) / 10;
+                            break;
+                        case < 22:
+                            cabin.Beds = 4;
+                            cabin.Type = "Business";
+                            cabin.Price = 1000 * (10 + i) / 10;
+                            break;
+                        default:
+                            cabin.Beds = 2;
+                            cabin.Type = "First class";
+                            cabin.Price = 1200 * (10 + i) / 10;
+                            break;
+                    }
+
+                    boatLineContext.Cabins.Add(cabin);
+                }
+            }
+
+            boatLineContext.SaveChanges();
+
+            var ticket1 = new Ticket
+            {
+                Date = "01.10.21",
+                StartTime = "10:00",
+                Route = route1,
                 Cabins = new HashSet<Cabin>()
                 {
-                    cabin1,
-                    cabin3
+                    boatLineContext.Cabins.FirstOrDefault(c => c.Id == 102),
+                    boatLineContext.Cabins.FirstOrDefault(c => c.Id == 110)
                 }
             };
 
 
+            var ticket2 = new Ticket
+            {
+                Date = "12.10.21",
+                StartTime = "12:00",
+                Route = route2,
+                Cabins = new HashSet<Cabin>()
+                {
+                    boatLineContext.Cabins.FirstOrDefault(c => c.Id == 201),
+                    boatLineContext.Cabins.FirstOrDefault(c => c.Id == 202)
+                }
+            };
+
+            var ticket3 = new Ticket
+            {
+                Date = "15.11.21",
+                StartTime = "14:00",
+                Route = route3,
+                Cabins = new HashSet<Cabin>()
+                {
+                    boatLineContext.Cabins.FirstOrDefault(c => c.Id == 301)
+                }
+            };
+
             var customer1 = new Customer
             {
-                FirstName = "Tor", LastName = "Kratte", StreetAddress = "Oslomet P35",
+                FirstName = "Ola",
+                LastName = "Nordmann",
+                StreetAddress = "Norgesveien 22",
                 PostalCode = boatLineContext.PostalCodes.FirstOrDefault(c => c.Code == "0170"),
-                Phone = "12349872",
+                Phone = "43575454",
+                Email = "ola@nordmann.no",
                 Payment = new Payment
                 {
-                    CardHolderName = "Tor Kratte",
+                    CardHolderName = "Ola Nordmann",
                     CardNumber = "1234 3243 3423 1234",
+                    CSC = "123",
                     ExpirationMonth = "03",
                     ExpirationYear = "23"
                 },
-                Email = "blah@oslomet.no",
-                Tickets = new List<Ticket> { auroraTicket }
+                Tickets = new List<Ticket> { ticket1 }
             };
+
+
             var customer2 = new Customer
             {
-                FirstName = "Anthony", LastName = "GioGio", StreetAddress = "Oslomet P52",
+                FirstName = "Lisa",
+                LastName = "Heimstad",
+                StreetAddress = "Heimstadveien 45",
                 PostalCode = boatLineContext.PostalCodes.FirstOrDefault(c => c.Code == "1353"),
+                Phone = "78534376",
+                Email = "lisa@heimstad.no",
                 Payment = new Payment
                 {
-                    CardHolderName = "Anthony GioGio",
+                    CardHolderName = "Lisa Heimstad",
                     CardNumber = "1234 1234 6454 1234",
+                    CSC = "321",
                     ExpirationMonth = "06",
                     ExpirationYear = "24"
                 },
-                Phone = "REDACTED",
-                Email = "blugh@oslomet.no",
-                Tickets = new List<Ticket> { mysticTicket }
+                Tickets = new List<Ticket> { ticket2 }
             };
+
+
             var customer3 = new Customer
             {
-                FirstName = "Tengel", LastName = "UniDes", StreetAddress = "Datatorget", Phone = "93828393",
+                FirstName = "Markus",
+                LastName = "Liebraad",
+                StreetAddress = "Lierbakken 2",
+                PostalCode = boatLineContext.PostalCodes.FirstOrDefault(c => c.Code == "2656"),
+                Phone = "93828393",
+                Email = "markus@liebraad.no",
                 Payment = new Payment
                 {
-                    CardHolderName = "Tengel UniDes",
-                    CardNumber = "1234 1232 1234 1234",
+                    CardHolderName = "Markus Liebraad",
+                    CardNumber = "1234 5436 1234 1234",
                     CSC = "543",
                     ExpirationMonth = "05",
                     ExpirationYear = "22"
                 },
-                Email = "bleee@oslomet.no",
-                Tickets = new List<Ticket>()
+                Tickets = new List<Ticket> { ticket3 }
             };
 
             boatLineContext.Add(customer1);
