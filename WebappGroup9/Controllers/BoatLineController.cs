@@ -98,12 +98,29 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get all cabins");
         }
 
+        public async Task<ActionResult> GetCabin(int id)
+        {
+            var cabin = await _db.GetCabin(id);
+
+            if (cabin != null) return Ok(cabin);
+            _log.LogInformation("Could not get cabin");
+            return BadRequest("Could not get cabin");
+        }
+
         public async Task<ActionResult> GetCabinUnoccupied()
         {
             var list = await _db.GetCabinUnoccupied();
             if (list != null) return Ok(list);
             _log.LogInformation("Not able to get unoccupied cabins");
             return NotFound("Not able to get unoccupied cabins");
+        }
+
+        public async Task<ActionResult> GetRute(string departure, string destination)
+        {
+            var rute = await _db.GetRoute(departure, destination);
+            if (rute != null) return Ok(rute);
+            _log.LogInformation("Not able to get rute");
+            return NotFound("Not able to get rute");
         }
 
         public async Task<ActionResult> GetRoutes()
@@ -122,6 +139,14 @@ namespace WebappGroup9.Controllers
             if (list != null) return Ok(list);
             _log.LogInformation("Could not get all tickets");
             return NotFound("Could not get all tickets");
+        }
+
+        public async Task<ActionResult> GetPostname(string code)
+        {
+            var postalcode = await _db.GetPostname(code);
+            if (postalcode != null) return Ok(postalcode);
+            _log.LogInformation("Could not get post name");
+            return NotFound("Could not get post name");
         }
 
         public async Task<ActionResult> GetPrice(Route route, List<Cabin> cabins)
