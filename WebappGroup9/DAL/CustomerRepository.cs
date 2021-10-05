@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebappGroup9.Models;
@@ -144,6 +142,19 @@ namespace WebappGroup9.DAL
             }
         }
 
+        public async Task<Cabin> GetCabin(int id)
+        {
+            try
+            {
+                return await _boatLineDb.Cabins.FirstOrDefaultAsync(c => c.Id == id);
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
         public async Task<List<Cabin>> GetCabinUnoccupied()
         {
             try
@@ -157,12 +168,25 @@ namespace WebappGroup9.DAL
             }
         }
 
-        [EnableCors("Policy1")]
         public async Task<List<Route>> GetRoutes()
         {
             try
             {
                 return await _boatLineDb.Routes.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
+        public async Task<Route> GetRoute(string departure, string destination)
+        {
+            try
+            {
+                return await _boatLineDb.Routes.FirstOrDefaultAsync(r =>
+                    r.Departure.Equals(departure) && r.Destination.Equals(destination));
             }
             catch (Exception e)
             {
@@ -205,8 +229,21 @@ namespace WebappGroup9.DAL
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
+        public async Task<PostalCode> GetPostname(string code)
+        {
+            try
+            {
+                return await _boatLineDb.PostalCodes.FirstOrDefaultAsync(p => p.Code.Equals(code));
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
             }
         }
 
