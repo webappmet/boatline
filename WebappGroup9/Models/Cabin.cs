@@ -15,8 +15,6 @@ namespace WebappGroup9.Models
         public string Type { get; set; }
         // TODO Make this be like car brand and model selection
         // Where the first dropdown causes the second one to load the option for rooms
-        public string Floor { get; set; } 
-        public string Room { get; set; }
         public double Price { get; set; }
         // TODO Use this to calculate what type of cabins a certain amount of customers can spend (On frontend)
 

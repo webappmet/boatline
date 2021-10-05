@@ -17,8 +17,6 @@ namespace WebappGroup9.Models
         // Endtime will be calculated from route duration
         // public string EndTime { get; set; }
 
-        public int CabinAmount { get; set; }
-        
         // This is how to do many to many
         public virtual ICollection<Cabin> Cabins { get; set; }
 
