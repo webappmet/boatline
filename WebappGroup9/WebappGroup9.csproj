@@ -7,7 +7,6 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
-      <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.10" />
@@ -16,11 +15,44 @@
 
     <ItemGroup>
       <Content Remove="wwwroot\ticketList.html" />
-      <Content Remove="wwwroot\index.html" />
       <Content Remove="wwwroot\endre.html" />
       <Content Remove="wwwroot\js\ticketList.js" />
-      <Content Remove="wwwroot\js\index.js" />
       <Content Remove="wwwroot\js\endre.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\js\test.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\api\api.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\App.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\App.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\App.test.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\Container\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\Container\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\Input\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\Input\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\OrderHandler\Cabin\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\OrderHandler\Cabin\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\OrderHandler\Date\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\OrderHandler\Date\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\OrderHandler\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\OrderHandler\Route\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\OrderHandler\Route\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\Select\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\Select\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\TicketForm\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\TicketForm\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\TicketForm\validator.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\TicketList\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\TicketList\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\TicketList\Ticket\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\TicketList\Ticket\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\Walker\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\components\Walker\styled.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\index.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\logo.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\reportWebVitals.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\src\setupTests.js" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>BoatLine - Buy Ticket</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <!--    <script src="index.js"></script>-->
+    <script src="js/index.js"></script>
+    <script src="validering.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Tickets</h1>
+            <form class="form">
+
+                <h2>Choose Route</h2>
+                <div class="form-group">
+                    <!-- Gjør validering kun når button presses -->
+                    <!-- Needs to generate departure on change, as well as it being run on document ready-->
+                    <label for="departure">Choose Departure</label><select class="form-control" id="departure" onchange="getDestinations()"></select>
+                    <div id="departureError" style="color: red"></div>
+                </div>
+                <div class="form-group" id="destinationDiv">
+                    <label for="biltype">Choose Destination</label><select class="form-control" id="biltype"></select>
+                    <div id="typeError" style="color: red"></div>
+                </div>
+                <div class="form-group" id="customer"></div>
+
+<!--                <div class ='form-group'>-->
+<!--                    <label for="navn">First Name</label>-->
+<!--                    <input class="form-control" type="text" id="navn" onchange="validerNavn()">-->
+<!--                    <div id="navnError" style="color: red"></div>-->
+<!--                </div>-->
+<!--                <div class ='form-group'>-->
+<!--                    <label for="navn">Last Name</label>-->
+<!--                    <input class="form-control" type="text" id="navn" onchange="validerNavn()">-->
+<!--                    <div id="navnError" style="color: red"></div>-->
+<!--                </div>-->
+<!--                <div class ='form-group'>-->
+<!--                    <label for="adresse">Adresse</label>-->
+<!--                    <input class="form-control" type="text" id="adresse" onchange="validerAdresse()">-->
+<!--                    <div id="adresseError" style="color: red"></div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="regNr">RegNr</label>-->
+<!--                    <input class="form-control" type="text" id="regNr" onchange="validerRegNr()">-->
+<!--                    <div id="regNrError" style="color: red"></div>-->
+<!--                </div>-->
+<!--                -->
+            </form>
+            <input type="button" id="choose" class="btn btn-primary" value="Choose">
+            <div id="regError" style="color: red"></div>
+            <div class="col-md-10" id="fail" style="color: red"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
