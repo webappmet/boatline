@@ -1,16 +1,19 @@
 $(() => {
+    const failDiv = $("#fail");
+    
     generateDeparture();
 
     $("#choose").on("click", () => {
-        // if (!(chosenDeparture === "Choose Departure" || outDestination === "Choose Departure to see desitantions")) {
-        //     generateCustomerForm();
-        // }
+        if ($("#departure").val() === "Choose Departure" || $("#destination").val() === "Choose Departure to see destinations") {
+            failDiv.html("Please pick a departure and a destination");
+            return;
+        }
+        failDiv.html("");
 
-        customerAmmountQuestion();
+
+        dateQuestion();
         $("#choose").remove();
     });
-
-
     
 /*    $("#registrer").click(() => {
         $.get("/mVogn/sjekkBruker", bool => {
@@ -40,9 +43,54 @@ $(() => {
         });
     });*/
 });
+// i don't know why but you need to declare this both inside and outside of the document ready function
+// const failDiv = $("#fail");
+
+
+function rowStart(insID) {
+    const out =
+        "    <div class=\"row m-3 justify-content-center\" id='" + insID + "'>\n" +
+        "        <div class=\"col-md-8 card\">\n" +
+        "            <form class=\"form card-body\">";
+    return out;
+}
+
+const rowEnd = 
+    "            </form>\n" +
+    "        </div>\n" +
+    "    </div>"
+
 
 //TODO make things run based on onchange instead of buttons to make it adaptive
-//Perhaps make some transitions to make it less jarring
+//Perhaps add some transitions to make it less jarring
+
+const dateRowId = "dateRow";
+
+function dateQuestion() {
+    //TODO add departure date
+    $("#destinationRow").after(
+        rowStart(dateRowId) +
+        "<div class=\"form-group\">\n" +
+        "    <label for=\"dDate\">Departure Date</label>\n" +
+        "    <input class=\"form-control\" type=\"date\" id=\"dDate\" />\n" +
+        "</div>\n" +
+        "<div class=\"form-group\">\n" +
+        "    <label for=\"aDate\">Arrival Date</label>\n" +
+        "    <input class=\"form-control\" type=\"date\" id=\"aDate\" />\n" +
+        "</div>" +
+        "<input type=\"button\" id=\"chooseDate\" class=\"btn btn-primary\" value=\"Choose\">\n" +
+        "<a type=\"button\" id=\"reset\" class=\"btn btn-danger\" href=\"index.html\">Reset Form</a>\n" +
+        rowEnd
+    );
+
+    //TODO date validation
+    $("#chooseDate").on("click", () => {
+        customerAmmountQuestion()
+        $("#chooseDate").remove();
+        $("#reset").remove();
+    });
+    
+}
 
 function generateDeparture() {
     $.get("BoatLine/GetRoutes", function (routes) {
@@ -70,7 +118,7 @@ function generateDeparture() {
             const json = $.parseJSON(jqXHR.responseText);
             // const json = JSON.parse(jqXHR.responseText);
             console.log(json.message);
-            $("#fail").html(json.message);
+            failDiv.html(json.message);
         });
 }
 
@@ -82,7 +130,7 @@ function getDestinations() {
         console.log(chosenDeparture);
 
         if (chosenDeparture === "Choose Departure") {
-            outDestination += "<option>Choose Departure to see desitantions</option>";
+            outDestination += "<option>Choose Departure to see destinations</option>";
         } else {
             outDestination += "<option>Choose destination</option>";
             for (const r of routes) {
@@ -97,7 +145,7 @@ function getDestinations() {
         .fail(function (jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
             console.log(json.message);
-            $("#fail").html(json.message);
+            failDiv.html(json.message);
         });
 }
 
@@ -111,30 +159,34 @@ function getCabins() {
             outCabins += "<option>" + c.type + "</option>";
         }
 
-        $("#cabinInput").html(outCabins);
+        $(".cabininput").html(outCabins);
     })
         .fail(function (jqXHR) {
             const json = $.parseJSON(jqXHR.responseText);
             console.log(json.message);
-            $("#fail").html(json.message);
+            failDiv.html(json.message);
         });
 }
 
+const cabinRowID = "customerCabinRow";
+
 function customerAmmountQuestion() {
-    $("#destinationDiv").after(
+    $("#" + dateRowId + "").after(
+rowStart(cabinRowID) +
         "<h2>Customers and Cabins</h2>" +
-                "<div class ='form-group'>\n" +
-                "    <label for=\"ammountCustomers\">How many will be traveling?</label>\n" +
-                "    <input class=\"form-control\" type=\"number\" id=\"ammountCustomers\" onchange=\"validateAmmount()\">\n" +
-                "    <div id=\"ammountCustomersError\" style=\"color: red\"></div>\n" +
-                "</div>" +
-                "<div class ='form-group'>\n" +
-                "    <label for=\"ammountCabins\">How many cabins would you like?</label>\n" +
-                "    <input class=\"form-control\" type=\"number\" id=\"ammountCabins\" onchange=\"validateAmmount()\">\n" +
-                "    <div id=\"ammountCustomersError\" style=\"color: red\"></div>\n" +
-                "</div>" +
-                "<input type=\"button\" id=\"chooseAmount\" class=\"btn btn-primary\" value=\"Choose\">\n" +
-                "<a type=\"button\" id=\"reset\" class=\"btn btn-danger\" href=\"index.html\">Reset Form</a>\n"
+        "<div class ='form-group'>\n" +
+        "    <label for=\"ammountCustomers\">How many will be traveling?</label>\n" +
+        "    <input class=\"form-control\" type=\"number\" id=\"ammountCustomers\" onchange=\"validateAmmount()\">\n" +
+        "    <div id=\"ammountCustomersError\" style=\"color: red\"></div>\n" +
+        "</div>" +
+        "<div class ='form-group'>\n" +
+        "    <label for=\"ammountCabins\">How many cabins would you like?</label>\n" +
+        "    <input class=\"form-control\" type=\"number\" id=\"ammountCabins\" onchange=\"validateAmmount()\">\n" +
+        "    <div id=\"ammountCustomersError\" style=\"color: red\"></div>\n" +
+        "</div>" +
+        "<input type=\"button\" id=\"chooseAmount\" class=\"btn btn-primary\" value=\"Choose\">\n" +
+        "<a type=\"button\" id=\"reset\" class=\"btn btn-danger\" href=\"index.html\">Reset Form</a>\n" +
+        rowEnd
     );
     
     // needs to have this here no idea why, think it loads the listener into ram or something
@@ -148,6 +200,9 @@ function customerAmmountQuestion() {
 
 }
 
+const customerRowId = "customerRow";
+const cabinRowId = "cabinRow"
+
 function generateCustomerForm() {
     //TODO make adaptive ID's
     const custAmmount = 0 + $("#ammountCustomers").val();
@@ -158,7 +213,7 @@ function generateCustomerForm() {
         return;
     }
 
-    if (custAmmount > (24*3*6   )){
+    if (custAmmount > (24*3*6)){
         $("#fail").html("The boat can't hold this many travelers");
         return;
     }
@@ -177,11 +232,14 @@ function generateCustomerForm() {
         $("#fail").html("We do not permit you to have more cabins than customers");
         return;
     }
-    
-    // var outform = "<h2>Insert Contact Info</h2>";
+    // resetting after clearing validation
+    $("#fail").html("");
+
+    var outform = "";
     
     for (let i = 0; i < custAmmount; i++) {
         outform += 
+            rowStart("customerRow" + i) +
             "<h3>Customer " + (i+1) + "</h3>\n" +
             "<div class ='form-group'>\n" +
             "    <label for=\"navn\">First Name</label>\n" +
@@ -202,26 +260,28 @@ function generateCustomerForm() {
             "    <label for=\"regNr\">RegNr</label>\n" +
             "    <input class=\"form-control\" type=\"text\" id=\"regNr\" onchange=\"validerRegNr()\">\n" +
             "    <div id=\"regNrError\" style=\"color: red\"></div>\n" +
-            "</div>";
+            "</div>" +
+            rowEnd;
     }
-
-    // outform += "<h2>Choose Cabin</h2>\n"
 
     for (let i = 0; i < cabinAmmount; i++) {
-        outform += "" +
-            "<h3>Cabin " + (i+1) + "</h3>\n" +
+        outform +=
+            rowStart(cabinRowID + i) +
+            "<h3>Cabin " + (i + 1) + "</h3>\n" +
             "<div class=\"form-group\">\n" +
-            "    <label for=\"departure\">Choose Cabin</label><select class=\"form-control\" id=\"cabinInput\"></select>\n" +
+            "    <label for=\"departure\">Choose Cabin</label><select class=\"form-control cabininput\" id=\"cabinInput\"></select>\n" +
             "    <div id=\"departureError\" style=\"color: red\"></div>\n" +
             "</div>";
+        if (i == cabinAmmount - 1) {
+            outform +=
+                "<input type=\"button\" id=\"chooseCabin\" class=\"btn btn-primary\" value=\"Choose\">\n" +
+                "<a type=\"button\" id=\"resetCust\" class=\"btn btn-danger\" href=\"index.html\">Reset Form</a>\n";
+        }
+        outform += rowEnd;
     }
     
-    outform +=         
-        "<input type=\"button\" id=\"chooseCabin\" class=\"btn btn-primary\" value=\"Choose\">\n" +
-        "<a type=\"button\" id=\"resetCust\" class=\"btn btn-danger\" href=\"index.html\">Reset Form</a>\n"
-    
     // Inserting next form and removing previous buttons
-    $("#reset").after(outform);
+    $("#" + cabinRowID +"").after(outform);
     $("#chooseAmount").remove();
     $("#reset").remove();
 
