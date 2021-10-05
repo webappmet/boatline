@@ -46,8 +46,10 @@ namespace WebappGroup9.DAL
                 {
                     // setting route right
                     customer.Tickets[i].Route =
-                        await _boatLineDb.Routes.FirstOrDefaultAsync(r => r.Id == customer.Tickets[i].Route.Id);
-
+                        await _boatLineDb.Routes.FirstOrDefaultAsync(r =>
+                            r.Destination == customer.Tickets[i].Route.Destination &&
+                            r.Departure == customer.Tickets[i].Route.Departure);
+                    
                     // Setting cabin right
                     var newCabinHash = new Collection<Cabin>();
 
