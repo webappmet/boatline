@@ -14,37 +14,7 @@ $(() => {
         dateQuestion();
         $("#choose").remove();
     });
-    
-/*    $("#registrer").click(() => {
-        $.get("/mVogn/sjekkBruker", bool => {
-            if (bool) {
-                const bilObj = {
-                    personNr: $("#personNr").val(),
-                    navn: $("#navn").val(),
-                    adresse: $("#adresse").val(),
-                    regNr: $("#regNr").val(),
-                    merke: $("#merke").val(),
-                    biltype: $("#biltype").val()
-                };
-
-                if (nullfeil()) {
-                    $.post("/mVogn/save", bilObj, () => {
-                        window.location.href = "/"; // tar deg tilbake til index .html
-                    })
-                        .fail(function (jqXHR) {
-                            const json = $.parseJSON(jqXHR.responseText);
-                            console.log(json.message);
-                            $("#feil").html(json.message);
-                        });
-                }
-            } else {
-                $("#feil").html("Er ikke logget inn");
-            }
-        });
-    });*/
 });
-// i don't know why but you need to declare this both inside and outside of the document ready function
-// const failDiv = $("#fail");
 
 
 function rowStart(insID) {
@@ -55,10 +25,10 @@ function rowStart(insID) {
     return out;
 }
 
-const rowEnd = 
+const rowEnd =
     "            </form>\n" +
     "        </div>\n" +
-    "    </div>"
+    "    </div>";
 
 
 //TODO make things run based on onchange instead of buttons to make it adaptive
@@ -304,7 +274,9 @@ function generateCustomerForm() {
 
     $("#chooseCabin").on("click", () => {
         console.log("Clicked Cabin Button")
-        saveCustomers()
+        $("#chooseCabin").remove();
+        $("#resetCust").remove();
+        generatePayment();
     });
 }
 
@@ -319,6 +291,48 @@ function setCabinPrice(nr) {
     // $.get("BoatLine/GetCabin?Id=" + cabinId, (cabin) => {
     //     $("#cabinPrice" + nr + "").html(cabin.price);
     // });
+}
+
+const paymentRowId = "paymentRowID"
+function generatePayment() {
+    const outform =
+        rowStart(paymentRowId) +
+        "<h3>Payment Info</h3>\n" +
+        "<div class ='form-group'>\n" +
+        "    <label for='cardNumber'>Card Number</label>\n" +
+        "    <input class=\"form-control\" type=\"text\" id='cardNumber' onchange=\"validerNavn()\">\n" +
+        "    <div id=\"navnError\" style=\"color: red\"></div>\n" +
+        "</div>\n" +
+        "<div class ='form-group'>\n" +
+        "    <label for='csc'>Security Number</label>\n" +
+        "    <input class=\"form-control\" type=\"text\" id='csc' onchange=\"validerNavn()\">\n" +
+        "    <div id=\"navnError\" style=\"color: red\"></div>\n" +
+        "</div>\n" +
+        "<div class ='form-group'>\n" +
+        "    <label for='cardMonth'>Expiration Month</label>\n" +
+        "    <input class=\"form-control\" type=\"text\" id='cardMonth' onchange=\"validerNavn()\">\n" +
+        "    <div id=\"navnError\" style=\"color: red\"></div>\n" +
+        "</div>\n" +
+        "<div class ='form-group'>\n" +
+        "    <label for='cardYear'>Expiration year</label>\n" +
+        "    <input class=\"form-control\" type=\"text\" id='cardYear' onchange=\"validerNavn()\">\n" +
+        "    <div id=\"navnError\" style=\"color: red\"></div>\n" +
+        "</div>\n" +
+        "<div class ='form-group'>\n" +
+        "    <label for='cardholderName'>Cardholder Name</label>\n" +
+        "    <input class=\"form-control\" type=\"text\" id='cardholderName' onchange=\"validerNavn()\">\n" +
+        "    <div id=\"navnError\" style=\"color: red\"></div>\n" +
+        "</div>\n" +
+        "<input type=\"button\" id=\"choosePayment\" class=\"btn btn-primary\" value=\"Choose\">\n" +
+        "<a type=\"button\" id=\"resetCust\" class=\"btn btn-danger\" href=\"index.html\">Reset Form</a>\n";
+        rowEnd;
+
+    $("#endRow").before(outform);
+
+    $("#choosePayment").on("click", () => {
+        console.log("Clicked payment Button")
+        saveCustomers()
+    });
 }
 
 //TODO use getRoute to get an accurate route duration
@@ -348,22 +362,26 @@ function saveCustomers() {
                     //     {id: $("#cabinInput" + i + "").val()}
                     // ],
                     cabins: [],
-                    // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out as placeholder for saving known customers if they have Id
                     date: $("#date").val(),
+                    //TODO set pickable starttime
                     startTime: "23:45",
                 }],
-            payment: {
-                cardHolderName: "Anthony GioGio",
-                cardNumber: "5643 1234 4353 1234",
-                cSC: "123",
-                expirationMonth: "06",
-                expirationYear: "24"
-            }
+
         };
 
-        // was told this was undefined
+        // Setting only payment for the first customer.
+        if (i == 0) {
+            inCustomer.payment = {
+                cardHolderName: $("#cardholderName").val(),
+                    cardNumber: $("#cardNumber").val(),
+                    cSC: $("#csc").val(),
+                    expirationMonth: $("#cardMonth").val(),
+                    expirationYear: $("#cardYear").val()
+            }
+        }
+
         for (let j = 0; j < cabinAmmount; j++) {
-            inCustomer.tickets[i].cabins[j] = {id: $("#cabinInput" + i + "").val()};
+            inCustomer.tickets[0].cabins[j] = {id: $("#cabinInput" + i + "").val()};
         }
 
         $.post("BoatLine/SaveOne", inCustomer, (OK) => {
