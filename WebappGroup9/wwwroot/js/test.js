@@ -1,10 +1,10 @@
 $(() => {
-    testSaveCustomer();
-    testGetCustomers();
-    testGetCustomer();
-    testGetCabins();
-    testGetRoutes();
-    testGetTickets();
+    // testSaveCustomer();
+    // testGetCustomers();
+    // testGetCustomer();
+    // testGetCabins();
+    // testGetRoutes();
+    // testGetTickets();
 });
 
 /*TODO

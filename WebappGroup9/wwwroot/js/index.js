@@ -344,9 +344,10 @@ function saveCustomers() {
                         destination: $("#destination").val()
                     },
                     //placeholder untill we get cabinloop working
-                    cabins: [
-                        {id: $("#cabinInput" + i + "").val()}
-                    ],
+                    // cabins: [
+                    //     {id: $("#cabinInput" + i + "").val()}
+                    // ],
+                    cabins: [],
                     // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out as placeholder for saving known customers if they have Id
                     date: $("#date").val(),
                     startTime: "23:45",
@@ -360,10 +361,10 @@ function saveCustomers() {
             }
         };
 
-        // was told this was undefoined
-/*        for (let j = 0; j < cabinAmmount; j++) {
-            inCustomer.tickets[0].cabins[j].id = $("#cabinInput" + i + "").val();
-        }*/
+        // was told this was undefined
+        for (let j = 0; j < cabinAmmount; j++) {
+            inCustomer.tickets[i].cabins[j] = {id: $("#cabinInput" + i + "").val()};
+        }
 
         $.post("BoatLine/SaveOne", inCustomer, (OK) => {
             console.log("Saved customer?")
