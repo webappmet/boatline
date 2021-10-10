@@ -29,7 +29,7 @@ namespace WebappGroup9.Controllers
                 .Select(e => e.ErrorMessage));
         }
 
-        public async Task<ActionResult> ValidatePayment(Payment payment)
+        public ActionResult ValidatePayment(Payment payment)
         {
             var res = _db.PaymentCheck(payment);
             if (res) return Ok("Payment validation succeeded");
@@ -149,7 +149,7 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get post name");
         }
 
-        public async Task<ActionResult> GetPrice(Route route, List<Cabin> cabins)
+        public ActionResult GetPrice(Route route, List<Cabin> cabins)
         {
             var price = _db.GeneratePrice(route, cabins);
             if (double.IsNaN(price)) return Ok(price);
