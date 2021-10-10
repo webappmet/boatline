@@ -23,13 +23,12 @@ namespace WebappGroup9.DAL
 
         public bool PaymentCheck(Payment payment)
         {
-            // Just a psuedo method to act as actual payment verifcation, which we are not doing because we are not letting people pay for a fictional ticket
+            // Just a pseudo method to act as actual payment verification, which we are not doing because we are not letting people pay for a fictional ticket
             return payment != null;
         }
 
         /* Method that tries to take inn a customer and their proposed ticket, so that it can be saved to the DB
          * Makes a new customer if there is none, and then appends the ticket to their customer list, then saves to DB*/
-        // TODO - make sure that it is properly async
         public async Task<bool> SaveOne(Customer customer)
         {
             try
@@ -39,14 +38,14 @@ namespace WebappGroup9.DAL
                 var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
                     c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
 
-                // Setting front customer ticket's sub values to be tied to the DB
-                for (int i = 0; i < customer.Tickets.Count; i++)
+                // Setting customer ticket's sub values to be tied to the DB
+                for (var i = 0; i < customer.Tickets.Count; i++)
                 {
-                    // setting route right
+                    // Setting route
                     customer.Tickets[i].Route =
                         await _boatLineDb.Routes.FirstOrDefaultAsync(r => r.Id == customer.Tickets[i].Route.Id);
 
-                    // Setting cabin right
+                    // Setting cabin
                     var newCabinHash = new Collection<Cabin>();
 
                     foreach (var cabin in customer.Tickets[i].Cabins)
@@ -61,9 +60,8 @@ namespace WebappGroup9.DAL
                 // If customer does exist in the DB
                 if (dbCustomer is not null)
                 {
-                    // Console.WriteLine(dbCustomer.ToString());
                     // Adds all of the frontend customers tickets onto the dbCustomers list
-                    for (int i = 0; i < customer.Tickets.Count; i++)
+                    for (var i = 0; i < customer.Tickets.Count; i++)
                     {
                         dbCustomer.Tickets.Add(customer.Tickets[i]);
                     }
@@ -87,8 +85,7 @@ namespace WebappGroup9.DAL
                 return false;
             }
         }
-
-        // TODO make sure that this is properly async as well
+        
         public async Task<bool> SaveMany(List<Customer> customers)
         {
             var holder = false;
@@ -113,9 +110,9 @@ namespace WebappGroup9.DAL
                 }
          */
 
-        /* Method that tries to to get all the customers to the frontend, so that the customers and their lists of
-         * tickets can be formatted into a table of customers and tickets. Probably will be user based later, for
-         * as of now they will be sorted per customers which is kind of strage*/
+        /* Method that tries to to get all the customers, so that the customers and their lists of
+         * tickets can be formatted into a table of customers and tickets.
+         */
         public async Task<List<Customer>> GetCustomers()
         {
             try
@@ -210,11 +207,7 @@ namespace WebappGroup9.DAL
 
         public double GeneratePrice(Route route, List<Cabin> cabins)
         {
-            double sum = 0;
-            foreach (var cabin in cabins)
-            {
-                sum += cabin.Price;
-            }
+            var sum = cabins.Sum(cabin => cabin.Price);
 
             sum *= route.DurationDays;
 
@@ -249,12 +242,59 @@ namespace WebappGroup9.DAL
 
         public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var customer = await _boatLineDb.Customers.FindAsync(id);
+                _boatLineDb.Customers.Remove(customer);
+                await _boatLineDb.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<bool> Update(Customer customer)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var updateCustomer = await _boatLineDb.Customers.FindAsync(customer.Id);
+
+                if (updateCustomer.PostalCode.Code != customer.PostalCode.Code)
+                {
+                    var testCode = await _boatLineDb.PostalCodes.FindAsync(customer.PostalCode.Code);
+                    if (testCode == null)
+                    {
+                        var postalCode = new PostalCode()
+                        {
+                            Code = customer.PostalCode.Code,
+                            Name = customer.PostalCode.Name
+                        };
+                        updateCustomer.PostalCode = postalCode;
+                    }
+                    else
+                    {
+                        updateCustomer.PostalCode.Code = customer.PostalCode.Code;
+                    }
+                }
+
+                // Customer is not able ut update ticket
+
+                updateCustomer.FirstName = customer.FirstName;
+                updateCustomer.LastName = customer.LastName;
+                updateCustomer.StreetAddress = customer.StreetAddress;
+                updateCustomer.Email = customer.Email;
+                updateCustomer.Phone = customer.Phone;
+
+                await _boatLineDb.SaveChangesAsync();
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
