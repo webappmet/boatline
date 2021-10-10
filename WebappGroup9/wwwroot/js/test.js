@@ -69,8 +69,8 @@ function testSaveCustomer() {
             {
                 route: {id: 2},
                 cabins: [
-                    {id: 1 },
-                    {id: 3}
+                    {id: 101},
+                    {id: 301}
                 ],
                 // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out as placeholder for saving known customers if they have Id
                 date: "12.34.45",
@@ -84,10 +84,10 @@ function testSaveCustomer() {
                 },
                 cabins: [
                     {
-                        id: 1
+                        id: 104
                     },
                     {
-                        id: 2
+                        id: 205
                     }
                 ],
                 // id: 2,
@@ -104,7 +104,7 @@ function testSaveCustomer() {
             // Ticket 1
             {
                 route: {id: 1},
-                cabins: [{id: 2}],
+                cabins: [{id: 203}],
                 date: "54.34.23",
                 startTime: "54:12",
                 cabinAmount: 1
