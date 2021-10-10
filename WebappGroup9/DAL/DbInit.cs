@@ -19,8 +19,8 @@ namespace WebappGroup9.DAL
 
             // Source: https://www.bring.no/tjenester/adressetjenester/postnummer
             // Extra source: https://social.msdn.microsoft.com/Forums/vstudio/en-US/3d482df5-226f-41a4-a0a6-a67f16b2b4a1/how-to-parse-efficiently-a-tab-separated-text-file?forum=csharpgeneral
-            string[] postInfo = System.IO.File.ReadAllLines("Postnummerregister-ansi.txt");
-            foreach (string line in postInfo)
+            string [] postInfo = System.IO.File.ReadAllLines("Postnummerregister-ansi.txt");
+            foreach (var line in postInfo)
             {
                 // Cool debug line uncommet for a billion souts
                 // Console.WriteLine(line.Substring(0,4) + " " + line.Split("\t")[1]);
@@ -40,39 +40,37 @@ namespace WebappGroup9.DAL
                 Id = 1, Departure = "Oslo", Destination = "Kiel", DurationDays = 3, DurationHours = 17
             };
 
-            boatLineContext.Routes.Add(route1);
-
             var route2 = new Route
             {
                 Id = 2, Departure = "Oslo", Destination = "Copenhagen", DurationDays = 3, DurationHours = 11
             };
-
-            boatLineContext.Routes.Add(route2);
 
             var route3 = new Route
             {
                 Id = 3, Departure = "Larvik", Destination = "Hirtshals", DurationDays = 4, DurationHours = 11
             };
 
-            boatLineContext.Routes.Add(route3);
-
             var route4 = new Route
             {
                 Id = 4, Departure = "Kristiansand", Destination = "Hirtshals", DurationDays = 2, DurationHours = 15
             };
 
-            boatLineContext.Routes.Add(route4);
-
             var route5 = new Route
             {
                 Id = 5, Departure = "Strømstad", Destination = "Sandefjord", DurationDays = 5, DurationHours = 13
             };
-
+            
+            boatLineContext.Routes.Add(route1);
+            boatLineContext.Routes.Add(route2);
+            boatLineContext.Routes.Add(route3);
+            boatLineContext.Routes.Add(route4);
             boatLineContext.Routes.Add(route5);
 
-            for (int i = 1; i < 4; i++) // i = floor level
+            boatLineContext.SaveChanges();
+
+            for (var i = 1; i < 4; i++) // i = floor level
             {
-                for (int j = 1; j < 27; j++) // j = room number
+                for (var j = 1; j < 27; j++) // j = room number
                 {
                     var cabin = new Cabin
                     {
@@ -83,22 +81,22 @@ namespace WebappGroup9.DAL
                         case <= 10:
                             cabin.Beds = 2;
                             cabin.Type = "Economy";
-                            cabin.Price = 500 * (10 + i) / 10;
+                            cabin.Price = (double) 500 * (10 + i) / 10;
                             break;
                         case <= 17:
                             cabin.Beds = 5;
                             cabin.Type = "Premium economy";
-                            cabin.Price = 700 * (10 + i) / 10;
+                            cabin.Price = (double) 700 * (10 + i) / 10;
                             break;
                         case < 22:
                             cabin.Beds = 4;
                             cabin.Type = "Business";
-                            cabin.Price = 1000 * (10 + i) / 10;
+                            cabin.Price = (double) 1000 * (10 + i) / 10;
                             break;
                         default:
                             cabin.Beds = 2;
                             cabin.Type = "First class";
-                            cabin.Price = 1200 * (10 + i) / 10;
+                            cabin.Price = (double) 1200 * (10 + i) / 10;
                             break;
                     }
 
@@ -119,8 +117,7 @@ namespace WebappGroup9.DAL
                     boatLineContext.Cabins.FirstOrDefault(c => c.Id == 110)
                 }
             };
-
-
+            
             var ticket2 = new Ticket
             {
                 Date = "12.10.21",
