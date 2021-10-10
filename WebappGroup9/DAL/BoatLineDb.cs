@@ -16,10 +16,6 @@ namespace WebappGroup9.DAL
         public DbSet<Route> Routes { get; set; }
         public DbSet<Cabin> Cabins { get; set; }
         
-        public DbSet<Payment> Payments { get; set; }
-
-
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
