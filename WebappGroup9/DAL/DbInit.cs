@@ -78,25 +78,25 @@ namespace WebappGroup9.DAL
                     };
                     switch (j)
                     {
-                        case <= 10:
-                            cabin.Beds = 2;
-                            cabin.Type = "Economy";
-                            cabin.Price = (double) 500 * (10 + i) / 10;
-                            break;
-                        case <= 18:
-                            cabin.Beds = 5;
-                            cabin.Type = "Premium economy";
-                            cabin.Price = (double) 700 * (10 + i) / 10;
-                            break;
-                        case < 22:
-                            cabin.Beds = 4;
-                            cabin.Type = "Business";
-                            cabin.Price = (double) 1000 * (10 + i) / 10;
-                            break;
-                        default:
+                        case <= 4:
                             cabin.Beds = 2;
                             cabin.Type = "First class";
                             cabin.Price = (double) 1200 * (10 + i) / 10;
+                            break;
+                        case <= 8:
+                            cabin.Beds = 2;
+                            cabin.Type = "Business";
+                            cabin.Price = (double) 1000 * (10 + i) / 10;
+                            break;
+                        case <= 16:
+                            cabin.Beds = 5;
+                            cabin.Type = "Family economy";
+                            cabin.Price = (double) 700 * (10 + i) / 10;
+                            break;
+                        default:
+                            cabin.Beds = 3;
+                            cabin.Type = "Economy";
+                            cabin.Price = (double) 500 * (10 + i) / 10;
                             break;
                     }
 
