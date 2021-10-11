@@ -21,15 +21,9 @@ namespace WebappGroup9.DAL
             _log = log;
         }
 
-        public bool PaymentCheck(Payment payment)
-        {
-            // Just a pseudo method to act as actual payment verification, which we are not doing because we are not letting people pay for a fictional ticket
-            return payment != null;
-        }
-
         /* Method that tries to take inn a customer and their proposed ticket, so that it can be saved to the DB
          * Makes a new customer if there is none, and then appends the ticket to their customer list, then saves to DB*/
-        public async Task<bool> SaveOne(Customer customer)
+        public async Task<bool> SaveCustomer(Customer customer)
         {
             try
             {
@@ -86,12 +80,12 @@ namespace WebappGroup9.DAL
             }
         }
         
-        public async Task<bool> SaveMany(List<Customer> customers)
+        public async Task<bool> SaveCustomers(List<Customer> customers)
         {
             var holder = false;
             foreach (var c in customers)
             {
-                holder = await SaveOne(c);
+                holder = await SaveCustomer(c);
             }
 
             return holder;
@@ -113,6 +107,20 @@ namespace WebappGroup9.DAL
         /* Method that tries to to get all the customers, so that the customers and their lists of
          * tickets can be formatted into a table of customers and tickets.
          */
+        
+        public async Task<Customer> GetCustomer(int id)
+        {
+            try
+            {
+                return await _boatLineDb.Customers.FindAsync(id);
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+        
         public async Task<List<Customer>> GetCustomers()
         {
             try
@@ -125,137 +133,8 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-
-        public async Task<List<Cabin>> GetCabins()
-        {
-            try
-            {
-                return await _boatLineDb.Cabins.ToListAsync();
-            }
-            catch (Exception e)
-            {
-                _log.LogInformation(e.Message);
-                return null;
-            }
-        }
-
-        public async Task<Cabin> GetCabin(int id)
-        {
-            try
-            {
-                return await _boatLineDb.Cabins.FirstOrDefaultAsync(c => c.Id == id);
-            }
-            catch (Exception e)
-            {
-                _log.LogInformation(e.Message);
-                return null;
-            }
-        }
-
-        public async Task<List<Cabin>> GetCabinUnoccupied()
-        {
-            try
-            {
-                return await _boatLineDb.Cabins.Where(c => c.Tickets.Count == 0).ToListAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return null;
-            }
-        }
-
-        public async Task<List<Route>> GetRoutes()
-        {
-            try
-            {
-                return await _boatLineDb.Routes.ToListAsync();
-            }
-            catch (Exception e)
-            {
-                _log.LogInformation(e.Message);
-                return null;
-            }
-        }
-
-        public async Task<Route> GetRoute(string departure, string destination)
-        {
-            try
-            {
-                return await _boatLineDb.Routes.FirstOrDefaultAsync(r =>
-                    r.Departure.Equals(departure) && r.Destination.Equals(destination));
-            }
-            catch (Exception e)
-            {
-                _log.LogInformation(e.Message);
-                return null;
-            }
-        }
-
-        public async Task<List<Ticket>> GetTickets()
-        {
-            try
-            {
-                return await _boatLineDb.Tickets.ToListAsync();
-            }
-            catch (Exception e)
-            {
-                _log.LogInformation(e.Message);
-                return null;
-            }
-        }
-
-        public double GeneratePrice(Route route, List<Cabin> cabins)
-        {
-            var sum = cabins.Sum(cabin => cabin.Price);
-
-            sum *= route.DurationDays;
-
-            return sum;
-        }
-
-        public async Task<Customer> GetOne(int id)
-        {
-            try
-            {
-                return await _boatLineDb.Customers.FindAsync(id);
-            }
-            catch (Exception e)
-            {
-                _log.LogInformation(e.Message);
-                return null;
-            }
-        }
-
-        public async Task<PostalCode> GetPostname(string code)
-        {
-            try
-            {
-                return await _boatLineDb.PostalCodes.FirstOrDefaultAsync(p => p.Code.Equals(code));
-            }
-            catch (Exception e)
-            {
-                _log.LogInformation(e.Message);
-                return null;
-            }
-        }
-
-        public async Task<bool> Delete(int id)
-        {
-            try
-            {
-                var customer = await _boatLineDb.Customers.FindAsync(id);
-                _boatLineDb.Customers.Remove(customer);
-                await _boatLineDb.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> Update(Customer customer)
+        
+        public async Task<bool> UpdateCustomer(Customer customer)
         {
             try
             {
@@ -295,6 +174,128 @@ namespace WebappGroup9.DAL
             }
 
             return true;
+        }
+        
+        public async Task<bool> DeleteCustomer(int id)
+        {
+            try
+            {
+                var customer = await _boatLineDb.Customers.FindAsync(id);
+                _boatLineDb.Customers.Remove(customer);
+                await _boatLineDb.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<Cabin> GetCabin(int id)
+        {
+            try
+            {
+                return await _boatLineDb.Cabins.FirstOrDefaultAsync(c => c.Id == id);
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
+        public async Task<List<Cabin>> GetCabins()
+        {
+            try
+            {
+                return await _boatLineDb.Cabins.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
+        public async Task<List<Cabin>> GetCabinUnoccupied()
+        {
+            try
+            {
+                return await _boatLineDb.Cabins.Where(c => c.Tickets.Count == 0).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+        
+        public async Task<Route> GetRoute(string departure, string destination)
+        {
+            try
+            {
+                return await _boatLineDb.Routes.FirstOrDefaultAsync(r =>
+                    r.Departure.Equals(departure) && r.Destination.Equals(destination));
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
+        public async Task<List<Route>> GetRoutes()
+        {
+            try
+            {
+                return await _boatLineDb.Routes.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
+        public async Task<List<Ticket>> GetTickets()
+        {
+            try
+            {
+                return await _boatLineDb.Tickets.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
+        public async Task<PostalCode> GetPostalCode(string code)
+        {
+            try
+            {
+                return await _boatLineDb.PostalCodes.FirstOrDefaultAsync(p => p.Code.Equals(code));
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+        
+        public double GeneratePrice(Route route, IEnumerable<Cabin> cabins)
+        {
+            var sum = cabins.Sum(cabin => cabin.Price);
+
+            sum *= route.DurationDays;
+
+            return sum;
+        }
+
+        public bool PaymentCheck(Payment payment)
+        {
+            // Just a pseudo method to act as actual payment verification, which we are not doing because we are not letting people pay for a fictional ticket
+            return payment != null;
         }
     }
 }
