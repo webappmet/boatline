@@ -19,7 +19,7 @@ function testGetCustomers() {
 }
 
 function testGetCustomer() {
-    $.get("BoatLine/GetOne?Id=1", (customer) => {
+    $.get("BoatLine/GetCustomer?Id=1", (customer) => {
         console.log("Got Customer")
     });
 }
@@ -111,11 +111,11 @@ function testSaveCustomer() {
             }]
     };
 
-    $.post("BoatLine/SaveOne", customerNoId, (OK) => {
+    $.post("BoatLine/SaveCustomer", customerNoId, (OK) => {
         console.log("Saved noId")
     });
 
-    $.post("BoatLine/SaveOne", customerHasId, (OK) => {
+    $.post("BoatLine/SaveCustomer", customerHasId, (OK) => {
         console.log("Saved HasId")
     });
 }
