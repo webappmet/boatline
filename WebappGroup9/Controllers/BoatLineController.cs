@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,20 +27,12 @@ namespace WebappGroup9.Controllers
                 .SelectMany(v => v.Errors)
                 .Select(e => e.ErrorMessage));
         }
-
-        public ActionResult ValidatePayment(Payment payment)
-        {
-            var res = _db.PaymentCheck(payment);
-            if (res) return Ok("Payment validation succeeded");
-            _log.LogInformation("Payment validation failed");
-            return BadRequest("Payment validation failed");
-        }
-
-        public async Task<ActionResult> SaveOne(Customer customer)
+        
+        public async Task<ActionResult> SaveCustomer(Customer customer)
         {
             if (ModelState.IsValid)
             {
-                var res = await _db.SaveOne(customer);
+                var res = await _db.SaveCustomer(customer);
 
                 if (res) return Ok("Ticket saved");
                 _log.LogInformation("Customer ticket was not saved");
@@ -53,12 +44,12 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Customer was not saved: " + message);
             return BadRequest("Customer was not saved: " + message);
         }
-
-        public async Task<ActionResult> SaveMany(List<Customer> customers)
+        
+        public async Task<ActionResult> SaveCustomers(List<Customer> customers)
         {
             if (ModelState.IsValid)
             {
-                var res = await _db.SaveMany(customers);
+                var res = await _db.SaveCustomers(customers);
 
                 if (res) return Ok("Ticket saved");
                 _log.LogInformation("Customer ticket was not saved");
@@ -70,7 +61,16 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Input validation failed: " + message);
             return BadRequest("Input validation failed: " + message);
         }
+        
+        public async Task<ActionResult> GetCustomer(int id)
+        {
+            var customer = await _db.GetCustomer(id);
 
+            if (customer != null) return Ok(customer);
+            _log.LogInformation("Customer was not found");
+            return NotFound("Customer was not found");
+        }
+        
         public async Task<ActionResult> GetCustomers()
         {
             var list = await _db.GetCustomers();
@@ -79,14 +79,40 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all customers");
             return NotFound("Could not get all customers");
         }
-
-        public async Task<ActionResult> GetOne(int id)
+        
+        public async Task<ActionResult> UpdateCustomer(Customer customer)
         {
-            var customer = await _db.GetOne(id);
+            if (ModelState.IsValid)
+            {
+                var ret = await _db.UpdateCustomer(customer);
 
-            if (customer != null) return Ok(customer);
-            _log.LogInformation("Customer was not found");
-            return NotFound("Customer was not found");
+                if (ret) return Ok("Customer updated");
+                _log.LogInformation("Customer was not found");
+                return NotFound("Customer was not found");
+            }
+
+            var message = GetModelStateMessage();
+
+            _log.LogInformation("Input validation failed: " + message);
+            return BadRequest("Input validation failed " + message);
+        }
+        
+        public async Task<ActionResult> DeleteCustomer(int id)
+        {
+            var ret = await _db.DeleteCustomer(id);
+
+            if (ret) return Ok("Customer deleted");
+            _log.LogInformation("Customer was not deleted");
+            return NotFound("Customer was not deleted");
+        }
+        
+        public async Task<ActionResult> GetCabin(int id)
+        {
+            var cabin = await _db.GetCabin(id);
+
+            if (cabin != null) return Ok(cabin);
+            _log.LogInformation("Could not get cabin");
+            return BadRequest("Could not get cabin");
         }
 
         public async Task<ActionResult> GetCabins()
@@ -96,15 +122,6 @@ namespace WebappGroup9.Controllers
             if (list != null) return Ok(list);
             _log.LogInformation("Could not get all cabins");
             return NotFound("Could not get all cabins");
-        }
-
-        public async Task<ActionResult> GetCabin(int id)
-        {
-            var cabin = await _db.GetCabin(id);
-
-            if (cabin != null) return Ok(cabin);
-            _log.LogInformation("Could not get cabin");
-            return BadRequest("Could not get cabin");
         }
 
         public async Task<ActionResult> GetCabinUnoccupied()
@@ -141,9 +158,9 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get all tickets");
         }
 
-        public async Task<ActionResult> GetPostname(string code)
+        public async Task<ActionResult> GetPostalCode(string code)
         {
-            var postalcode = await _db.GetPostname(code);
+            var postalcode = await _db.GetPostalCode(code);
             if (postalcode != null) return Ok(postalcode);
             _log.LogInformation("Could not get post name");
             return NotFound("Could not get post name");
@@ -156,31 +173,21 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not generate price");
             return NotFound("Could not generate price");
         }
-
-        public async Task<ActionResult> Delete(int id)
-        {
-            var ret = await _db.Delete(id);
-
-            if (ret) return Ok("Customer deleted");
-            _log.LogInformation("Customer was not deleted");
-            return NotFound("Customer was not deleted");
-        }
-
-        public async Task<ActionResult> Update(Customer customer)
+        
+        public ActionResult ValidatePayment(Payment payment)
         {
             if (ModelState.IsValid)
             {
-                var ret = await _db.Update(customer);
-
-                if (ret) return Ok("Customer updated");
-                _log.LogInformation("Customer was not found");
-                return NotFound("Customer was not found");
+                var res = _db.PaymentCheck(payment);
+                if (res) return Ok("Payment validation succeeded");
+                _log.LogInformation("Payment validation failed");
+                return BadRequest("Payment validation failed");
             }
-
+            
             var message = GetModelStateMessage();
 
             _log.LogInformation("Input validation failed: " + message);
-            return BadRequest("Input validation failed " + message);
+            return BadRequest("Input validation failed: " + message);
         }
     }
 }
