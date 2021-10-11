@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebappGroup9.Models
 {
@@ -18,14 +16,5 @@ namespace WebappGroup9.Models
         {
             this.Cabins = new HashSet<Cabin>();
         }
-
-        /*
-         You wouldn't do it this way. You would make one ticket for every customer with the same cabin
-         The cabin ID is unique and different tickets can be bound to the same ticket
-         
-        public virtual Customer Owner { get; set; }
-        
-        public virtual List<Customer> BonusCustomers { get; set; }
-        */
     }
 }
