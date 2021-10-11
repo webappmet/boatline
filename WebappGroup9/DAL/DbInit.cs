@@ -70,7 +70,7 @@ namespace WebappGroup9.DAL
 
             for (var i = 1; i < 4; i++) // i = floor level
             {
-                for (var j = 1; j < 27; j++) // j = room number
+                for (var j = 1; j <= 26; j++) // j = room number
                 {
                     var cabin = new Cabin
                     {
@@ -83,7 +83,7 @@ namespace WebappGroup9.DAL
                             cabin.Type = "Economy";
                             cabin.Price = (double) 500 * (10 + i) / 10;
                             break;
-                        case <= 17:
+                        case <= 18:
                             cabin.Beds = 5;
                             cabin.Type = "Premium economy";
                             cabin.Price = (double) 700 * (10 + i) / 10;
