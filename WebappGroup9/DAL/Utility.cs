@@ -3,16 +3,22 @@ using System.Linq;
 
 namespace WebappGroup9.DAL
 {
-    public class Utility
+    public static class Utility
     {
-        static readonly Random random = new Random();
-        
-        public static string GetRandomHexNumber(int digits)
+        private static int _digit = 8;
+        private static readonly Random Random = new Random();
+
+        public static void UpdateDigit(int digit)
         {
-            byte[] buffer = new byte[digits / 2];
-            random.NextBytes(buffer);
+            _digit = digit;
+        }
+        
+        public static string GetRandomHexNumber()
+        {
+            byte[] buffer = new byte[_digit / 2];
+            Random.NextBytes(buffer);
             var result = string.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
-            return digits % 2 == 0 ? result : result + random.Next(16).ToString("X");
+            return _digit % 2 == 0 ? result : result + Random.Next(16).ToString("X");
         }
     }
 }
