@@ -115,7 +115,7 @@ namespace WebappGroup9.DAL
         {
             var ticket1 = new Ticket
             {
-                Reference = Utility.GetRandomHexNumber(8),
+                Reference = Utility.GetRandomHexNumber(),
                 Date = "01.10.21",
                 StartTime = "10:00",
                 Route = _db.Routes.FirstOrDefault(r => r.Id == 1),
@@ -128,7 +128,7 @@ namespace WebappGroup9.DAL
             
             var ticket2 = new Ticket
             {
-                Reference = Utility.GetRandomHexNumber(8),
+                Reference = Utility.GetRandomHexNumber(),
                 Date = "12.10.21",
                 StartTime = "12:00",
                 Route = _db.Routes.FirstOrDefault(r => r.Id == 2),
@@ -141,7 +141,7 @@ namespace WebappGroup9.DAL
 
             var ticket3 = new Ticket
             {
-                Reference = Utility.GetRandomHexNumber(8),
+                Reference = Utility.GetRandomHexNumber(),
                 Date = "15.11.21",
                 StartTime = "14:00",
                 Route = _db.Routes.FirstOrDefault(r => r.Id == 3),

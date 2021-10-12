@@ -91,23 +91,6 @@ namespace WebappGroup9.DAL
             return holder;
         }
 
-        /* old version of testing for customer
-         * if (customer.Id != -1)
-                {
-                    var dbCustomer = _boatLineDb.Customers.FirstOrDefault(c => c.Id == customer.Id);
-                }
-                else                 // if the customer does not have id, adding 
-                {
-                    // Testing if the customer is already in the DB on id first, and then name if ID fails (assuming things behind OR is never run when first passes, like in java
-                    var dbCustomer = _boatLineDb.Customers.FirstOrDefault(c =>
-                        c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
-                }
-         */
-
-        /* Method that tries to to get all the customers, so that the customers and their lists of
-         * tickets can be formatted into a table of customers and tickets.
-         */
-        
         public async Task<Customer> GetCustomer(int id)
         {
             try
@@ -120,6 +103,10 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
+        
+        /* Method that tries to to get all the customers, so that the customers and their lists of
+         * tickets can be formatted into a table of customers and tickets.
+         */
         
         public async Task<List<Customer>> GetCustomers()
         {
@@ -285,7 +272,7 @@ namespace WebappGroup9.DAL
 
         public string GenerateReference()
         {
-            return Utility.GetRandomHexNumber(8);
+            return Utility.GetRandomHexNumber();
         }
         
         public double GeneratePrice(Route route, IEnumerable<Cabin> cabins)
