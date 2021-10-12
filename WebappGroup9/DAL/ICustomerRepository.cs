@@ -6,10 +6,21 @@ namespace WebappGroup9.DAL
 {
     public interface ICustomerRepository
     {
-        Task<bool> Save(Customer frontCustomer, Ticket frontTicket);
+        Task<bool> SaveCustomer(Customer frontCustomer);
+        Task<bool> SaveCustomers(List<Customer> frontCustomers);
+        Task<Customer> GetCustomer(int id);
         Task<List<Customer>> GetCustomers();
-        Task<Customer> GetOne(int id);
-        Task<bool> Delete(int id);
-        Task<bool> Update(Customer customer);
+        Task<bool> UpdateCustomer(Customer customer);
+        Task<bool> DeleteCustomer(int id);
+        Task<Cabin> GetCabin(int id);
+        Task<List<Cabin>> GetCabins();
+        Task<List<Cabin>> GetCabinUnoccupied();
+        Task<Route> GetRoute(string departure, string destination);
+        Task<List<Route>> GetRoutes();
+        Task<List<Ticket>> GetTickets();
+        Task<PostalCode> GetPostalCode(string code);
+        string GenerateReference();
+        double GeneratePrice(Route route, IEnumerable<Cabin> cabins);
+        bool PaymentCheck(Payment payment);
     }
 }
