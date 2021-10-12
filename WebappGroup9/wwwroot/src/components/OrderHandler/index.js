@@ -5,6 +5,7 @@ import Walker from "../Walker";
 import Route from "./Route";
 import DateHandler from "./Date";
 import Cabin from './Cabin';
+import Travelers from './Travelers';
 
 const OrderHandler = () => {
 
@@ -34,7 +35,7 @@ const OrderHandler = () => {
         }
     }
 
-    const fetchSelectedCabins = async () => {
+    const fetchCabins = async () => {
         try {
             let fetchedCabins = await getCabins();
             setCabins(fetchedCabins);
@@ -59,6 +60,7 @@ const OrderHandler = () => {
 
     useEffect(() => {
         fetchRoutes();
+        fetchCabins();
     }, [])
 
     useEffect(() => {
@@ -87,6 +89,7 @@ const OrderHandler = () => {
             <Route routes={routes} setDeparture={setDeparture} setDestination={setDestination} destination={destination} departure={departure} />
             <DateHandler dateFrom={dateFrom} destination={destination} setDateFrom={setDateFrom} dateUntil={dateUntil} />
             <Cabin cabins={cabins} selectedCabins={selectedCabins} setSelectedCabins={setSelectedCabins} />
+            <Travelers />
         </Walker>
     );
 }
