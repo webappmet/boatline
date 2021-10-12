@@ -6,11 +6,13 @@ const Input = ({ id, value, setValue, type, label, validator }) => {
     const [valid, setValid] = useState(null);
     
     useEffect(() => {
+        if (!validator) return;
         setValid(validator(value));
     }, []);
     
     const handleChange = (event) => {
         let updated = event.target.value;
+        if (!validator) return;
         setValid(validator(updated));
     }
 

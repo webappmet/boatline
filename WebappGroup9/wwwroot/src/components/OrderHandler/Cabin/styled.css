@@ -13,6 +13,47 @@
 
 }
 
+.cabin-floor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2.8rem;
+    border-radius: .5rem;
+    background-color: lightgray;
+}
+
+.floor-buttons {
+    transform: translateY(.2rem);
+    display: flex;
+    flex-direction: column;
+    margin-right: 4rem;
+}
+
+.floor-button {
+    display: flex;
+    height: 3.5rem;
+    width: 3.5rem;
+    display: block;
+    border: none;
+    background-color: transparent;
+}
+
+.current-floor {
+    font-size: 2.8rem;
+}
+
+.current-floor-text {
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.current-floor-number {
+    text-align: center;
+    font-weight: 400;
+    margin: 0;
+}
+
 .floor-plan-overlay {
     margin-top: -2px;
     position: absolute;
@@ -23,9 +64,53 @@
     grid-template-rows: repeat(12, 1fr);
 }
 
+.cabin-container {
+    position: relative;
+}
+
+.cabin-info {
+    visibility: hidden;
+    position: absolute;
+    transform: translate(.5rem, -.5rem);
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: .3rem;
+    opacity: 0;
+    transition: all .1s linear;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+.cabin-type {
+    margin: 0;
+}
+
+.cabin-spec-row {
+    margin: 0;
+    margin-bottom: .5rem;
+}
+
+.cabin-specs {
+    font-size: 1.3rem;
+}
+
+.cabin-spec {
+    font-weight: 700;
+}
+
+.spec-cell {
+    white-space: nowrap;
+}
+
+.cabin-info-visible {
+    visibility: visible;
+    opacity: 1;
+}
+
 .cabin {
     box-sizing: border-box;
-    /* height: 2rem; */
+    height: 100%;
+    width: 100%;
     background-color: lightblue;
     border: 1px solid gray;
     font-size: .8vw;
@@ -42,6 +127,52 @@
 
 .cabin-select {
     background-color: lightcoral;
+}
+
+.cabin-total {
+    border-radius: .5rem;
+    background-color: lightgray;
+    padding: 2.8rem;
+}
+
+.cabin-total-heading {
+    margin: 0 0 2rem 0;
+}
+
+.cabin-total-list {
+    display: grid;
+    gap: 2rem;
+}
+
+.selected-cabin {
+    border-radius: .3rem;
+    background-color: #DFDFDF;
+    padding: 1rem;
+}
+
+.selected-cabin-text {
+    margin: 0;
+}
+
+.cabin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.cabin-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.cabin-stat > * {
+    text-align: center;
 }
 
 #c1 {
