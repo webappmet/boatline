@@ -1,10 +1,11 @@
 ﻿.form-group {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: .5rem;
 }
 
 .form-label {
+    
 }
 
 .form-input {

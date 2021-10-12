@@ -11,7 +11,7 @@ const Page = ({ children }) => {
     );
 }
 
-const Walker = ({ confirm, title, children, message, setMessage }) => {
+const Walker = ({ confirm, title, children, message, setMessage, confirmMessage }) => {
 
     const [activePage = 1, setActivePage] = useState();
     const [totalPages, setTotalPages] = useState(children.length)
@@ -25,7 +25,7 @@ const Walker = ({ confirm, title, children, message, setMessage }) => {
     }
 
     const previousPage = () => {
-        if (activePage >= 1) setActivePage(1)
+        if (activePage <= 1) setActivePage(1)
         else setActivePage(activePage - 1)
     }
 
@@ -35,7 +35,7 @@ const Walker = ({ confirm, title, children, message, setMessage }) => {
                 <h2>{title}</h2>
                 <span>Page: {activePage}/{totalPages}</span>
             </div>
-            <form className="walker__form">
+            <form  className="walker__form">
                 <Page>
                     {children[activePage - 1]}
                 </Page>
@@ -43,7 +43,7 @@ const Walker = ({ confirm, title, children, message, setMessage }) => {
             <div className="walker__message">{message}</div>
             <div className="walker__actions">
                 <button className="walker__button" onClick={previousPage} disabled={activePage === 1}>Previous</button>
-                <button className="walker__button" onClick={nextPage}>{activePage === totalPages ? 'Confirm' : 'Next'}</button>
+                <button className="walker__button" onClick={nextPage}>{activePage === totalPages ? confirmMessage ? confirmMessage : 'Confirm' : 'Next'}</button>
             </div>
         </div>
     );

@@ -5,6 +5,8 @@ import Walker from "../Walker";
 import Route from "./Route";
 import DateHandler from "./Date";
 import Cabin from './Cabin';
+import Travelers from './Travelers';
+import Checkout from './Checkout';
 
 const OrderHandler = () => {
 
@@ -19,6 +21,8 @@ const OrderHandler = () => {
     const [dateFrom, setDateFrom] = useState('');
     const [dateUntil, setDateUntil] = useState();
     const [selectedCabins, setSelectedCabins] = useState([]);
+    const [travelers, setTravelers] = useState([]);
+    const [payment, setPayment] = useState({cardHolderName: '', cardNumber: '', csc: '', expirationMonth: '', expirationYear: ''});
 
     const fetchRoutes = async () => {
         try {
@@ -34,7 +38,7 @@ const OrderHandler = () => {
         }
     }
 
-    const fetchSelectedCabins = async () => {
+    const fetchCabins = async () => {
         try {
             let fetchedCabins = await getCabins();
             setCabins(fetchedCabins);
@@ -59,6 +63,7 @@ const OrderHandler = () => {
 
     useEffect(() => {
         fetchRoutes();
+        fetchCabins();
     }, [])
 
     useEffect(() => {
@@ -83,10 +88,12 @@ const OrderHandler = () => {
     }
 
     return (
-        <Walker title="Order tickets" message={message} setMessage={setMessage} confirm={confirm} message={message}>
+        <Walker title="Order tickets" message={message} setMessage={setMessage} confirm={confirm} message={message} confirmMessage="Checkout">
             <Route routes={routes} setDeparture={setDeparture} setDestination={setDestination} destination={destination} departure={departure} />
             <DateHandler dateFrom={dateFrom} destination={destination} setDateFrom={setDateFrom} dateUntil={dateUntil} />
-            <Cabin cabins={cabins} selectedCabins={selectedCabins} setSelectedCabins={setSelectedCabins} />
+            <Cabin cabins={cabins} selectedCabins={selectedCabins} setSelectedCabins={setSelectedCabins} travelers={travelers} setTravelers={setTravelers} />
+            <Travelers cabins={cabins} selectedCabins={selectedCabins} travelers={travelers} setTravelers={setTravelers}/>
+            <Checkout payment={payment} setPayment={setPayment} />
         </Walker>
     );
 }
