@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace WebappGroup9.Controllers
                 .SelectMany(v => v.Errors)
                 .Select(e => e.ErrorMessage));
         }
-        
+
         public async Task<ActionResult> SaveCustomer(Customer customer)
         {
             if (ModelState.IsValid)
@@ -44,7 +45,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Customer was not saved: " + message);
             return BadRequest("Customer was not saved: " + message);
         }
-        
+
         public async Task<ActionResult> SaveCustomers(List<Customer> customers)
         {
             if (ModelState.IsValid)
@@ -61,7 +62,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Input validation failed: " + message);
             return BadRequest("Input validation failed: " + message);
         }
-        
+
         public async Task<ActionResult> GetCustomer(int id)
         {
             var customer = await _db.GetCustomer(id);
@@ -70,7 +71,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Customer was not found");
             return NotFound("Customer was not found");
         }
-        
+
         public async Task<ActionResult> GetCustomers()
         {
             var list = await _db.GetCustomers();
@@ -79,7 +80,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all customers");
             return NotFound("Could not get all customers");
         }
-        
+
         public async Task<ActionResult> UpdateCustomer(Customer customer)
         {
             if (ModelState.IsValid)
@@ -96,7 +97,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Input validation failed: " + message);
             return BadRequest("Input validation failed " + message);
         }
-        
+
         public async Task<ActionResult> DeleteCustomer(int id)
         {
             var ret = await _db.DeleteCustomer(id);
@@ -105,7 +106,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Customer was not deleted");
             return NotFound("Customer was not deleted");
         }
-        
+
         public async Task<ActionResult> GetCabin(int id)
         {
             var cabin = await _db.GetCabin(id);
@@ -166,6 +167,14 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get post name");
         }
 
+        public ActionResult GetReference()
+        {
+            var reference = _db.GenerateReference();
+            if (reference != null) return Ok(reference);
+            _log.LogInformation("Could not generate reference code");
+            return NotFound("Could not generate reference code");
+        }
+
         public ActionResult GetPrice(Route route, List<Cabin> cabins)
         {
             var price = _db.GeneratePrice(route, cabins);
@@ -173,7 +182,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not generate price");
             return NotFound("Could not generate price");
         }
-        
+
         public ActionResult ValidatePayment(Payment payment)
         {
             if (ModelState.IsValid)
@@ -183,7 +192,7 @@ namespace WebappGroup9.Controllers
                 _log.LogInformation("Payment validation failed");
                 return BadRequest("Payment validation failed");
             }
-            
+
             var message = GetModelStateMessage();
 
             _log.LogInformation("Input validation failed: " + message);

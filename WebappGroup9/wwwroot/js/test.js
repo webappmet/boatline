@@ -1,3 +1,4 @@
+
 $(() => {
     testSaveCustomer();
     testGetCustomers();
@@ -6,6 +7,8 @@ $(() => {
     testGetRoutes();
     testGetTickets();
 });
+
+ 
 
 /*TODO
 *  GetPrice
@@ -48,7 +51,16 @@ function testGetTickets() {
 
 //react
 function testSaveCustomer() {
+    
+    let reference = "";
+    $.get("BoatLine/GetReference", ref => {
+        reference = ref;
+        console.log(ref)
+    });
+    
+    
     const customerNoId = {
+        id: 5,
         firstName: "NewCustomer",
         lastName: "NewLastName",
         postalCode: {
@@ -75,7 +87,6 @@ function testSaveCustomer() {
                 // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out as placeholder for saving known customers if they have Id
                 date: "12.34.45",
                 startTime: "23:45",
-                cabinAmount: 2
             },
             // Ticket 2
             {
@@ -93,13 +104,12 @@ function testSaveCustomer() {
                 // id: 2,
                 date: "12.23.34",
                 startTime: "87:00",
-                cabinAmount: 1
             }]
     };
 
     // just showing how to build json for existing customer, with existing payment. The DB takes nullvalues so just add stuff if you need to add card or whatever
     const customerHasId = {
-        id: "1",
+        id: 1,
         tickets: [
             // Ticket 1
             {
@@ -110,9 +120,11 @@ function testSaveCustomer() {
                 cabinAmount: 1
             }]
     };
-
-    $.post("BoatLine/SaveCustomer", customerNoId, (OK) => {
-        console.log("Saved noId")
+    $.get("BoatLine/GetReference", ref => {
+        customerNoId.tickets[0].reference = ref;
+        $.post("BoatLine/SaveCustomer", customerNoId, (OK) => {
+            console.log("Saved noId")
+        });
     });
 
     $.post("BoatLine/SaveCustomer", customerHasId, (OK) => {

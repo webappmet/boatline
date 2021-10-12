@@ -67,7 +67,7 @@ namespace WebappGroup9.DAL
                         await _boatLineDb.PostalCodes.FirstOrDefaultAsync(p =>
                             p.Code.Equals(customer.PostalCode.Code));
 
-                    _boatLineDb.Customers.Add(customer);
+                    await _boatLineDb.Customers.AddAsync(customer);
                 }
 
                 await _boatLineDb.SaveChangesAsync();
@@ -281,6 +281,11 @@ namespace WebappGroup9.DAL
                 _log.LogInformation(e.Message);
                 return null;
             }
+        }
+
+        public string GenerateReference()
+        {
+            return Utility.GetRandomHexNumber(8);
         }
         
         public double GeneratePrice(Route route, IEnumerable<Cabin> cabins)

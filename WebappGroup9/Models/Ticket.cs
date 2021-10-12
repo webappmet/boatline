@@ -5,6 +5,8 @@ namespace WebappGroup9.Models
     public class Ticket
     {
         public int Id { get; set; }
+        
+        public string Reference { get; set; }
         public virtual Route Route { get; set; }
         public string Date { get; set; }
         public string StartTime { get; set; }
