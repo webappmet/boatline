@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getRoutes, getCabins } from '../../api/api';
+import { getRoutes, getCabins, saveTicket, getReferenceNumber, validatePayment } from '../../api/api';
 
 import Walker from "../Walker";
 import Route from "./Route";
@@ -7,6 +7,7 @@ import DateHandler from "./Date";
 import Cabin from './Cabin';
 import Travelers from './Travelers';
 import Checkout from './Checkout';
+import { navigate } from '../../Router';
 
 const OrderHandler = () => {
 
@@ -67,7 +68,6 @@ const OrderHandler = () => {
     }, [])
 
     useEffect(() => {
-        console.log(selectedRoute, dateFrom)
         if (selectedRoute && dateFrom) {
             let year = dateFrom.substring(0,4);
             let month = dateFrom.substring(5,7);
@@ -75,7 +75,7 @@ const OrderHandler = () => {
 
             let untilDate = new Date(year, month-1, day);
 
-            untilDate.setDate(untilDate.getDate() + selectedRoute.duration);
+            untilDate.setDate(untilDate.getDate() + selectedRoute.durationDays);
             setDateUntil(untilDate.toDateString());
         }
         else {
@@ -83,8 +83,72 @@ const OrderHandler = () => {
         }
     }, [dateFrom, selectedRoute])
 
+    const createTicket = async (traveler) => {
+        const referenceNumber = await getReferenceNumber({ firstName: traveler.firstName, lastName: traveler.lastName });
+        if (referenceNumber) {
+            let year = dateFrom.substring(2,4);
+            let month = dateFrom.substring(5,7);
+            let day = dateFrom.substring(8,10);
+
+            const customer = {
+                firstName: traveler.firstName,
+                lastName: traveler.lastName,
+                reference: referenceNumber.substring(0,3),
+                postalCode: {
+                    code: traveler.zip
+                },
+                payment: {
+                    cardHolderName: payment.cardHolderName,
+                    cardNumber: payment.cardNumber,
+                    cSC: payment.csc,
+                    expirationMonth: payment.expirationMonth,
+                    expirationYear: payment.expirationYear
+                },
+                streetAddress: traveler.address,
+                phone: traveler.phone,
+                email: traveler.email,
+                tickets: [
+                    {
+                        route: {
+                            id: selectedRoute.id
+                        },
+                        cabins: [
+                            {id: parseInt(traveler.room)}
+                        ],
+                        date: `${day}.${month}.${year}`,
+                        reference: referenceNumber
+                    }
+                ]
+            };
+            const paymentOK = await validatePayment(customer.payment);
+            if (paymentOK) {
+                saveTicket(customer)
+                return referenceNumber;
+            }
+        }
+        return false;
+    }
+
+    const createTickets = async () => {
+        const referenceNumbers = []
+        for (const traveler of travelers) {
+            const reference = await createTicket(traveler);
+            if (reference) {
+                referenceNumbers.push(reference);
+            }
+        }
+        let params = '?';
+        for (const refNr of referenceNumbers) {
+            params += `r=${refNr}&`
+        }
+        params.pop()
+        navigate(`/tickets${params}`);
+    }
+
     const confirm = () => {
-        return "Thank you for ordering"
+        createTickets()
+
+        return "Thank you for ordering";
     }
 
     return (

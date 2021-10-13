@@ -1,16 +1,20 @@
-import logo from './logo.svg';
+import logo from './assets/logo.svg';
 import './App.css';
-import Container from "./components/Container";
-import TicketForm from './components/TicketForm';
-import TicketList from './components/TicketList';
-import Walker from './components/Walker';
-import OrderHandler from './components/OrderHandler'
+import Order from './containers/Order';
+import Tickets from './containers/Tickets';
+import Home from './containers/Home';
+import { useContext } from 'react';
+import { pagesMapping, RoutingContext } from './Router'
 
 const App = () => {
+  const { page } = useContext(RoutingContext)
+
   return (
-    <Container>
-      <OrderHandler />
-    </Container>
+    <>
+      {(pagesMapping.order === page) && <Order />}
+      {(pagesMapping.tickets === page) && <Tickets />}
+      {(pagesMapping.home === page) && <Home /> }
+    </>
   );
 }
 

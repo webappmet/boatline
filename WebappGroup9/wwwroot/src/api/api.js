@@ -18,7 +18,7 @@ import $ from 'jquery';
 
 export const getRoutes = async () => {
     return new Promise((resolve, reject) => {
-        $.get("BoatLine/GetRoutes", (routes) => {
+        $.get("/api/v1/GetRoutes", (routes) => {
             console.log("Got Routes")
             console.log(routes)
             resolve(routes)
@@ -31,9 +31,63 @@ export const getRoutes = async () => {
     });
 }
 
+export const getRoute = async (id) => {
+    return new Promise((resolve, reject) => {
+        $.get("/api/v1/GetRoute", id, (route) => {
+            resolve(route)
+        })
+            .fail((e) => {
+                console.log("GetRoutes failed")
+                console.log(e);
+                reject("Getroutes Promise failed: ");
+            });
+    });
+}
+
+export const getCabin = async (id) => {
+    return new Promise((resolve, reject) => {
+        $.get("/api/v1/GetRoute", id, (cabin) => {
+            resolve(cabin)
+        })
+            .fail((e) => {
+                console.log("GetRoutes failed")
+                console.log(e);
+                reject("Getroutes Promise failed: ");
+            });
+    });
+}
+
+export const getReferenceNumber = async ({ firstName, lastName }) => {
+    return new Promise((resolve, reject) => {
+        $.get("/api/v1/GetReference", { firstName, lastName },(reference) => {
+            console.log(reference)
+            resolve(reference)
+        })
+            .fail((e) => {
+                console.log("GetRoutes failed")
+                console.log(e);
+                reject("Getroutes Promise failed: ");
+            });
+    });
+}
+
+export const getTicketsByReference = async (references) => {
+    return new Promise((resolve, reject) => {
+        $.get("/api/v1/GetTicketByReference", { references }, (tickets) => {
+            console.log(tickets)
+            resolve(tickets)
+        })
+            .fail((e) => {
+                console.log("Get tickets by references failed")
+                console.log(e);
+                reject("Could not get tickets per references");
+            });
+    });
+}
+
 export const getCabins = async () => {
     return new Promise((resolve, reject) => {
-        $.get("BoatLine/GetCabins", (cabins) => {
+        $.get("/api/v1/GetCabins", (cabins) => {
             console.log("Got Cabins")
             console.log(cabins)
             resolve(cabins)
@@ -46,58 +100,9 @@ export const getCabins = async () => {
 }
 
 // TODO, actually set input instead of hardcoding test values
-export const saveTicket = async () => {
+export const saveTicket = async (customer) => {
     return new Promise((resolve, reject) => {
-        const customerNoId = {
-            firstName: "NewCustomer",
-            lastName: "NewLastName",
-            postalCode: {
-                code: "0170"
-            },
-            payment: {
-                cardHolderName: "Anthony GioGio",
-                cardNumber: "5643 1234 4353 1234",
-                cSC: "123",
-                expirationMonth: "06",
-                expirationYear: "24"
-            },
-            streetAddress: "NewAdress",
-            phone: "73829462",
-            email: "testtest@oslomet.no",
-            tickets: [
-                // Ticket 1
-                {
-                    route: {id: 2},
-                    cabins: [
-                        {id: 1 },
-                        {id: 3}
-                    ],
-                    // id: 1,  // ticket ids are autogenerate if customer doesn't exist so just commenting these out as placeholder for saving known customers if they have Id
-                    date: "12.34.45",
-                    startTime: "23:45",
-                    cabinAmount: 2
-                },
-                // Ticket 2
-                {
-                    route: {
-                        id: 1
-                    },
-                    cabins: [
-                        {
-                            id: 1
-                        },
-                        {
-                            id: 2
-                        }
-                    ],
-                    // id: 2,
-                    date: "12.23.34",
-                    startTime: "87:00",
-                    cabinAmount: 1
-                }]
-        };
-        
-        $.post("BoatLine/SaveOne", customerNoId, (OK) => {
+        $.post("/api/v1/SaveCustomer", customer, (OK) => {
             console.log("Saved noId")
         });
     });
@@ -119,7 +124,7 @@ export const saveTicketHasIdTest = async () => {
                 }]
         };
 
-        $.post("BoatLine/SaveOne", customerHasId, (OK) => {
+        $.post("/api/v1/SaveOne", customerHasId, (OK) => {
             console.log("Saved HasId")
             resolve("Ble lagret")
         })
@@ -131,7 +136,7 @@ export const saveTicketHasIdTest = async () => {
 
 export const getTickets = async () => {
     return new Promise((resolve, reject) => {
-        $.get("BoatLine/GetTickets", (tickets) => {
+        $.get("/api/v1/GetTickets", (tickets) => {
             console.log("Got tickets")
             resolve(tickets)
         })
@@ -144,7 +149,7 @@ export const getTickets = async () => {
 
 export const getCustomers = async () => {
     return new Promise((resolve, reject) => {
-        $.get("BoatLine/GetCustomers", (customers) => {
+        $.get("/api/v1/GetCustomers", (customers) => {
             console.log("Got Customers")
             resolve(customers)
         })
@@ -156,7 +161,7 @@ export const getCustomers = async () => {
 
 export const getCustomer = async () => {
     return new Promise((resolve, reject) => {
-        $.get("BoatLine/GetOne?Id=1", (customer) => {
+        $.get("/api/v1/GetOne?Id=1", (customer) => {
             console.log("Got Customer")
             resolve(customer);
         })
@@ -169,7 +174,7 @@ export const getCustomer = async () => {
 //TODO do these
 export const getPrice = async () => {
     return new Promise((resolve, reject) => {
-        $.get("BoatLine/GetPrice", (price) => {
+        $.get("/api/v1/GetPrice", (price) => {
             resolve(price);
         })
             .fail((e) => {
@@ -180,7 +185,7 @@ export const getPrice = async () => {
 
 export const getCabinUnoccupied = async () => {
     return new Promise((resolve, reject) => {
-        $.get("BoatLine/GetCabinUnoccupied", (cabins) => {
+        $.get("/api/v1/GetCabinUnoccupied", (cabins) => {
             resolve(cabins)
         })
             .fail((e) => {
@@ -189,21 +194,11 @@ export const getCabinUnoccupied = async () => {
     });
 }
 
-export const validatePayment = async () => {
-    //todo actually get these values from frontend
-    const payment = {
-        cardHolderName: "Anthony GioGio",
-        cardNumber: "5643 1234 4353 1234",
-        cSC: "123",
-        expirationMonth: "06",
-        expirationYear: "24"
-    }
-    
+export const validatePayment = async (payment) => {    
     return new Promise((resolve, reject) => {
-        $.get("BoatLine/ValidatePayment", payment, () => {
+        $.get("/api/v1/ValidatePayment", payment, () => {
             console.log("payment suceeded")
-            saveTicket();
-            resolve("Payment went well placehodler")
+            resolve(true);
         })
             .fail((e) => {
                 reject("Payment wasn't validated" + e);
