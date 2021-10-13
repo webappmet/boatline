@@ -133,9 +133,9 @@ namespace WebappGroup9.Controllers
             return NotFound("Not able to get unoccupied cabins");
         }
 
-        public async Task<ActionResult> GetRute(string departure, string destination)
+        public async Task<ActionResult> GetRute(int id)
         {
-            var rute = await _db.GetRoute(departure, destination);
+            var rute = await _db.GetRoute(id);
             if (rute != null) return Ok(rute);
             _log.LogInformation("Not able to get rute");
             return NotFound("Not able to get rute");
@@ -167,18 +167,18 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get post name");
         }
 
-        public ActionResult GetReference()
+        public ActionResult GetReference(string firstname, string lastname)
         {
-            var reference = _db.GenerateReference();
+            var reference = _db.GenerateReference(firstname, lastname);
             if (reference != null) return Ok(reference);
             _log.LogInformation("Could not generate reference code");
             return NotFound("Could not generate reference code");
         }
 
-        public async Task<ActionResult> GetTicketsByReferences(string[] references)
+        public async Task<ActionResult> GetCustomersByReferences(string[] references)
         {
-            var tickets = await _db.GetTicketByReferences(references);
-            if (tickets != null) return Ok(tickets);
+            var customers = await _db.GetCustomersByReferences(references);
+            if (customers != null) return Ok(customers);
             _log.LogInformation("Did not find tickets by reference");
             return NotFound("Did not find tickets by reference");
         }
