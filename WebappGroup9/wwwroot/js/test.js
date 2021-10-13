@@ -16,13 +16,13 @@ $(() => {
 * */
 
 function testGetCustomers() {
-    $.get("BoatLine/GetCustomers", (customers) => {
+    $.get("api/v1/BoatLine/GetCustomers", (customers) => {
         console.log("Got Customers")
     });
 }
 
 function testGetCustomer() {
-    $.get("BoatLine/GetCustomer?Id=1", (customer) => {
+    $.get("api/v1/BoatLine/GetCustomer?Id=1", (customer) => {
         console.log("Got Customer")
     });
 }
@@ -30,21 +30,21 @@ function testGetCustomer() {
 
 //react
 function testGetCabins() {
-    $.get("BoatLine/GetCabins", (cabins) => {
+    $.get("api/v1/BoatLine/GetCabins", (cabins) => {
         console.log("Got Cabins")
     });
 }
 
 //react
 function testGetRoutes() {
-    $.get("BoatLine/GetRoutes", (routes) => {
+    $.get("api/v1/BoatLine/GetRoutes", (routes) => {
         console.log("Got Routes")
     });
 }
 
 //react
 function testGetTickets() {
-    $.get("BoatLine/GetTickets", (tickets) => {
+    $.get("api/v1/BoatLine/GetTickets", (tickets) => {
         console.log("Got tickets")
     });
 }
@@ -53,7 +53,7 @@ function testGetTickets() {
 function testSaveCustomer() {
     
     let reference = "";
-    $.get("BoatLine/GetReference", ref => {
+    $.get("api/v1/BoatLine/GetReference", ref => {
         reference = ref;
         console.log(ref)
     });
@@ -120,14 +120,14 @@ function testSaveCustomer() {
                 cabinAmount: 1
             }]
     };
-    $.get("BoatLine/GetReference", ref => {
+    $.get("api/v1/BoatLine/GetReference", ref => {
         customerNoId.tickets[0].reference = ref;
-        $.post("BoatLine/SaveCustomer", customerNoId, (OK) => {
+        $.post("api/v1/BoatLine/SaveCustomer", customerNoId, (OK) => {
             console.log("Saved noId")
         });
     });
 
-    $.post("BoatLine/SaveCustomer", customerHasId, (OK) => {
+    $.post("api/v1/BoatLine/SaveCustomer", customerHasId, (OK) => {
         console.log("Saved HasId")
     });
 }

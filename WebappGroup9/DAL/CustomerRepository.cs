@@ -79,7 +79,7 @@ namespace WebappGroup9.DAL
                 return false;
             }
         }
-        
+
         public async Task<bool> SaveCustomers(List<Customer> customers)
         {
             var holder = false;
@@ -103,11 +103,11 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         /* Method that tries to to get all the customers, so that the customers and their lists of
          * tickets can be formatted into a table of customers and tickets.
          */
-        
+
         public async Task<List<Customer>> GetCustomers()
         {
             try
@@ -120,7 +120,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         public async Task<bool> UpdateCustomer(Customer customer)
         {
             try
@@ -162,7 +162,7 @@ namespace WebappGroup9.DAL
 
             return true;
         }
-        
+
         public async Task<bool> DeleteCustomer(int id)
         {
             try
@@ -216,13 +216,12 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
-        public async Task<Route> GetRoute(string departure, string destination)
+
+        public async Task<Route> GetRoute(int id)
         {
             try
             {
-                return await _boatLineDb.Routes.FirstOrDefaultAsync(r =>
-                    r.Departure.Equals(departure) && r.Destination.Equals(destination));
+                return await _boatLineDb.Routes.FirstOrDefaultAsync(r => r.Id == id);
             }
             catch (Exception e)
             {
@@ -270,11 +269,58 @@ namespace WebappGroup9.DAL
             }
         }
 
-        public string GenerateReference()
+        /**
+         * Method that returns list of customers matching reference numbers.
+         * Reference number consists of 8 digits and the first 4 identify customer
+         * Using substring to get first 4 digits
+         */
+        public async Task<List<Customer>> GetCustomersByReferences(IEnumerable<string> references)
         {
-            return Utility.GetRandomHexNumber();
+            try
+            {
+                var list = new List<Customer>();
+                foreach (var reference in references)
+                {
+                    var customer = await _boatLineDb.Customers.FirstOrDefaultAsync(t =>
+                        t.Reference == reference.Substring(0, 3));
+
+                    if (customer is not null) list.Add(customer);
+                }
+
+                if (list.Count > 0) return list;
+                _log.LogInformation("Did not find anny tickets by reference");
+                return null;
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
         }
-        
+
+        /**
+         * Method for generating reference numbers for customer and ticket
+         * Customer and Ticket reference number consist of 4 digits
+         */
+        public async Task<string> GenerateReference(string firstname, string lastname)
+        {
+            try
+            {
+                var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
+                    c.FirstName == firstname && c.LastName == lastname);
+
+                if (dbCustomer is null) return Utility.GetRandomHexNumber(8);
+                dbCustomer.Reference += Utility.GetRandomHexNumber(4);
+
+                return dbCustomer.Reference;
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
         public double GeneratePrice(Route route, IEnumerable<Cabin> cabins)
         {
             var sum = cabins.Sum(cabin => cabin.Price);
