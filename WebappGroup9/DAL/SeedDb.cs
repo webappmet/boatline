@@ -17,7 +17,7 @@ namespace WebappGroup9.DAL
         {
             // Source: https://www.bring.no/tjenester/adressetjenester/postnummer
             // Extra source: https://social.msdn.microsoft.com/Forums/vstudio/en-US/3d482df5-226f-41a4-a0a6-a67f16b2b4a1/how-to-parse-efficiently-a-tab-separated-text-file?forum=csharpgeneral
-            string [] postInfo = System.IO.File.ReadAllLines("Postnummerregister-ansi.txt");
+            string[] postInfo = System.IO.File.ReadAllLines("Postnummerregister-ansi.txt");
             foreach (var line in postInfo)
             {
                 // Cool debug line uncommet for a billion souts
@@ -49,22 +49,22 @@ namespace WebappGroup9.DAL
                         case <= 4:
                             cabin.Beds = 2;
                             cabin.Type = "First class";
-                            cabin.Price = (double) 1200 * (10 + i) / 10;
+                            cabin.Price = (double)1200 * (10 + i) / 10;
                             break;
                         case <= 8:
                             cabin.Beds = 2;
                             cabin.Type = "Business";
-                            cabin.Price = (double) 1000 * (10 + i) / 10;
+                            cabin.Price = (double)1000 * (10 + i) / 10;
                             break;
                         case <= 16:
                             cabin.Beds = 5;
                             cabin.Type = "Family economy";
-                            cabin.Price = (double) 700 * (10 + i) / 10;
+                            cabin.Price = (double)700 * (10 + i) / 10;
                             break;
                         default:
                             cabin.Beds = 3;
                             cabin.Type = "Economy";
-                            cabin.Price = (double) 500 * (10 + i) / 10;
+                            cabin.Price = (double)500 * (10 + i) / 10;
                             break;
                     }
 
@@ -101,7 +101,7 @@ namespace WebappGroup9.DAL
             {
                 Id = 5, Departure = "Strømstad", Destination = "Sandefjord", DurationDays = 5, DurationHours = 13
             };
-            
+
             _db.Routes.Add(route1);
             _db.Routes.Add(route2);
             _db.Routes.Add(route3);
@@ -117,7 +117,6 @@ namespace WebappGroup9.DAL
             {
                 Reference = Utility.GetRandomHexNumber(),
                 Date = "01.10.21",
-                StartTime = "10:00",
                 Route = _db.Routes.FirstOrDefault(r => r.Id == 1),
                 Cabins = new HashSet<Cabin>()
                 {
@@ -125,12 +124,11 @@ namespace WebappGroup9.DAL
                     _db.Cabins.FirstOrDefault(c => c.Id == 110)
                 }
             };
-            
+
             var ticket2 = new Ticket
             {
                 Reference = Utility.GetRandomHexNumber(),
                 Date = "12.10.21",
-                StartTime = "12:00",
                 Route = _db.Routes.FirstOrDefault(r => r.Id == 2),
                 Cabins = new HashSet<Cabin>()
                 {
@@ -143,7 +141,6 @@ namespace WebappGroup9.DAL
             {
                 Reference = Utility.GetRandomHexNumber(),
                 Date = "15.11.21",
-                StartTime = "14:00",
                 Route = _db.Routes.FirstOrDefault(r => r.Id == 3),
                 Cabins = new HashSet<Cabin>()
                 {

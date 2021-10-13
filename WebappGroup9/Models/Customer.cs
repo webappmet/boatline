@@ -18,7 +18,7 @@ namespace WebappGroup9.Models
         
         public virtual PostalCode PostalCode { get; set; }
 
-        [RegularExpression(@"^[0-9]{8}$", ErrorMessage = "Invalid Phone number")]
+        [RegularExpression(@"^(?:[+]?(?:00)?47)?[0-9]{8}$", ErrorMessage = "Invalid Phone number")]
         public string Phone { get; set; }
         
         [RegularExpression(@"^[a-zA-Z0-9_\.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Invalid Email")]

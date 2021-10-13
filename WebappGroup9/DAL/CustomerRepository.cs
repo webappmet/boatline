@@ -79,7 +79,7 @@ namespace WebappGroup9.DAL
                 return false;
             }
         }
-        
+
         public async Task<bool> SaveCustomers(List<Customer> customers)
         {
             var holder = false;
@@ -103,11 +103,11 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         /* Method that tries to to get all the customers, so that the customers and their lists of
          * tickets can be formatted into a table of customers and tickets.
          */
-        
+
         public async Task<List<Customer>> GetCustomers()
         {
             try
@@ -120,7 +120,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         public async Task<bool> UpdateCustomer(Customer customer)
         {
             try
@@ -162,7 +162,7 @@ namespace WebappGroup9.DAL
 
             return true;
         }
-        
+
         public async Task<bool> DeleteCustomer(int id)
         {
             try
@@ -216,7 +216,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         public async Task<Route> GetRoute(string departure, string destination)
         {
             try
@@ -270,11 +270,33 @@ namespace WebappGroup9.DAL
             }
         }
 
+        public async Task<List<Ticket>> GetTicketByReferences(IEnumerable<string> references)
+        {
+            try
+            {
+                var list = new List<Ticket>();
+                foreach (var reference in references)
+                {
+                    var ticket = await _boatLineDb.Tickets.FirstOrDefaultAsync(t => t.Reference == reference);
+                    if (ticket is not null) list.Add(ticket);
+                }
+
+                if (list.Count > 0) return list;
+                _log.LogInformation("Did not find anny tickets by reference");
+                return null;
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
         public string GenerateReference()
         {
             return Utility.GetRandomHexNumber();
         }
-        
+
         public double GeneratePrice(Route route, IEnumerable<Cabin> cabins)
         {
             var sum = cabins.Sum(cabin => cabin.Price);

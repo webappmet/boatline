@@ -19,6 +19,7 @@ namespace WebappGroup9.DAL
         Task<List<Route>> GetRoutes();
         Task<List<Ticket>> GetTickets();
         Task<PostalCode> GetPostalCode(string code);
+        Task<List<Ticket>> GetTicketByReferences(IEnumerable<string> references);
         string GenerateReference();
         double GeneratePrice(Route route, IEnumerable<Cabin> cabins);
         bool PaymentCheck(Payment payment);

@@ -9,7 +9,7 @@ using WebappGroup9.Models;
 
 namespace WebappGroup9.Controllers
 {
-    [Route("[controller]/[action]")]
+    [Route("api/v1/[controller]/[action]")]
     public class BoatLineController : ControllerBase
     {
         private readonly ICustomerRepository _db;
@@ -173,6 +173,14 @@ namespace WebappGroup9.Controllers
             if (reference != null) return Ok(reference);
             _log.LogInformation("Could not generate reference code");
             return NotFound("Could not generate reference code");
+        }
+
+        public async Task<ActionResult> GetTicketsByReferences(string[] references)
+        {
+            var tickets = await _db.GetTicketByReferences(references);
+            if (tickets != null) return Ok(tickets);
+            _log.LogInformation("Did not find tickets by reference");
+            return NotFound("Did not find tickets by reference");
         }
 
         public ActionResult GetPrice(Route route, List<Cabin> cabins)
