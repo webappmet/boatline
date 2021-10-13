@@ -19,6 +19,7 @@ namespace WebappGroup9.DAL
 
             var seedDb = new SeedDb(boatLineContext);
             
+            // Seeding database with initial values
             seedDb.SeedPostalCodes();
             seedDb.SeedRoutes();
             seedDb.SeedCabins();

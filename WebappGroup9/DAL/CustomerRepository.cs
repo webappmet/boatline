@@ -21,8 +21,10 @@ namespace WebappGroup9.DAL
             _log = log;
         }
 
-        /* Method that tries to take inn a customer and their proposed ticket, so that it can be saved to the DB
-         * Makes a new customer if there is none, and then appends the ticket to their customer list, then saves to DB*/
+        /**
+         * Method that tries to take inn a customer and their proposed ticket, so that it can be saved to the DB
+         * Makes a new customer if there is none, and then appends the ticket to their customer list, then saves to DB
+         */
         public async Task<bool> SaveCustomer(Customer customer)
         {
             try
@@ -79,18 +81,32 @@ namespace WebappGroup9.DAL
                 return false;
             }
         }
-
+        
+        /**
+         * Method for saving multiple customers
+         */
         public async Task<bool> SaveCustomers(List<Customer> customers)
         {
-            var holder = false;
-            foreach (var c in customers)
+            try
             {
-                holder = await SaveCustomer(c);
+                var holder = false;
+                foreach (var c in customers)
+                {
+                    holder = await SaveCustomer(c);
+                }
+
+                return holder;
             }
-
-            return holder;
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return false;
+            }
         }
-
+        
+        /**
+         * Method for receiving customer by id
+         */
         public async Task<Customer> GetCustomer(int id)
         {
             try
@@ -104,10 +120,10 @@ namespace WebappGroup9.DAL
             }
         }
 
-        /* Method that tries to to get all the customers, so that the customers and their lists of
+        /**
+         * Method that tries to to get all the customers, so that the customers and their lists of
          * tickets can be formatted into a table of customers and tickets.
          */
-
         public async Task<List<Customer>> GetCustomers()
         {
             try
@@ -120,7 +136,10 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-
+        
+        /**
+         * Method for updating customer.
+         */
         public async Task<bool> UpdateCustomer(Customer customer)
         {
             try
@@ -144,9 +163,7 @@ namespace WebappGroup9.DAL
                         updateCustomer.PostalCode.Code = customer.PostalCode.Code;
                     }
                 }
-
-                // Customer is not able ut update ticket
-
+                
                 updateCustomer.FirstName = customer.FirstName;
                 updateCustomer.LastName = customer.LastName;
                 updateCustomer.StreetAddress = customer.StreetAddress;
@@ -155,14 +172,18 @@ namespace WebappGroup9.DAL
 
                 await _boatLineDb.SaveChangesAsync();
             }
-            catch
+            catch(Exception e)
             {
+                _log.LogInformation(e.Message);
                 return false;
             }
 
             return true;
         }
-
+        
+        /**
+         * Method that deletes a specific customer from id in database
+         */
         public async Task<bool> DeleteCustomer(int id)
         {
             try
@@ -177,7 +198,10 @@ namespace WebappGroup9.DAL
                 return false;
             }
         }
-
+        
+        /**
+         * Method that gets a specific cabin from id in database
+         */
         public async Task<Cabin> GetCabin(int id)
         {
             try
@@ -190,7 +214,10 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-
+        
+        /**
+         * Method that gets all cabins in database
+         */
         public async Task<List<Cabin>> GetCabins()
         {
             try
@@ -203,7 +230,10 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-
+        
+        /**
+         * Method that gets a specific route from id in database
+         */
         public async Task<List<Cabin>> GetCabinUnoccupied()
         {
             try
@@ -216,7 +246,10 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-
+        
+        /**
+         * Method that gets a specific route from id in database
+         */
         public async Task<Route> GetRoute(int id)
         {
             try
@@ -229,7 +262,10 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-
+        
+        /**
+         * Method that gets all routes in database
+         */
         public async Task<List<Route>> GetRoutes()
         {
             try
@@ -243,6 +279,9 @@ namespace WebappGroup9.DAL
             }
         }
 
+        /**
+         * Method that gets all tickets in database
+         */
         public async Task<List<Ticket>> GetTickets()
         {
             try
@@ -255,7 +294,10 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-
+        
+        /**
+         * Method that returns postalcode object whit given code as parameter
+         */
         public async Task<PostalCode> GetPostalCode(string code)
         {
             try
@@ -300,7 +342,7 @@ namespace WebappGroup9.DAL
 
         /**
          * Method for generating reference numbers for customer and ticket
-         * Customer and Ticket reference number consist of 4 digits
+         * Customer and Ticket reference number consist of 4 digits each
          */
         public async Task<string> GenerateReference(string firstname, string lastname)
         {
@@ -320,7 +362,10 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-
+        
+        /**
+         * Method that generates price from cabin price
+         */
         public double GeneratePrice(Route route, IEnumerable<Cabin> cabins)
         {
             var sum = cabins.Sum(cabin => cabin.Price);
@@ -330,9 +375,11 @@ namespace WebappGroup9.DAL
             return sum;
         }
 
+        /**
+         * Just a pseudo method to act as actual payment verification
+         */
         public bool PaymentCheck(Payment payment)
         {
-            // Just a pseudo method to act as actual payment verification, which we are not doing because we are not letting people pay for a fictional ticket
             return payment != null;
         }
     }
