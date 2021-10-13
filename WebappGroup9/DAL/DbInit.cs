@@ -1,8 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using WebappGroup9.Models;
 
 namespace WebappGroup9.DAL
 {
