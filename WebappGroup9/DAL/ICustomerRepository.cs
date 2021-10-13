@@ -15,12 +15,12 @@ namespace WebappGroup9.DAL
         Task<Cabin> GetCabin(int id);
         Task<List<Cabin>> GetCabins();
         Task<List<Cabin>> GetCabinUnoccupied();
-        Task<Route> GetRoute(string departure, string destination);
+        Task<Route> GetRoute(int id);
         Task<List<Route>> GetRoutes();
         Task<List<Ticket>> GetTickets();
         Task<PostalCode> GetPostalCode(string code);
-        Task<List<Ticket>> GetTicketByReferences(IEnumerable<string> references);
-        string GenerateReference();
+        Task<List<Customer>> GetCustomersByReferences(IEnumerable<string> references);
+        Task<string> GenerateReference(string firstname, string lastname);
         double GeneratePrice(Route route, IEnumerable<Cabin> cabins);
         bool PaymentCheck(Payment payment);
     }
