@@ -6,6 +6,8 @@ namespace WebappGroup9.Models
     public class Customer
     {
         public int Id { get; set; }
+        
+        public string Reference { get; set; }
 
         [RegularExpression(@"^[a-zA-ZæøåÆØÅ. \-]{2,20}$", ErrorMessage = "Invalid Firstname")]
         public string FirstName { get; set; }
