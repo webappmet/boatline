@@ -21,10 +21,6 @@ namespace WebappGroup9.Models
         
         [RegularExpression(@"^(0?[1-9]|[1-9][0-9])$", ErrorMessage = "Invalid ExpirationYear")]
         public string ExpirationYear { get; set; }
-
-        public override string ToString()
-        {
-            return CardHolderName + " " + CardNumber + " " + CSC + " " + ExpirationMonth + " " + ExpirationYear;
-        }
+        
     }
 }
