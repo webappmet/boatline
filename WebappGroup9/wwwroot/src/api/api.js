@@ -78,7 +78,6 @@ export const getCabins = async () => {
     });
 }
 
-// TODO, actually set input instead of hardcoding test values
 export const saveTicket = async (customer) => {
     return new Promise((resolve, reject) => {
         $.post("/api/v1/BoatLine/SaveCustomer", customer, (OK) => {
