@@ -29,6 +29,7 @@ namespace WebappGroup9.Models
         
         public virtual List<Ticket> Tickets { get; set; }
         
+        // Setting up many to many
         public virtual ICollection<Payment> Payments { get; set; }
         
         public Customer()

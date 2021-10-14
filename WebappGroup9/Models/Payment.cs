@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
@@ -9,7 +8,6 @@ namespace WebappGroup9.Models
     public class Payment
     {
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         
         [RegularExpression(@"^[0-9]{4} ?[0-9]{4} ?[0-9]{4} ?[0-9]{4}$", ErrorMessage = "Invalid CardNumber")]
