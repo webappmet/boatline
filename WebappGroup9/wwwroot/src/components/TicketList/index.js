@@ -49,7 +49,9 @@ const TicketList = () => {
     }
 
     useEffect(() => {
-        fetchTickets();
+        setTimeout(() => {
+            fetchTickets();
+        }, 500)
     }, [referenceNumbers])
 
     return (
