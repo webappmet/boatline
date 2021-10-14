@@ -21,7 +21,6 @@ namespace WebappGroup9.Controllers
             _log = log;
         }
         
-        [HttpPost]
         public async Task<ActionResult> SaveCustomer(Customer customer)
         {
             if (ModelState.IsValid)
@@ -39,7 +38,6 @@ namespace WebappGroup9.Controllers
             return BadRequest("Customer was not saved: " + message);
         }
         
-        [HttpPost]
         public async Task<ActionResult> SaveCustomers(List<Customer> customers)
         {
             if (ModelState.IsValid)
@@ -57,7 +55,6 @@ namespace WebappGroup9.Controllers
             return BadRequest("Input validation failed: " + message);
         }
         
-        [HttpGet]
         public async Task<ActionResult> GetCustomer(int id)
         {
             var customer = await _db.GetCustomer(id);
@@ -67,7 +64,6 @@ namespace WebappGroup9.Controllers
             return NotFound("Customer was not found");
         }
         
-        [HttpGet]
         public async Task<ActionResult> GetCustomers()
         {
             var list = await _db.GetCustomers();
@@ -77,7 +73,6 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get all customers");
         }
         
-        [HttpPut]
         public async Task<ActionResult> UpdateCustomer(Customer customer)
         {
             if (ModelState.IsValid)
@@ -95,7 +90,6 @@ namespace WebappGroup9.Controllers
             return BadRequest("Input validation failed " + message);
         }
         
-        [HttpDelete]
         public async Task<ActionResult> DeleteCustomer(int id)
         {
             var ret = await _db.DeleteCustomer(id);
@@ -104,8 +98,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Customer was not deleted");
             return NotFound("Customer was not deleted");
         }
-
-        [HttpGet]
+        
         public async Task<ActionResult> GetCabin(int id)
         {
             var cabin = await _db.GetCabin(id);
@@ -115,7 +108,6 @@ namespace WebappGroup9.Controllers
             return BadRequest("Could not get cabin");
         }
         
-        [HttpGet]
         public async Task<ActionResult> GetCabins()
         {
             var list = await _db.GetCabins();
@@ -125,7 +117,6 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get all cabins");
         }
         
-        [HttpGet]
         public async Task<ActionResult> GetCabinUnoccupied()
         {
             var list = await _db.GetCabinUnoccupied();
@@ -134,7 +125,6 @@ namespace WebappGroup9.Controllers
             return NotFound("Not able to get unoccupied cabins");
         }
         
-        [HttpGet]
         public async Task<ActionResult> GetRute(int id)
         {
             var rute = await _db.GetRoute(id);
@@ -143,7 +133,6 @@ namespace WebappGroup9.Controllers
             return NotFound("Not able to get rute");
         }
         
-        [HttpGet]
         public async Task<ActionResult> GetRoutes()
         {
             var list = await _db.GetRoutes();
@@ -153,7 +142,6 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get all routes");
         }
         
-        [HttpGet]
         public async Task<ActionResult> GetTickets()
         {
             var list = await _db.GetTickets();
@@ -163,7 +151,6 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get all tickets");
         }
         
-        [HttpGet]
         public async Task<ActionResult> GetPostalCode(string code)
         {
             var postalcode = await _db.GetPostalCode(code);
@@ -172,7 +159,6 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not get post name");
         }
         
-        [HttpGet]
         public ActionResult GetReference(string firstname, string lastname)
         {
             var reference = _db.GenerateReference(firstname, lastname);
@@ -181,7 +167,6 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not generate reference code");
         }
         
-        [HttpGet]
         public async Task<ActionResult> GetCustomersByReferences(string[] references)
         {
             var customers = await _db.GetCustomersByReferences(references);
