@@ -19,11 +19,38 @@ const OrderHandler = () => {
     const [selectedRoute, setSelectedRoute] = useState();
     const [departure, setDeparture] = useState();
     const [destination, setDestination] = useState();
+
     const [dateFrom, setDateFrom] = useState('');
+    const [dateValid, setDateValid] = useState(false);
+
     const [dateUntil, setDateUntil] = useState();
     const [selectedCabins, setSelectedCabins] = useState([]);
     const [travelers, setTravelers] = useState([]);
-    const [payment, setPayment] = useState({cardHolderName: '', cardNumber: '', csc: '', expirationMonth: '', expirationYear: ''});
+    const [payment, setPayment] = useState({cardHolderName: '', cardNumber: '', csc: '', expirationMonth: '', expirationYear: '', valid: false});
+    
+    const [pages, setPages] = useState(2);
+    useEffect(() => {
+        setPages(2);
+        if (dateValid) {
+            setPages(3);
+            if (selectedCabins && selectedCabins.length > 0) {
+                setPages(4);
+                if (travelers && travelers.length > 0) {
+                    let usedCabins = []
+                    for (const traveler of travelers) {
+                        if (!traveler.valid) return;
+                        if (usedCabins.indexOf(traveler.room) === -1) usedCabins.push(traveler.room);
+                    }
+                    if (usedCabins.length !== selectedCabins.length) return;
+                    setPages(5);
+                    if (payment.valid) {
+                        setPages(6);
+                    }
+                }
+            }
+        }
+        
+    }, [dateValid, selectedCabins, travelers, payment])
 
     const fetchRoutes = async () => {
         try {
@@ -53,14 +80,13 @@ const OrderHandler = () => {
     useEffect(() => {
         if (!departure || !destination) setSelectedRoute(routes[0])
         for (const route of routes) {
-            console.log(departure, destination)
             if (route.departure === departure && route.destination === destination) {
                 setSelectedRoute(route)
                 return;
             }
             setSelectedRoute(null)
         }
-    }, [departure, destination]);
+    }, [departure, destination, routes]);
 
     useEffect(() => {
         fetchRoutes();
@@ -85,6 +111,7 @@ const OrderHandler = () => {
 
     const createTicket = async (traveler) => {
         const referenceNumber = await getReferenceNumber({ firstName: traveler.firstName, lastName: traveler.lastName });
+        let refNr = referenceNumber.result
         if (referenceNumber) {
             let year = dateFrom.substring(2,4);
             let month = dateFrom.substring(5,7);
@@ -93,7 +120,7 @@ const OrderHandler = () => {
             const customer = {
                 firstName: traveler.firstName,
                 lastName: traveler.lastName,
-                reference: referenceNumber.substring(0,3),
+                reference: refNr.substring(0,4),
                 postalCode: {
                     code: traveler.zip
                 },
@@ -116,14 +143,14 @@ const OrderHandler = () => {
                             {id: parseInt(traveler.room)}
                         ],
                         date: `${day}.${month}.${year}`,
-                        reference: referenceNumber
+                        reference: refNr
                     }
                 ]
             };
             const paymentOK = await validatePayment(customer.payment);
             if (paymentOK) {
                 saveTicket(customer)
-                return referenceNumber;
+                return refNr;
             }
         }
         return false;
@@ -141,8 +168,9 @@ const OrderHandler = () => {
         for (const refNr of referenceNumbers) {
             params += `r=${refNr}&`
         }
-        params.pop()
-        navigate(`/tickets${params}`);
+        params = params.slice(0, -1);
+        let route = `/tickets${params}`;
+        navigate(route);
     }
 
     const confirm = () => {
@@ -152,12 +180,12 @@ const OrderHandler = () => {
     }
 
     return (
-        <Walker title="Order tickets" message={message} setMessage={setMessage} confirm={confirm} message={message} confirmMessage="Checkout">
+        <Walker pages={pages} title="Order tickets" setMessage={setMessage} confirm={confirm} message={message} confirmMessage="Confirm Order">
             <Route routes={routes} setDeparture={setDeparture} setDestination={setDestination} destination={destination} departure={departure} />
-            <DateHandler dateFrom={dateFrom} destination={destination} setDateFrom={setDateFrom} dateUntil={dateUntil} />
+            <DateHandler setDateValid={setDateValid} dateFrom={dateFrom} destination={destination} setDateFrom={setDateFrom} dateUntil={dateUntil} />
             <Cabin cabins={cabins} selectedCabins={selectedCabins} setSelectedCabins={setSelectedCabins} travelers={travelers} setTravelers={setTravelers} />
             <Travelers cabins={cabins} selectedCabins={selectedCabins} travelers={travelers} setTravelers={setTravelers}/>
-            <Checkout payment={payment} setPayment={setPayment} />
+            <Checkout travelers={travelers} cabins={cabins} payment={payment} setPayment={setPayment} />
         </Walker>
     );
 }

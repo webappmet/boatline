@@ -9,7 +9,7 @@ const CabinSelect = ({ cabins, floor, number, toggle, selectedCabins }) => {
     const [beds, setBeds] = useState('unknown');
     const [price, setPrice] = useState('unknown');
 
-    let timeoutId
+    const [timeoutId, setTimeoutId] = useState();
 
     useEffect(() => {
         setCabinId(floor + number.toString().padStart(2, '0'));
@@ -32,15 +32,16 @@ const CabinSelect = ({ cabins, floor, number, toggle, selectedCabins }) => {
             setType('Unknown');
             setPrice('unknown');
         }
-        timeoutId = setTimeout(() => {
+        let timeout = setTimeout(() => {
             setVisibleInfo(true)
         }, 700);
+        setTimeoutId(timeout);
     }
 
     const hideCabinInfo = (e) => {
         if (timeoutId) {
             clearTimeout(timeoutId);
-            timeoutId = null
+            setTimeoutId(null);
         }
         setVisibleInfo(false);
     }

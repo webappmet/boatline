@@ -4,7 +4,7 @@ const Ticket = ({ ticket }) => {
             <div className="ticket-info-container">
                 <div className="ticket-info-header">
                     <h2>BoatLine</h2>
-                    <p><span class="bold">Ref:</span> {ticket.reference}</p>
+                    <p><span className="bold">Ref:</span> {ticket.reference}</p>
                 </div>
                 <div className="ticket-info-list">
                     <div>
@@ -13,7 +13,7 @@ const Ticket = ({ ticket }) => {
                     </div>
                     <div>
                         <h3 className="no-margin">Date:</h3>
-                        <p className="no-margin">{ticket.date} - {ticket.durationDays}D, {ticket.durationHours}H</p>
+                        <p className="no-margin">{ticket.date} - {ticket.route.durationDays}D, {ticket.route.durationHours}H</p>
                     </div>
                     <div>
                         <h3 className="no-margin">Departure:</h3>

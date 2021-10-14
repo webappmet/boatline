@@ -1,13 +1,32 @@
 import './styled.css'
 import Input from '../../Input';
 
-const Date = ({ dateFrom, setDateFrom, destination, dateUntil }) => {
+const DatePicker = ({ dateFrom, setDateFrom, destination, dateUntil, setDateValid }) => {
 
     const validDate = (date) => {
         if (!date) return
-        let valid = date.match(/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/) ? true : false;
-        if (valid) setDateFrom(date);
-        return valid;
+        let valid = date.match(/^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/) ? true : false;
+        let year = parseInt(date.substring(0,4));
+        let month = parseInt(date.substring(5,7));
+        let day = parseInt(date.substring(8,10));
+        let today = new Date();
+        setDateFrom(date);
+        if (year === today.getFullYear()) {
+            if (month === today.getUTCMonth() + 1) {
+                if (day < today.getUTCDate()) {
+                    valid = false;
+                }
+            }
+            else if (month < today.getUTCMonth() + 1) {
+                valid = false;
+            }
+        }
+        else if (year < today.getFullYear()) {
+            valid = false;
+        }
+        if (valid) setDateValid(true);
+        else setDateValid(false);
+        return valid ? true : 'Must be a date set in the future';
     }
 
     return (
@@ -23,4 +42,4 @@ const Date = ({ dateFrom, setDateFrom, destination, dateUntil }) => {
     );
 }
 
-export default Date;
+export default DatePicker;

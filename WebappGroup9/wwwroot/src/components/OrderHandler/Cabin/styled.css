@@ -175,6 +175,13 @@
     text-align: center;
 }
 
+
+@media (max-width: 700px) {
+    .cabin-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 #c1 {
     grid-row-start: 3;
     grid-row-end: 6;
