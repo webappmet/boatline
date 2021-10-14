@@ -1,34 +1,62 @@
+import { useState } from "react/cjs/react.development";
+import { getCityByZip } from "../../../api/api";
 import Input from "../../Input";
 
 const Traveler = ({ person, traveler, updateTraveler, index, removeSelf }) => {
+
+    const [city, setCity] = useState('');
+
+    const fetchCity = async (zip) => {
+        const postalCode = await getCityByZip(zip);
+        if (postalCode) {
+            setCity(postalCode.name);
+            return true;
+        }
+        return false;
+    }
+
     const validator = {
         firstName: (value) => {
-            updateTraveler(index, {...traveler, firstName: value});
-            return true;
+            const valid = value.match(/^[A-ZÆØÅ][a-zæøå]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\.?)( [IVXLCDM]+)?$/g)
+            updateTraveler(index, {...traveler, firstName: value, validFirstName: valid});
+            return valid ? true : 'Not a valid first name';
         },
         lastName: (value) => {
-            updateTraveler(index, {...traveler, lastName: value});
-            return true;
+            const valid = value.match(/^[A-ZÆØÅ][a-zæøå]*(([,.] |[ '-])[A-Za-z][a-z]*)*(\.?)( [IVXLCDM]+)?$/g)
+            updateTraveler(index, {...traveler, lastName: value, validLastName: valid});
+            return valid ? true : 'Not a valid first name';
         }, 
-        email: (value) => { 
-            updateTraveler(index, {...traveler, email: value});
-            return true;
+        email: (value) => {
+            const emailRegex = RegExp(/^[a-zæøåA-ZÆØÅ0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/g);
+            const valid = value.match(emailRegex)
+            updateTraveler(index, {...traveler, email: value, validEmail: valid});
+            return valid ? true : 'Must be a valid email';
         },
         phone: (value) => {
-            updateTraveler(index, {...traveler, phone: value});
-            return true;
+            const phoneRegex = RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/g);
+            const valid = value.match(phoneRegex)
+            updateTraveler(index, {...traveler, phone: value, validPhone: valid});
+            return valid ? true : 'Must ba a valid phone number';
         },
         address: (value) => {
-            updateTraveler(index, {...traveler, address: value});
-            return true;
+            const valid = value.match(/^[#.0-9a-zæøåA-ZÆÅ\s,-]+$/g);
+            updateTraveler(index, {...traveler, address: value, validAddress: valid});
+            return valid ? true : 'Not a valid address';
         },
-        city: (value) => {
-            updateTraveler(index, {...traveler, city: value});
-            return true;
-        },
-        zip: (value) => {
-            updateTraveler(index, {...traveler, zip: value});
-            return true;
+        zip: async (value) => {
+            if (value.length > 4) return false;
+            let reason
+            let valid = value.match(/^[0-9]{4}$/g);
+            updateTraveler(index, {...traveler, zip: value, validZip: valid});
+            if (valid) {
+                let city = await fetchCity(value);
+                if (!city) {
+                    valid = false;
+                    reason = 'Zip does not exist';
+                }
+            }
+            else setCity('');
+            return valid || reason || 'Zip should be 4 numbers';
         }
     }
 
@@ -49,9 +77,9 @@ const Traveler = ({ person, traveler, updateTraveler, index, removeSelf }) => {
             <div>
                 <Input id={`address${traveler.id}`} label="Street Address" value={traveler.address} type="text" validator={validator.address}/>
             </div>
-            <div className="grid-70-30">
-                <Input id={`city${traveler.id}`} label="City/Proince" value={traveler.city} type="text" validator={validator.city}/>
+            <div className="grid-2">
                 <Input id={`zip${traveler.id}`} label="Zip" value={traveler.zip} type="text" validator={validator.zip}/>
+                <span className="city-zip">{city}</span>
             </div>
         </div>
     );

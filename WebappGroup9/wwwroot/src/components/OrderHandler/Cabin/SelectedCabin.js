@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { useState } from "react/cjs/react.development";
-
 const SelectedCabin = ({ cabin }) => {
 
     const Render = () => {

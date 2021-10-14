@@ -282,7 +282,7 @@ namespace WebappGroup9.DAL
                 foreach (var reference in references)
                 {
                     var customer = await _boatLineDb.Customers.FirstOrDefaultAsync(t =>
-                        t.Reference == reference.Substring(0, 3));
+                        t.Reference == reference.Substring(0, 4));
 
                     if (customer is not null) list.Add(customer);
                 }

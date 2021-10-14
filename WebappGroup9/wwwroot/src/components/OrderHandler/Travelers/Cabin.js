@@ -11,6 +11,19 @@ const Cabin = ({ travelers, addTraveler, cabin, setTravelers }) => {
     }, [travelers])
 
     const updateTraveler = (index, newTraveler) => {
+        if (
+                newTraveler.validFirstName && 
+                newTraveler.validLastName && 
+                newTraveler.validPhone && 
+                newTraveler.validEmail && 
+                newTraveler.validAddress && 
+                newTraveler.validZip
+            ) {
+            newTraveler.valid = true;
+        }
+        else {
+            newTraveler.valid = false;
+        }
         const updatedTravelers = [...travelers];
         updatedTravelers[index] = newTraveler;
         setTravelers(updatedTravelers);

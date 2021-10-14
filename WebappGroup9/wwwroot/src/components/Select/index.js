@@ -2,12 +2,6 @@
 
 const Select = ({ name, label, id, options, changeHandler, value }) => {
 
-    const renderOptions = () => {
-        if (options && Array.isArray(options)) {
-            
-        }
-    }
-
     return (
         <div className="form-group">
             <label className="from-label" htmlFor={id}>{label}</label>

@@ -1,7 +1,7 @@
 import './styled.css'
 import Ticket from './Ticket.js';
 import { useState, useEffect } from 'react';
-import { getCabins, getRoute, getTicketsByReference } from '../../api/api';
+import { getTicketsByReference } from '../../api/api';
 
 const TicketList = () => {
 
@@ -15,33 +15,32 @@ const TicketList = () => {
     }, [])
 
     const fetchTickets = async () => {
+        if (!referenceNumbers) return;
         const customers = await getTicketsByReference(referenceNumbers);
 
         if (customers) {
             const selectedTickets = []
 
-            for (const customer of customers) {
-                let ticket = customer.tickets.find((ticket) => ticket.reference === referenceNumber);
-                let route = await getRoute(ticket.route.id);
-                let cabin = await getCabin(ticket.cabins[0].id)
+            for (const [index, customer] of customers.entries()) {
+                let ticket = customer.tickets.find((ticket) => ticket.reference === referenceNumbers[index]);
     
-                if (route) {
+                if (ticket) {
                     selectedTickets.push({
                         firstName: customer.firstName,
                         lastName: customer.lastName,
                         reference: ticket.reference,
                         route: {
                             id: ticket.route.id,
-                            departure: route.departure,
-                            destination: route.destination
+                            departure: ticket.route.departure,
+                            destination: ticket.route.destination,
+                            durationDays: ticket.route.durationDays,
+                            durationHours: ticket.route.durationHours
                         },
                         cabin: {
                             id: ticket.cabins[0].id,
-                            type: cabin.type
+                            type: ticket.cabins[0].type
                         },
-                        date: ticket.date,
-                        durationDays: route.durationDays,
-                        durationHours: route.durationHours
+                        date: ticket.date
                     })
                 }
             }
@@ -56,8 +55,8 @@ const TicketList = () => {
     return (
         <div>
             <div className="ticket-display-heading">
-                <h1 className="no-margin">Thank you for ordering!</h1>
-                <p>Your tickets are listed bellow</p>
+                <h1 className="no-margin">{tickets.length === 0 ? 'No ticket found' : 'Thank you for ordering!'}</h1>
+                <p>{tickets.length === 0 ? 'Have you spelled the reference number right?' : 'Your tickets are listed bellow'}</p>
             </div>
             <div className="ticket-display-list">
                 {tickets.map((ticket) => {
@@ -82,7 +81,9 @@ export default TicketList;
 //             route: {
 //                 id: 3,
 //                 departure: 'Oslo',
-//                 destination: 'Kiel' 
+//                 destination: 'Kiel',
+//                 durationDays: 2,
+//                 durationHours: 14 
 //             },
 //             cabin: {
 //                 id: 301,
@@ -90,9 +91,7 @@ export default TicketList;
 //                 price: 500,
 //                 beds: 3
 //             }
-//             date: `14.10.2021`,
-//             durationDays: 2,
-//             durationHours: 14
+//             date: `14.10.2021`
 //         }
 //     ]
 // }

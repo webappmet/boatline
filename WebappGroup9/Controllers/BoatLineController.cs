@@ -175,8 +175,10 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not generate reference code");
         }
 
-        public async Task<ActionResult> GetCustomersByReferences(string[] references)
+        public async Task<ActionResult> GetCustomersByReferences(string reference)
         {
+            string[] references = reference.Split("-");
+            
             var customers = await _db.GetCustomersByReferences(references);
             if (customers != null) return Ok(customers);
             _log.LogInformation("Did not find tickets by reference");

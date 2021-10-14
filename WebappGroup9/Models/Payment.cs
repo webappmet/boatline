@@ -6,7 +6,9 @@ namespace WebappGroup9.Models
     public class Payment
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set; }
+        
         [RegularExpression(@"^[0-9]{4} ?[0-9]{4} ?[0-9]{4} ?[0-9]{4}$", ErrorMessage = "Invalid CardNumber")]
         public string CardNumber { get; set; }
 
