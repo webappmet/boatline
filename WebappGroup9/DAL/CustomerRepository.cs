@@ -32,7 +32,7 @@ namespace WebappGroup9.DAL
                 // Testing if the customer is already in the DB on id first, and then name if ID fails
                 // (assuming things behind OR is never run when first passes, like in java)
                 var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
-                    c.Id == customer.Id || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
+                    c.Reference == customer.Reference || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
 
                 // Setting customer ticket's sub values to be tied to the DB
                 for (var i = 0; i < customer.Tickets.Count; i++)
@@ -107,11 +107,11 @@ namespace WebappGroup9.DAL
         /**
          * Method for receiving customer by id
          */
-        public async Task<Customer> GetCustomer(int id)
+        public async Task<Customer> GetCustomer(string reference)
         {
             try
             {
-                return await _boatLineDb.Customers.FindAsync(id);
+                return await _boatLineDb.Customers.FirstOrDefaultAsync(c => c.Reference == reference);
             }
             catch (Exception e)
             {
@@ -144,7 +144,7 @@ namespace WebappGroup9.DAL
         {
             try
             {
-                var updateCustomer = await _boatLineDb.Customers.FindAsync(customer.Id);
+                var updateCustomer = await _boatLineDb.Customers.FindAsync(customer.Reference);
 
                 if (updateCustomer.PostalCode.Code != customer.PostalCode.Code)
                 {
@@ -324,7 +324,7 @@ namespace WebappGroup9.DAL
                 foreach (var reference in references)
                 {
                     var customer = await _boatLineDb.Customers.FirstOrDefaultAsync(t =>
-                        t.Reference == reference.Substring(0, 3));
+                        t.Reference == reference.Substring(0, 4));
 
                     if (customer is not null) list.Add(customer);
                 }

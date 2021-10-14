@@ -20,6 +20,7 @@ namespace WebappGroup9.DAL
             seedDb.SeedPostalCodes();
             seedDb.SeedRoutes();
             seedDb.SeedCabins();
+            seedDb.SeedCustomer();
         }
     }
 }

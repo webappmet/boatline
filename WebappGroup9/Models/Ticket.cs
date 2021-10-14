@@ -1,11 +1,14 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebappGroup9.Models
 {
     public class Ticket
     {
-        public int Id { get; set; }
-        
+        // public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Reference { get; set; }
         public virtual Route Route { get; set; }
         public string Date { get; set; }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,9 +56,9 @@ namespace WebappGroup9.Controllers
             return BadRequest("Input validation failed: " + message);
         }
         
-        public async Task<ActionResult> GetCustomer(int id)
+        public async Task<ActionResult> GetCustomer(string reference)
         {
-            var customer = await _db.GetCustomer(id);
+            var customer = await _db.GetCustomer(reference);
 
             if (customer != null) return Ok(customer);
             _log.LogInformation("Customer was not found");

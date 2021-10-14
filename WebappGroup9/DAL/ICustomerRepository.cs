@@ -8,7 +8,7 @@ namespace WebappGroup9.DAL
     {
         Task<bool> SaveCustomer(Customer frontCustomer);
         Task<bool> SaveCustomers(List<Customer> frontCustomers);
-        Task<Customer> GetCustomer(int id);
+        Task<Customer> GetCustomer(string reference);
         Task<List<Customer>> GetCustomers();
         Task<bool> UpdateCustomer(Customer customer);
         Task<bool> DeleteCustomer(int id);

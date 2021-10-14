@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace WebappGroup9.Models
 {
@@ -21,6 +24,18 @@ namespace WebappGroup9.Models
         
         [RegularExpression(@"^(0?[1-9]|[1-9][0-9])$", ErrorMessage = "Invalid ExpirationYear")]
         public string ExpirationYear { get; set; }
+        
+        // Setting up many to many
+        // Ignoring looping Json
+        // Source: https://stackoverflow.com/questions/7397207/json-net-error-self-referencing-loop-detected-for-type
+        [JsonIgnore] 
+        [IgnoreDataMember] 
+        public virtual ICollection<Customer> Customers { get; set; }
+
+        public Payment()
+        {
+            this.Customers = new HashSet<Customer>();
+        }
         
     }
 }
