@@ -20,7 +20,7 @@ const Input = ({ id, value, setValue, type, label, validator, recalculate }) => 
     
     useEffect(() => {
         if (value) validate(value);
-    }, [value]);
+    }, []);
 
     useEffect(() => {
         if (recalculate && value) validate(value);
