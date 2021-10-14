@@ -18,7 +18,7 @@ Node.js LTS version is required. Before starting the project, you need to do npm
 
 Run the project with the `webapp_gruppeoppgave` profile, and not IIS express. The solution should open in your browser at: https://localhost:5001/
 
-The project was written in Intellij Rider with no running issues, but will work with Visual studios as well. On windows 10, nuget sources needed to be set manually, however, this was not an issue we experienced on Mac or Linux.
+The project was written in JetBrains Rider with no running issues, but will work with Visual studios as well. On windows 10, nuget sources needed to be set manually, however, this was not an issue we experienced on Mac or Linux.
 
 ## Link & References
 
