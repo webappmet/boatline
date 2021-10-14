@@ -366,13 +366,9 @@ namespace WebappGroup9.DAL
         /**
          * Method that generates price from cabin price
          */
-        public double GeneratePrice(Route route, IEnumerable<Cabin> cabins)
+        public double GeneratePrice(IEnumerable<Cabin> cabins)
         {
-            var sum = cabins.Sum(cabin => cabin.Price);
-
-            sum *= route.DurationDays;
-
-            return sum;
+            return cabins.Sum(cabin => cabin.Price);
         }
 
         /**

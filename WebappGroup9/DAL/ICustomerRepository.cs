@@ -21,7 +21,7 @@ namespace WebappGroup9.DAL
         Task<PostalCode> GetPostalCode(string code);
         Task<List<Customer>> GetCustomersByReferences(IEnumerable<string> references);
         Task<string> GenerateReference(string firstname, string lastname);
-        double GeneratePrice(Route route, IEnumerable<Cabin> cabins);
+        double GeneratePrice(IEnumerable<Cabin> cabins);
         bool PaymentCheck(Payment payment);
     }
 }

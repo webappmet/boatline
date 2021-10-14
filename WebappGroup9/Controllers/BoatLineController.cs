@@ -167,6 +167,14 @@ namespace WebappGroup9.Controllers
             return NotFound("Could not generate reference code");
         }
         
+        public ActionResult GetPrice(List<Cabin> cabins)
+        {
+            var price = _db.GeneratePrice(cabins);
+            if (double.IsNaN(price)) return Ok(price);
+            _log.LogInformation("Could not generate price");
+            return NotFound("Could not generate price");
+        }
+        
         public async Task<ActionResult> GetCustomersByReferences(string[] references)
         {
             var customers = await _db.GetCustomersByReferences(references);
