@@ -11,7 +11,7 @@ The web application is developed with React based on JavaScript and Jquery on th
 
 ## Link & References
 
-- [Link to localhost](https://localhost:5001/index.html)
+- [Link to localhost](https://localhost:5001)
 
 ## ER Model
 
