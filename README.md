@@ -11,7 +11,7 @@ The web application is developed with React based on JavaScript and Jquery on th
 
 ## How to run
 
-- **Packgage Source:** nuget.org
+- **Package Source:** nuget.org
 - **Source URL:** https://api.nuget.org/v3/index.json
 
 Node.js LTS version is required. Before starting the project, you need to do npm install in the `wwwroot` folder.
