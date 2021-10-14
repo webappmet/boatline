@@ -1,7 +1,13 @@
-# Prosjektoppgave for Webapplikasjoner Del 1, 2021
+# Project assignment for Web applications Part 1, 2021
 
-## Gruppe: 0221
-## Kandidatnummer: 244, 247, 248
+### Group: 0221
+### Candidate numbers: 244, 247, 248
+
+## Description
+
+A web application for booking tickets for boat trips.
+
+The web application is developed with React based on JavaScript and Jquery on the frontend and ASP.NET Core on the backend with a database structure using Entity Framework code first.
 
 ## Link & References
 
