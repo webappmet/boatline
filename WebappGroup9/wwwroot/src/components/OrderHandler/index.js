@@ -124,13 +124,15 @@ const OrderHandler = () => {
                 postalCode: {
                     code: traveler.zip
                 },
-                payment: {
-                    cardHolderName: payment.cardHolderName,
-                    cardNumber: payment.cardNumber,
-                    cSC: payment.csc,
-                    expirationMonth: payment.expirationMonth,
-                    expirationYear: payment.expirationYear
-                },
+                payments: [
+                    {
+                        cardHolderName: payment.cardHolderName,
+                        cardNumber: payment.cardNumber,
+                        cSC: payment.csc,
+                        expirationMonth: payment.expirationMonth,
+                        expirationYear: payment.expirationYear
+                    }
+                ],
                 streetAddress: traveler.address,
                 phone: traveler.phone,
                 email: traveler.email,
