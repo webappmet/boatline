@@ -16,9 +16,13 @@
 }
 
 .valid {
-    background-color: #b6dcb6;
+    border-color: #b6dcb6;
 }
 
 .nonvalid {
-    background-color: #dec2c2;
+    border-color: rgb(207, 0, 0);
+}
+
+.form-error-message {
+    color: rgb(126, 0, 0);
 }

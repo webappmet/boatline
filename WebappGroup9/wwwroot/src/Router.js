@@ -3,6 +3,7 @@ import React, { useState, useMemo, createContext } from 'react'
 export const pagesMapping = { 
   order: "order",
   tickets: "tickets",
+  search: "search",
   home: ""
 }
 export const navigate = (to) => {

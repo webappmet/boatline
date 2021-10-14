@@ -1,4 +1,4 @@
-﻿import styled from './styled.css'
+﻿import './styled.css'
 
 const Container = ({ children }) => {
     return (

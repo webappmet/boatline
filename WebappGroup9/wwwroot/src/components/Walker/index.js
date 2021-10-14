@@ -1,5 +1,5 @@
 import './styled.css';
-import { Children, useState, useEffect } from "react";
+import { Children, useState } from "react";
 
 const Page = ({ children }) => {
     return (
@@ -11,14 +11,14 @@ const Page = ({ children }) => {
     );
 }
 
-const Walker = ({ confirm, title, children, message, setMessage, confirmMessage }) => {
+const Walker = ({ confirm, title, children, message, setMessage, confirmMessage, pages }) => {
 
     const [activePage = 1, setActivePage] = useState();
-    const [totalPages, setTotalPages] = useState(children.length)
 
     const nextPage = () => {
-        if (activePage < totalPages) setActivePage(activePage + 1)
+        if (activePage < children.length && activePage < pages) setActivePage(activePage + 1)
         else {
+            if (children.length >= pages) return
             const message = confirm();
             if (message) setMessage(message);
         }
@@ -33,7 +33,7 @@ const Walker = ({ confirm, title, children, message, setMessage, confirmMessage 
         <div className="walker">
             <div className="walker__info">
                 <h2>{title}</h2>
-                <span>Page: {activePage}/{totalPages}</span>
+                <span>Page: {activePage}/{children.length}</span>
             </div>
             <form  className="walker__form">
                 <Page>
@@ -43,7 +43,7 @@ const Walker = ({ confirm, title, children, message, setMessage, confirmMessage 
             <div className="walker__message">{message}</div>
             <div className="walker__actions">
                 <button className="walker__button" onClick={previousPage} disabled={activePage === 1}>Previous</button>
-                <button className="walker__button" onClick={nextPage}>{activePage === totalPages ? confirmMessage ? confirmMessage : 'Confirm' : 'Next'}</button>
+                <button disabled={activePage >= pages} className="walker__button" onClick={nextPage}>{activePage === children.length ? confirmMessage ? confirmMessage : 'Confirm' : 'Next'}</button>
             </div>
         </div>
     );

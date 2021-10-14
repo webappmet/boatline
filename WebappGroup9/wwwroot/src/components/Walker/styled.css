@@ -30,6 +30,10 @@
     padding: 1rem 2rem;
 }
 
+.walker__button:disabled {
+    background-color: gray;
+}
+
 .walker__message {
     margin: 0;
     color: rgb(141, 0, 0);
