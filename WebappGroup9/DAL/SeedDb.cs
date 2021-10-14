@@ -134,55 +134,5 @@ namespace WebappGroup9.DAL
 
             _db.SaveChanges();
         }
-
-        public void SeedCustomer()
-        {
-
-            var reference = Utility.GetRandomHexNumber(8);
-
-            var payment = new Payment()
-            {
-                CardHolderName = "Tor Kratte",
-                CardNumber = "1234 3243 3423 1234",
-                ExpirationMonth = "03",
-                ExpirationYear = "23"
-            };
-            
-            var route6 = new Route
-            {
-                Id = 6, 
-                Departure = "Strømstad", 
-                Destination = "Sandefjord", 
-                DurationDays = 5, 
-                DurationHours = 13
-            };
-            
-            var cabin78 = _db.Cabins.FirstOrDefault(c => c.Id == 101);
-            
-            Console.WriteLine(reference);
-
-            var auroraTicket = new Ticket
-            {
-                Reference = reference.Substring(4, 4), Date = "01.10.21", StartTime = "10:00", Route = route6,
-                Cabins = new HashSet<Cabin>() { cabin78 }
-            };
-
-            var customer1 = new Customer
-            {
-                Reference = reference.Substring(0,4),FirstName = "Tor", LastName = "Kratte", StreetAddress = "Oslomet P35",
-                PostalCode = _db.PostalCodes.FirstOrDefault(c => c.Code == "0170"),
-                Phone = "12349872",
-                Payments = new HashSet<Payment>()
-                {
-                    payment
-                },
-                Email = "blah@oslomet.no",
-                Tickets = new List<Ticket> { auroraTicket }
-            };
-
-            _db.Customers.Add(customer1);
-
-            _db.SaveChanges();
-        }
     }
 }
