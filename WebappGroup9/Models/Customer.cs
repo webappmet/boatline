@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebappGroup9.Models
 {
     public class Customer
     {
-        public int Id { get; set; }
-        
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Reference { get; set; }
 
         [RegularExpression(@"^[a-zA-ZæøåÆØÅ. \-]{2,20}$", ErrorMessage = "Invalid Firstname")]
@@ -20,13 +21,19 @@ namespace WebappGroup9.Models
         
         public virtual PostalCode PostalCode { get; set; }
 
-        [RegularExpression(@"^(?:[+]?(?:00)?47)?[0-9]{8}$", ErrorMessage = "Invalid Phone number")]
+        [RegularExpression(@"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$", ErrorMessage = "Invalid Phone number")]
         public string Phone { get; set; }
         
         [RegularExpression(@"^[a-zA-Z0-9_\.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
         
-        public virtual Payment Payment { get; set; }
         public virtual List<Ticket> Tickets { get; set; }
+        
+        public virtual ICollection<Payment> Payments { get; set; }
+        
+        public Customer()
+        {
+            this.Payments = new HashSet<Payment>();
+        }
     }
 }

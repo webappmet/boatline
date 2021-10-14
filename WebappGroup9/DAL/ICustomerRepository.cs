@@ -8,10 +8,10 @@ namespace WebappGroup9.DAL
     {
         Task<bool> SaveCustomer(Customer frontCustomer);
         Task<bool> SaveCustomers(List<Customer> frontCustomers);
-        Task<Customer> GetCustomer(int id);
+        Task<Customer> GetCustomer(string reference);
         Task<List<Customer>> GetCustomers();
         Task<bool> UpdateCustomer(Customer customer);
-        Task<bool> DeleteCustomer(int id);
+        Task<bool> DeleteCustomer(string reference);
         Task<Cabin> GetCabin(int id);
         Task<List<Cabin>> GetCabins();
         Task<List<Cabin>> GetCabinUnoccupied();
@@ -21,7 +21,7 @@ namespace WebappGroup9.DAL
         Task<PostalCode> GetPostalCode(string code);
         Task<List<Customer>> GetCustomersByReferences(IEnumerable<string> references);
         Task<string> GenerateReference(string firstname, string lastname);
-        double GeneratePrice(Route route, IEnumerable<Cabin> cabins);
+        double GeneratePrice(IEnumerable<Cabin> cabins);
         bool PaymentCheck(Payment payment);
     }
 }

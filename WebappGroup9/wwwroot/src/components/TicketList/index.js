@@ -49,7 +49,9 @@ const TicketList = () => {
     }
 
     useEffect(() => {
-        fetchTickets();
+        setTimeout(() => {
+            fetchTickets();
+        }, 500)
     }, [referenceNumbers])
 
     return (
@@ -70,28 +72,3 @@ const TicketList = () => {
 }
 
 export default TicketList;
-
-// {
-//     totalPrice: 3000,
-//     tickets: [
-//         {
-//             firstName: 'mats',
-//             lastName: 'sommervold',
-//             reference: 'JKL5JK4D',
-//             route: {
-//                 id: 3,
-//                 departure: 'Oslo',
-//                 destination: 'Kiel',
-//                 durationDays: 2,
-//                 durationHours: 14 
-//             },
-//             cabin: {
-//                 id: 301,
-//                 type: 'First Class',
-//                 price: 500,
-//                 beds: 3
-//             }
-//             date: `14.10.2021`
-//         }
-//     ]
-// }

@@ -22,13 +22,6 @@ namespace WebappGroup9.Controllers
             _log = log;
         }
 
-        private string GetModelStateMessage()
-        {
-            return string.Join(", ", ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage));
-        }
-
         public async Task<ActionResult> SaveCustomer(Customer customer)
         {
             if (ModelState.IsValid)
@@ -45,7 +38,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Customer was not saved: " + message);
             return BadRequest("Customer was not saved: " + message);
         }
-
+        
         public async Task<ActionResult> SaveCustomers(List<Customer> customers)
         {
             if (ModelState.IsValid)
@@ -62,16 +55,16 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Input validation failed: " + message);
             return BadRequest("Input validation failed: " + message);
         }
-
-        public async Task<ActionResult> GetCustomer(int id)
+        
+        public async Task<ActionResult> GetCustomer(string reference)
         {
-            var customer = await _db.GetCustomer(id);
+            var customer = await _db.GetCustomer(reference);
 
             if (customer != null) return Ok(customer);
             _log.LogInformation("Customer was not found");
             return NotFound("Customer was not found");
         }
-
+        
         public async Task<ActionResult> GetCustomers()
         {
             var list = await _db.GetCustomers();
@@ -80,7 +73,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all customers");
             return NotFound("Could not get all customers");
         }
-
+        
         public async Task<ActionResult> UpdateCustomer(Customer customer)
         {
             if (ModelState.IsValid)
@@ -97,16 +90,16 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Input validation failed: " + message);
             return BadRequest("Input validation failed " + message);
         }
-
-        public async Task<ActionResult> DeleteCustomer(int id)
+        
+        public async Task<ActionResult> DeleteCustomer(string reference)
         {
-            var ret = await _db.DeleteCustomer(id);
+            var ret = await _db.DeleteCustomer(reference);
 
             if (ret) return Ok("Customer deleted");
             _log.LogInformation("Customer was not deleted");
             return NotFound("Customer was not deleted");
         }
-
+        
         public async Task<ActionResult> GetCabin(int id)
         {
             var cabin = await _db.GetCabin(id);
@@ -115,7 +108,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get cabin");
             return BadRequest("Could not get cabin");
         }
-
+        
         public async Task<ActionResult> GetCabins()
         {
             var list = await _db.GetCabins();
@@ -124,7 +117,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all cabins");
             return NotFound("Could not get all cabins");
         }
-
+        
         public async Task<ActionResult> GetCabinUnoccupied()
         {
             var list = await _db.GetCabinUnoccupied();
@@ -132,7 +125,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Not able to get unoccupied cabins");
             return NotFound("Not able to get unoccupied cabins");
         }
-
+        
         public async Task<ActionResult> GetRute(int id)
         {
             var rute = await _db.GetRoute(id);
@@ -140,7 +133,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Not able to get rute");
             return NotFound("Not able to get rute");
         }
-
+        
         public async Task<ActionResult> GetRoutes()
         {
             var list = await _db.GetRoutes();
@@ -149,7 +142,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all routes");
             return NotFound("Could not get all routes");
         }
-
+        
         public async Task<ActionResult> GetTickets()
         {
             var list = await _db.GetTickets();
@@ -158,7 +151,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get all tickets");
             return NotFound("Could not get all tickets");
         }
-
+        
         public async Task<ActionResult> GetPostalCode(string code)
         {
             var postalcode = await _db.GetPostalCode(code);
@@ -166,7 +159,7 @@ namespace WebappGroup9.Controllers
             _log.LogInformation("Could not get post name");
             return NotFound("Could not get post name");
         }
-
+        
         public ActionResult GetReference(string firstname, string lastname)
         {
             var reference = _db.GenerateReference(firstname, lastname);
@@ -185,9 +178,9 @@ namespace WebappGroup9.Controllers
             return NotFound("Did not find tickets by reference");
         }
 
-        public ActionResult GetPrice(Route route, List<Cabin> cabins)
+        public ActionResult GetPrice(List<Cabin> cabins)
         {
-            var price = _db.GeneratePrice(route, cabins);
+            var price = _db.GeneratePrice(cabins);
             if (double.IsNaN(price)) return Ok(price);
             _log.LogInformation("Could not generate price");
             return NotFound("Could not generate price");
@@ -207,6 +200,16 @@ namespace WebappGroup9.Controllers
 
             _log.LogInformation("Input validation failed: " + message);
             return BadRequest("Input validation failed: " + message);
+        }
+        
+        /**
+         * Formatting multiple model state messages for better logging
+         */
+        private string GetModelStateMessage()
+        {
+            return string.Join(", ", ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage));
         }
     }
 }
