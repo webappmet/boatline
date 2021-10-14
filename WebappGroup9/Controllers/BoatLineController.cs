@@ -91,9 +91,9 @@ namespace WebappGroup9.Controllers
             return BadRequest("Input validation failed " + message);
         }
         
-        public async Task<ActionResult> DeleteCustomer(int id)
+        public async Task<ActionResult> DeleteCustomer(string reference)
         {
-            var ret = await _db.DeleteCustomer(id);
+            var ret = await _db.DeleteCustomer(reference);
 
             if (ret) return Ok("Customer deleted");
             _log.LogInformation("Customer was not deleted");

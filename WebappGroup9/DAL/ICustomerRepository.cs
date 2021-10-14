@@ -11,7 +11,7 @@ namespace WebappGroup9.DAL
         Task<Customer> GetCustomer(string reference);
         Task<List<Customer>> GetCustomers();
         Task<bool> UpdateCustomer(Customer customer);
-        Task<bool> DeleteCustomer(int id);
+        Task<bool> DeleteCustomer(string reference);
         Task<Cabin> GetCabin(int id);
         Task<List<Cabin>> GetCabins();
         Task<List<Cabin>> GetCabinUnoccupied();

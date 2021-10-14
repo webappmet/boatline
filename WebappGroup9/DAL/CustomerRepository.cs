@@ -32,7 +32,8 @@ namespace WebappGroup9.DAL
                 // Testing if the customer is already in the DB on id first, and then name if ID fails
                 // (assuming things behind OR is never run when first passes, like in java)
                 var dbCustomer = await _boatLineDb.Customers.FirstOrDefaultAsync(c =>
-                    c.Reference == customer.Reference || (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
+                    c.Reference == customer.Reference ||
+                    (c.FirstName == customer.FirstName && c.LastName == customer.LastName));
 
                 // Setting customer ticket's sub values to be tied to the DB
                 for (var i = 0; i < customer.Tickets.Count; i++)
@@ -81,7 +82,7 @@ namespace WebappGroup9.DAL
                 return false;
             }
         }
-        
+
         /**
          * Method for saving multiple customers
          */
@@ -103,7 +104,7 @@ namespace WebappGroup9.DAL
                 return false;
             }
         }
-        
+
         /**
          * Method for receiving customer by id
          */
@@ -136,7 +137,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         /**
          * Method for updating customer.
          */
@@ -144,11 +145,13 @@ namespace WebappGroup9.DAL
         {
             try
             {
-                var updateCustomer = await _boatLineDb.Customers.FindAsync(customer.Reference);
+                var updateCustomer =
+                    await _boatLineDb.Customers.FirstOrDefaultAsync(c => c.Reference == customer.Reference);
 
                 if (updateCustomer.PostalCode.Code != customer.PostalCode.Code)
                 {
-                    var testCode = await _boatLineDb.PostalCodes.FindAsync(customer.PostalCode.Code);
+                    var testCode =
+                        await _boatLineDb.PostalCodes.FirstOrDefaultAsync(p => p.Code == customer.PostalCode.Code);
                     if (testCode == null)
                     {
                         var postalCode = new PostalCode()
@@ -163,7 +166,7 @@ namespace WebappGroup9.DAL
                         updateCustomer.PostalCode.Code = customer.PostalCode.Code;
                     }
                 }
-                
+
                 updateCustomer.FirstName = customer.FirstName;
                 updateCustomer.LastName = customer.LastName;
                 updateCustomer.StreetAddress = customer.StreetAddress;
@@ -172,7 +175,7 @@ namespace WebappGroup9.DAL
 
                 await _boatLineDb.SaveChangesAsync();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _log.LogInformation(e.Message);
                 return false;
@@ -180,15 +183,15 @@ namespace WebappGroup9.DAL
 
             return true;
         }
-        
+
         /**
          * Method that deletes a specific customer from id in database
          */
-        public async Task<bool> DeleteCustomer(int id)
+        public async Task<bool> DeleteCustomer(string reference)
         {
             try
             {
-                var customer = await _boatLineDb.Customers.FindAsync(id);
+                var customer = await _boatLineDb.Customers.FirstOrDefaultAsync(c => c.Reference == reference);
                 _boatLineDb.Customers.Remove(customer);
                 await _boatLineDb.SaveChangesAsync();
                 return true;
@@ -198,7 +201,7 @@ namespace WebappGroup9.DAL
                 return false;
             }
         }
-        
+
         /**
          * Method that gets a specific cabin from id in database
          */
@@ -214,7 +217,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         /**
          * Method that gets all cabins in database
          */
@@ -230,7 +233,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         /**
          * Method that gets a specific route from id in database
          */
@@ -246,7 +249,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         /**
          * Method that gets a specific route from id in database
          */
@@ -262,7 +265,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         /**
          * Method that gets all routes in database
          */
@@ -294,7 +297,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         /**
          * Method that returns postalcode object whit given code as parameter
          */
@@ -362,7 +365,7 @@ namespace WebappGroup9.DAL
                 return null;
             }
         }
-        
+
         /**
          * Method that generates price from cabin price
          */
