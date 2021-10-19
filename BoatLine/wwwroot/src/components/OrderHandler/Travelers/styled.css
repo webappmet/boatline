@@ -1,0 +1,100 @@
+.travelers-container {
+    display: grid;
+    gap: 2rem;
+}
+
+.cabin-travelers {
+    border-radius: .7rem;
+    background-color: #BDBDBD;
+    display: grid;
+    grid-template-columns: 25rem 1fr;
+    overflow: hidden;
+}
+
+.cabin-side {
+    background-color: lightgray;
+    padding: 2.8rem;
+}
+
+.travelers {
+    padding: 2.8rem;
+    display: grid;
+    gap: 2rem;
+}
+
+
+.add-traveler {
+    width: 100%;
+    height: 3rem;
+    border-radius: .3rem;
+    background-color: transparent;
+    border: 1px solid #1A6BE4;
+    transition: all .1s linear;
+}
+
+.add-traveler:hover {
+    background-color: #1A6BE4;
+    color: white;
+}
+
+.add-traveler:disabled {
+    border-color: gray;
+    background-color: transparent;
+    color: gray;
+}
+
+.traveler-form {
+    padding: 1.8rem;
+    border-radius: .5rem;
+    background-color: lightgray;
+}
+
+.traveler-form-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remove-traveler-button {
+    font-weight: bold;
+    transform: scaleX(120%);
+    background-color: transparent;
+    border: none;
+    color: rgb(61, 61, 61);
+    font-size: 1.6rem;
+    transition: all .1s linear;
+}
+
+.remove-traveler-button:hover {
+    color: black;
+}
+
+.city-zip {
+    padding-top: 3rem;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.grid-70-30 {
+    display: grid;
+    grid-template-columns: 55% 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 700px) {
+    .cabin-travelers {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-70-30 {
+        grid-template-columns: 1fr;
+    }
+}

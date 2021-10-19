@@ -1,0 +1,46 @@
+.walker {
+    border-radius: .5rem;
+    padding: 2.8rem 4rem;
+    width: 100%;
+    background-color: rgb(223, 223, 223);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.walker__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+}
+
+.walker__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+}
+
+.walker__button {
+    border: none;
+    background-color: rgb(26, 107, 228);
+    color: white;
+    border-radius: .3rem;
+    padding: 1rem 2rem;
+}
+
+.walker__button:disabled {
+    background-color: gray;
+}
+
+.walker__message {
+    margin: 0;
+    color: rgb(141, 0, 0);
+}
+
+.page {
+    border-radius: .3rem;
+    width: 100%;
+    display: inline-block;
+}
