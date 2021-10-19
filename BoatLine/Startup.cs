@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using WebappGroup9.DAL;
+using BoatLine.DAL;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
-namespace WebappGroup9
+namespace BoatLine
 {
     public class Startup
     {

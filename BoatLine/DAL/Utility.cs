@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace WebappGroup9.DAL
+namespace BoatLine.DAL
 {
     public static class Utility
     {

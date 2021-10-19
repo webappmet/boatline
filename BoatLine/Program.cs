@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace WebappGroup9
+namespace BoatLine
 {
     public class Program
     {

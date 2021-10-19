@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace WebappGroup9.Models
+namespace BoatLine.Models
 {
     public class Cabin
     {

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using WebappGroup9.Models;
+using BoatLine.Models;
 
-namespace WebappGroup9.DAL
+namespace BoatLine.DAL
 {
     public class CustomerRepository : ICustomerRepository
     {

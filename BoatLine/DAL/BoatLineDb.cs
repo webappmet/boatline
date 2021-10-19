@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using WebappGroup9.Models;
+using BoatLine.Models;
 
-namespace WebappGroup9.DAL
+namespace BoatLine.DAL
 {
     public sealed class BoatLineDb : DbContext
     {

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>WebappGroup9</RootNamespace>
+        <RootNamespace>BoatLine</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

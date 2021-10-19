@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WebappGroup9.DAL
+namespace BoatLine.DAL
 {
     public static class DbInit
     {

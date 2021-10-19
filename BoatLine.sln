@@ -1,6 +1,6 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebappGroup9", "WebappGroup9\WebappGroup9.csproj", "{4DE13A26-C52E-43B7-A3CB-C14A896A90AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoatLine", "BoatLine\BoatLine.csproj", "{4DE13A26-C52E-43B7-A3CB-C14A896A90AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

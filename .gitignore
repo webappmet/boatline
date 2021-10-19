@@ -1,8 +1,8 @@
-WebappGroup9/bin
-WebappGroup9/obj
-WebappGroup9/Logs
-WebappGroup9/BoatLine.db-shm
-WebappGroup9/BoatLine.db-wal
+BoatLine/bin
+BoatLine/obj
+BoatLine/Logs
+BoatLine/BoatLine.db-shm
+BoatLine/BoatLine.db-wal
 .idea
 obj
-WebappGroup9/BoatLine.db
+Boatline/BoatLine.db

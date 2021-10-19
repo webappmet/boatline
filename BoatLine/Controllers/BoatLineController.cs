@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using WebappGroup9.DAL;
-using WebappGroup9.Models;
+using BoatLine.DAL;
+using BoatLine.Models;
 
-namespace WebappGroup9.Controllers
+namespace BoatLine.Controllers
 {
     [Route("api/v1/[controller]/[action]")]
     public class BoatLineController : ControllerBase

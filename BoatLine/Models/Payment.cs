@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
-namespace WebappGroup9.Models
+namespace BoatLine.Models
 {
     public class Payment
     {
