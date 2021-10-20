@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,15 @@ namespace BoatLine
             services.AddControllers();
             services.AddDbContext<BoatLineDb>(options => options.UseSqlite("Data Source=BoatLine.db"));
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".AdventureWorks.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(1800); // 30min
+                options.Cookie.IsEssential = true;
+            });
+            services.AddDistributedMemoryCache();
+            
             // Source: https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
             // We needed a new package to handle our complicated JSON structure, seems to just work out the box like this
             services.AddControllersWithViews()
@@ -42,19 +52,22 @@ namespace BoatLine
             }
 
             app.UseHttpsRedirection();
-
+            
             app.UseRouting();
             
+            app.UseSession();
+            
             app.UseStaticFiles();
+            
             app.UseSpaStaticFiles();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "api/v1/{controller}/{action=Index}/{id?}");
             });
-
+            
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "wwwroot";
