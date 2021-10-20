@@ -1,4 +1,5 @@
 using BoatLine.Models;
+using BoatLine.Models.Auth;
 
 namespace BoatLine.DAL
 {
@@ -75,7 +76,10 @@ namespace BoatLine.DAL
 
             _db.SaveChanges();
         }
-
+        
+        /**
+         * Method for seeding routes into database
+         */
         public void SeedRoutes()
         {
             var route1 = new Route
@@ -128,6 +132,26 @@ namespace BoatLine.DAL
             _db.Routes.Add(route3);
             _db.Routes.Add(route4);
             _db.Routes.Add(route5);
+
+            _db.SaveChanges();
+        }
+        
+        /**
+         * Method for seeding admin into database
+         */
+        public void SeedAuthAdmin()
+        {
+            var admin = new DbAdmin()
+            {
+                Username = "Admin"
+            };
+            
+            const string password = "Admin123";
+            var salt = Utility.GenerateSalt();
+            var hash = Utility.GenerateHash(password, salt);
+            admin.Password = hash;
+            admin.Salt = salt;
+            _db.Admins.Add(admin);
 
             _db.SaveChanges();
         }
