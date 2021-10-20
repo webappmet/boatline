@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace BoatLine.DAL
 {
@@ -16,6 +19,24 @@ namespace BoatLine.DAL
             Random.NextBytes(buffer);
             var result = string.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
             return digits % 2 == 0 ? result : result + Random.Next(16).ToString("X");
+        }
+        
+        public static byte[] GenerateHash(string password, byte[] salt)
+        {
+            return KeyDerivation.Pbkdf2(
+                password: password,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA512,
+                iterationCount: 1000,
+                numBytesRequested: 32);
+        }
+
+        public static byte[] GenerateSalt()
+        {
+            var csp = new RNGCryptoServiceProvider();
+            var salt = new byte[24];
+            csp.GetBytes(salt);
+            return salt;
         }
     }
 }
