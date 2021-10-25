@@ -1,3 +1,4 @@
+using BoatLine.DAL.Utilities;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
 

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using BoatLine.DAL.Utilities;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
 using Microsoft.EntityFrameworkCore;

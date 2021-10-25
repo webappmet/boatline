@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
-namespace BoatLine.DAL
+namespace BoatLine.DAL.Utilities
 {
     public static class Utility
     {
