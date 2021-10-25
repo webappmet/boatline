@@ -1,5 +1,7 @@
 import './styled.css';
 
+import { Link } from 'react-router-dom';
+
 const Frontpage = () => {
     return (
         <div className="frontpage">
@@ -9,7 +11,7 @@ const Frontpage = () => {
                     <h1 className="heading">BoatLine</h1>
                     <h2 className="subheading">Quality cruise, low prices</h2>
                 </div>
-                <a href="/order" className="action-button">Order a Cruise</a>
+                <Link className="action-button" to="/order">Order a Cruise</Link>
             </div>
         </div>
     );

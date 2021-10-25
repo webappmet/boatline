@@ -1,13 +1,15 @@
 import './styled.css';
 
+import { Link } from 'react-router-dom';
+
 const Nav = () => {
     return (
         <div className="navbar">
-            <a className="nav-link" href="/"><h1 className="logo">BoatLine</h1></a>
+            <Link className="nav-link" to="/"><h1 className="logo">BoatLine</h1></Link>
             <nav className="navigation">
                 <ul className="nav-list">
-                    <li className="nav-list-item"><a className="nav-link" href="/order">Order</a></li>
-                    <li className="nav-list-item"><a className="nav-link" href="/search">Search Ticket</a></li>
+                    <li className="nav-list-item"><Link className="nav-link" to="/order">Order</Link></li>
+                    <li className="nav-list-item"><Link className="nav-link" to="/search">Search Ticket</Link></li>
                 </ul>
             </nav>
         </div>

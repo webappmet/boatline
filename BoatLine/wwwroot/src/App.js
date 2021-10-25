@@ -7,7 +7,7 @@ import Tickets from './containers/Tickets';
 import Home from './containers/Home';
 import Search from './containers/Search';
 
-import { BrowserRouter as Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
 
 const App = () => {
