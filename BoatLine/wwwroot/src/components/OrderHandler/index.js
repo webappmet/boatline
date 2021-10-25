@@ -7,7 +7,7 @@ import DateHandler from "./Date";
 import Cabin from './Cabin';
 import Travelers from './Travelers';
 import Checkout from './Checkout';
-import { navigate } from '../../Router';
+import { useHistory } from 'react-router-dom';
 
 const OrderHandler = () => {
 
@@ -158,6 +158,8 @@ const OrderHandler = () => {
         return false;
     }
 
+    let history = useHistory();
+
     const createTickets = async () => {
         const referenceNumbers = []
         for (const traveler of travelers) {
@@ -172,7 +174,7 @@ const OrderHandler = () => {
         }
         params = params.slice(0, -1);
         let route = `/tickets${params}`;
-        navigate(route);
+        history.push(route);
     }
 
     const confirm = () => {
