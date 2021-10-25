@@ -7,7 +7,7 @@ namespace BoatLine.DAL.Utilities
 {
     public static class Utility
     {
-        private static readonly Random Random = new Random();
+        private static readonly Random Random = new();
         
         /**
          * Method for generating random hex number for customer and ticket reference
