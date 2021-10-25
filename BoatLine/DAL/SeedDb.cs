@@ -76,7 +76,7 @@ namespace BoatLine.DAL
 
             _db.SaveChanges();
         }
-        
+
         /**
          * Method for seeding routes into database
          */
@@ -93,37 +93,37 @@ namespace BoatLine.DAL
 
             var route2 = new Route
             {
-                Id = 2, 
-                Departure = "Oslo", 
-                Destination = "Copenhagen", 
-                DurationDays = 3, 
+                Id = 2,
+                Departure = "Oslo",
+                Destination = "Copenhagen",
+                DurationDays = 3,
                 DurationHours = 11
             };
 
             var route3 = new Route
             {
-                Id = 3, 
-                Departure = "Larvik", 
-                Destination = "Hirtshals", 
-                DurationDays = 4, 
+                Id = 3,
+                Departure = "Larvik",
+                Destination = "Hirtshals",
+                DurationDays = 4,
                 DurationHours = 11
             };
 
             var route4 = new Route
             {
-                Id = 4, 
-                Departure = "Kristiansand", 
-                Destination = "Hirtshals", 
-                DurationDays = 2, 
+                Id = 4,
+                Departure = "Kristiansand",
+                Destination = "Hirtshals",
+                DurationDays = 2,
                 DurationHours = 15
             };
 
             var route5 = new Route
             {
-                Id = 5, 
-                Departure = "Strømstad", 
-                Destination = "Sandefjord", 
-                DurationDays = 5, 
+                Id = 5,
+                Departure = "Strømstad",
+                Destination = "Sandefjord",
+                DurationDays = 5,
                 DurationHours = 13
             };
 
@@ -135,7 +135,7 @@ namespace BoatLine.DAL
 
             _db.SaveChanges();
         }
-        
+
         /**
          * Method for seeding admin into database
          */
@@ -145,7 +145,7 @@ namespace BoatLine.DAL
             {
                 Username = "Admin"
             };
-            
+
             const string password = "Admin123";
             var salt = Utility.GenerateSalt();
             var hash = Utility.GenerateHash(password, salt);

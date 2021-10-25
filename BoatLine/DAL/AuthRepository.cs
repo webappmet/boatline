@@ -17,7 +17,7 @@ namespace BoatLine.DAL
             _db = db;
             _log = log;
         }
-        
+
         public async Task<bool> LogIn(Admin admin)
         {
             try

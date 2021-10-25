@@ -14,28 +14,30 @@ namespace BoatLine.Controllers
 
         private readonly ILogger<AuthController> _log;
 
-        private const string LoggedIn = "logedIn";
+        private const string LoggedIn = "loggedIn";
 
         public AuthController(IAuthRepository db, ILogger<AuthController> log)
         {
             _db = db;
             _log = log;
         }
-        
-        public async Task<ActionResult> LogIn(Admin admin) 
+
+        public async Task<ActionResult> LogIn(Admin admin)
         {
             if (ModelState.IsValid)
             {
                 var ret = await _db.LogIn(admin);
                 if (ret)
                 {
-                    HttpContext.Session.SetString(LoggedIn, "LoggedIn");
+                    HttpContext.Session.SetString(LoggedIn, "loggedIn");
                     return Ok(true);
                 }
+
                 _log.LogInformation("Log in failed for admin: " + admin.Username);
                 HttpContext.Session.SetString(LoggedIn, "");
                 return Ok(false);
             }
+
             _log.LogInformation("Input validation failed");
             return BadRequest("Input validation failed on server");
         }
@@ -45,6 +47,5 @@ namespace BoatLine.Controllers
             HttpContext.Session.SetString(LoggedIn, "");
             _log.LogInformation("Logged out");
         }
-        
     }
 }
