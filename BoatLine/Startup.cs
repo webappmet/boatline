@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using BoatLine.DAL;
+using BoatLine.DAL.Repositories;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace BoatLine
@@ -20,6 +21,7 @@ namespace BoatLine
             services.AddControllers();
             services.AddDbContext<BoatLineDb>(options => options.UseSqlite("Data Source=BoatLine.db"));
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             
             services.AddSession(options =>
             {
