@@ -1,22 +1,26 @@
-import Nav from './components/Nav';
 import './App.css';
+
+import Nav from './components/Nav';
+
 import Order from './containers/Order';
 import Tickets from './containers/Tickets';
 import Home from './containers/Home';
-import { useContext } from 'react';
-import { pagesMapping, RoutingContext } from './Router'
 import Search from './containers/Search';
 
+import { BrowserRouter as Switch, Route } from 'react-router-dom';
+
+
 const App = () => {
-  const { page } = useContext(RoutingContext)
 
   return (
     <div>
       <Nav />
-      {(pagesMapping.order === page) && <Order />}
-      {(pagesMapping.tickets === page) && <Tickets />}
-      {(pagesMapping.search === page) && <Search />}
-      {(pagesMapping.home === page) && <Home /> }
+      <Switch>
+        <Route path="/order" component={Order} />
+        <Route path="/tickets" component={Tickets} />
+        <Route path="/search" component={Search} />
+        <Route path="/" component={Home} />
+      </Switch>
     </div>
   );
 }
