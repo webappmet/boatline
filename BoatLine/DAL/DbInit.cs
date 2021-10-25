@@ -15,11 +15,12 @@ namespace BoatLine.DAL
             boatLineContext.Database.EnsureCreated();
 
             var seedDb = new SeedDb(boatLineContext);
-            
+
             // Seeding database with initial values
             seedDb.SeedPostalCodes();
             seedDb.SeedRoutes();
             seedDb.SeedCabins();
+            seedDb.SeedAuthAdmin();
         }
     }
 }

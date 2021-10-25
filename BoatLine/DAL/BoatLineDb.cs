@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using BoatLine.Models;
+using BoatLine.Models.Auth;
 
 namespace BoatLine.DAL
 {
@@ -15,7 +16,8 @@ namespace BoatLine.DAL
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<Cabin> Cabins { get; set; }
-        
+        public DbSet<DbAdmin> Admins { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
