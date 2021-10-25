@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoatLine.Models;
 
-namespace BoatLine.DAL
+namespace BoatLine.DAL.Repositories
 {
     public interface ICustomerRepository
     {

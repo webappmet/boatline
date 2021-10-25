@@ -1,26 +1,28 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
-namespace BoatLine.DAL
+namespace BoatLine.DAL.Utilities
 {
     public static class Utility
     {
-        private static readonly Random Random = new Random();
+        private static readonly Random Random = new();
         
         /**
          * Method for generating random hex number for customer and ticket reference
          */
         public static string GetRandomHexNumber(int digits)
         {
-            byte[] buffer = new byte[digits / 2];
+            var buffer = new byte[digits / 2];
             Random.NextBytes(buffer);
             var result = string.Concat(buffer.Select(x => x.ToString("X2")).ToArray());
             return digits % 2 == 0 ? result : result + Random.Next(16).ToString("X");
         }
         
+        /**
+         * Method for generating hash
+         */
         public static byte[] GenerateHash(string password, byte[] salt)
         {
             return KeyDerivation.Pbkdf2(
@@ -31,6 +33,9 @@ namespace BoatLine.DAL
                 numBytesRequested: 32);
         }
 
+        /**
+         * Method for generating salt
+         */
         public static byte[] GenerateSalt()
         {
             var csp = new RNGCryptoServiceProvider();
