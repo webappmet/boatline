@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using BoatLine.Models;
 
-namespace BoatLine.DAL
+namespace BoatLine.DAL.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
