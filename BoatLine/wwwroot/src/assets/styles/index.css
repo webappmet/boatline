@@ -33,8 +33,10 @@ code {
 }
 
 :root {
-	--color-pl: #8ec8f7;
-	--color-p: #004486;
+	--color-pw: #8ec8f7;
+	--color-pl: #1f61ad;
+	--color-p: #034a92;
+	--color-pd: #0d3364;
 	--color-pd: #071b41;
 	--color-sl: #f1bf99;
 	--color-s: #E97923;

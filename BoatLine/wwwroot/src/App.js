@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Search from './pages/Search';
 
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import Navigation from './containers/Navigation';
 
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
   return (
     <div>
       <Nav />
+      {/* <Navigation /> */}
       <Switch>
         <Route path="/order" component={Order} />
         <Route path="/tickets" component={Tickets} />
