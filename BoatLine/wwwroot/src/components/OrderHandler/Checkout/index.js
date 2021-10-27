@@ -1,4 +1,4 @@
-import Input from '../../Input';
+import Input from '../../interface/control/Input';
 import './styled.css';
 import { useEffect, useState } from 'react';
 

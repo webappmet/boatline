@@ -2,10 +2,10 @@ import './assets/styles/App.css';
 
 import Nav from './components/Nav';
 
-import Order from './containers/Order';
-import Tickets from './containers/Tickets';
-import Home from './containers/Home';
-import Search from './containers/Search';
+import Order from './pages/Order';
+import Tickets from './pages/Tickets';
+import Home from './pages/Home';
+import Search from './pages/Search';
 
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 import './styled.css'
-import Input from '../../Input';
+import Input from '../../interface/control/Input';
 
 const DatePicker = ({ dateFrom, setDateFrom, destination, dateUntil, setDateValid }) => {
 

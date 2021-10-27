@@ -1,6 +1,6 @@
 import { useState } from 'react/cjs/react.development';
 import { useHistory } from 'react-router-dom';
-import Input from '../Input';
+import Input from '../interface/control/Input';
 import './styled.css'
 
 const TicketSearch = () => {

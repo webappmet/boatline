@@ -1,4 +1,4 @@
-import Container from "../components/Container";
+import Container from "../components/layout/Container";
 import OrderHandler from '../components/OrderHandler';
 
 const Order = () => {

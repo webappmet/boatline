@@ -2,7 +2,7 @@ import './styled.css';
 
 import { Link } from 'react-router-dom';
 
-const Frontpage = () => {
+const Home = () => {
     return (
         <div className="frontpage">
             <img className="banner-image" src="./boat.jpg" alt="Seascape from boat" />
@@ -17,4 +17,4 @@ const Frontpage = () => {
     );
 }
 
-export default Frontpage;
+export default Home;

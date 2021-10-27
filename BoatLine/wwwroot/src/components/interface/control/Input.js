@@ -1,7 +1,13 @@
-﻿import { useState, useEffect } from 'react';
-import './styled.css'
+﻿import styled from 'styled-components';
 
-const Input = ({ id, value, setValue, type, label, validator, recalculate }) => {
+import { useState, useEffect } from 'react';
+
+import Interface from '../../../assets/styles/scoped/Interface';
+import Label from './Label';
+import Message from './Message';
+import Stack from '../../layout/Stack';
+
+const Input = ({ id, value, type, label, validator, recalculate }) => {
     
     const [valid, setValid] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
@@ -32,12 +38,22 @@ const Input = ({ id, value, setValue, type, label, validator, recalculate }) => 
     }
 
     return (
-        <div className="form-group">
-            <label className="form-label" htmlFor={id}>{label}</label>
-            <input className={`form-input ${valid === true ? 'valid' : valid === false ? 'nonvalid' : ''}`} id={id} value={value} onChange={handleChange} type={type} />
-            {!valid ? (<span className="form-error-message">{errorMessage}</span>) : ''}
-        </div>
+        <Stack gap=".3rem">
+            <Label htmlFor={id}>{label}</Label>
+            <InputField
+                id={id} 
+                value={value} 
+                onChange={handleChange} 
+                type={type}
+                valid={valid}
+            />
+            <Message type="error" visible={!valid}>{errorMessage}</Message>
+        </Stack>
     );
 }
+
+const InputField = styled.input`
+    ${Interface}
+`;
 
 export default Input;
