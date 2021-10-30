@@ -23,15 +23,7 @@ namespace BoatLine.Controllers
             _db = db;
             _log = log;
         }
-        
-        /**
-         * Constructor for unit testing
-         */
-        public AuthController(IAuthRepository db)
-        {
-            _db = db;
-        }
-        
+
         public async Task<ActionResult> LogIn(Admin admin)
         {
             if (ModelState.IsValid)
