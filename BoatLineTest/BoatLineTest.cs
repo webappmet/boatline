@@ -26,6 +26,25 @@ namespace BoatLineTest
         private readonly MockHttpSession mockSession = new MockHttpSession();
         
         [Fact]
+        public async Task LoggInnOk()
+        {
+            mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(true);
+
+            var authController = new AuthController(mockRep.Object, mockLog.Object);
+
+            mockSession[LoggedIn] = LoggedIn;
+            mockHttpContext.Setup(s => s.Session).Returns(mockSession);
+            authController.ControllerContext.HttpContext = mockHttpContext.Object;
+
+            // Act
+            var res = await authController.LogIn(It.IsAny<Admin>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.True((bool)res.Value);
+        }
+        
+        [Fact]
         public async Task LogInIncorrectPasswordOrUser()
         {
             mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(false);
