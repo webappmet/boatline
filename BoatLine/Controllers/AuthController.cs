@@ -97,8 +97,8 @@ namespace BoatLine.Controllers
             var ret = await _db.DeleteAdmin(username);
 
             if (ret) return Ok("Admin deleted");
-            _log.LogInformation("Admin was not deleted");
-            return NotFound("Admin was not deleted");
+            _log.LogInformation("Admin was not found and not deleted");
+            return NotFound("Admin was not found and not deleted");
         }
 
         public async Task<ActionResult> PostRoute(Route route)

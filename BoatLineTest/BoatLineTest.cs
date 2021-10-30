@@ -186,5 +186,62 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
             Assert.False((bool)res.Value);
         }
+        
+        [Fact]
+        public async Task DeleteAdminLoggedInOk()
+        {
+            _mockRep.Setup(k => k.DeleteAdmin(It.IsAny<string>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.DeleteAdmin(It.IsAny<string>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal("Admin deleted", res.Value);
+        }
+        
+        [Fact]
+        public async Task DeleteAdminNotLoggedIn()
+        {
+            _mockRep.Setup(k => k.DeleteAdmin(It.IsAny<string>())).ReturnsAsync((true));
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.DeleteAdmin(It.IsAny<string>()) as UnauthorizedObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
+            Assert.Equal("Not logged in", res.Value);
+        }
+        
+        [Fact]
+        public async Task DeleteAdminLoggedInNotFound()
+        {
+            _mockRep.Setup(k => k.DeleteAdmin(It.IsAny<string>())).ReturnsAsync(false);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.DeleteAdmin(It.IsAny<string>()) as NotFoundObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
+            Assert.Equal("Admin was not found and not deleted", res.Value);
+        }
     }
 }
