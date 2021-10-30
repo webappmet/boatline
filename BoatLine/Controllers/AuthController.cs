@@ -66,7 +66,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             var ret = await _db.DeleteAdmin(username);
 
@@ -105,7 +105,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             if (ModelState.IsValid)
             {
@@ -126,7 +126,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
 
             if (ModelState.IsValid)
@@ -150,7 +150,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             var ret = await _db.DeleteRoute(id);
 
@@ -163,7 +163,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             if (ModelState.IsValid)
             {
@@ -184,7 +184,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             
             var ret = await _db.UpdateCabin(cabin);
@@ -202,7 +202,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             var ret = await _db.DeleteCabin(id);
 
@@ -215,7 +215,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             var ret = await _db.DeletePostalCode(code);
 
@@ -228,7 +228,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
 
             if (ModelState.IsValid)
@@ -253,7 +253,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
 
             if (ModelState.IsValid)
@@ -279,7 +279,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
 
             if (ModelState.IsValid)

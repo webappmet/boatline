@@ -19,22 +19,22 @@ namespace BoatLineTest
         private const string LoggedIn = "loggedIn";
         private const string NotLoggedInn = "";
 
-        private readonly Mock<IAuthRepository> mockRep = new Mock<IAuthRepository>();
-        private readonly Mock<ILogger<AuthController>> mockLog = new Mock<ILogger<AuthController>>();
+        private readonly Mock<IAuthRepository> _mockRep = new();
+        private readonly Mock<ILogger<AuthController>> _mockLog = new();
 
-        private readonly Mock<HttpContext> mockHttpContext = new Mock<HttpContext>();
-        private readonly MockHttpSession mockSession = new MockHttpSession();
+        private readonly Mock<HttpContext> _mockHttpContext = new();
+        private readonly MockHttpSession _mockSession = new();
         
         [Fact]
         public async Task LoggInnOk()
         {
-            mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(true);
+            _mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(true);
 
-            var authController = new AuthController(mockRep.Object, mockLog.Object);
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
-            mockSession[LoggedIn] = LoggedIn;
-            mockHttpContext.Setup(s => s.Session).Returns(mockSession);
-            authController.ControllerContext.HttpContext = mockHttpContext.Object;
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
             var res = await authController.LogIn(It.IsAny<Admin>()) as OkObjectResult;
@@ -47,13 +47,13 @@ namespace BoatLineTest
         [Fact]
         public async Task LogInIncorrectPasswordOrUser()
         {
-            mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(false);
+            _mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(false);
 
-            var authController = new AuthController(mockRep.Object, mockLog.Object);
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
-            mockSession[LoggedIn] = NotLoggedInn;
-            mockHttpContext.Setup(s => s.Session).Returns(mockSession);
-            authController.ControllerContext.HttpContext = mockHttpContext.Object;
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
             var res = await authController.LogIn(It.IsAny<Admin>()) as OkObjectResult;
@@ -66,15 +66,15 @@ namespace BoatLineTest
         [Fact]
         public async Task LoggInInputError()
         {
-            mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(true);
+            _mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(true);
 
-            var authController = new AuthController(mockRep.Object, mockLog.Object);
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
             authController.ModelState.AddModelError("Username", "Input validation failed on server");
 
-            mockSession[LoggedIn] = LoggedIn;
-            mockHttpContext.Setup(s => s.Session).Returns(mockSession);
-            authController.ControllerContext.HttpContext = mockHttpContext.Object;
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
             var res = await authController.LogIn(It.IsAny<Admin>()) as BadRequestObjectResult;
@@ -87,91 +87,59 @@ namespace BoatLineTest
         [Fact]
         public void LogOut()
         {
-            var authController = new AuthController(mockRep.Object, mockLog.Object);
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
             
-            mockHttpContext.Setup(s => s.Session).Returns(mockSession);
-            mockSession[LoggedIn] = LoggedIn;
-            authController.ControllerContext.HttpContext = mockHttpContext.Object;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            _mockSession[LoggedIn] = LoggedIn;
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
          
             // Act
             authController.LogOut();
 
             // Assert
-            Assert.Equal(NotLoggedInn,mockSession[LoggedIn]);
+            Assert.Equal(NotLoggedInn,_mockSession[LoggedIn]);
         }
-        
-        /*
+
         [Fact]
-        public async Task GetAllRoutesLoggedInnOk()
+        public async Task CreateAdminLoggedInOk()
         {
-            // Arrange
-            var route1 = new Route
-            {
-                Id = 1,
-                Departure = "Oslo",
-                Destination = "Kiel",
-                DurationDays = 3,
-                DurationHours = 17
-            };
+            var newAdmin = new Admin { Username = "TestAdmin", Password = "NewAdmin4" };
+            
+            _mockRep.Setup(k => k.CreateAdmin(newAdmin)).ReturnsAsync(true);
 
-            var route2 = new Route
-            {
-                Id = 2,
-                Departure = "Oslo",
-                Destination = "Copenhagen",
-                DurationDays = 3,
-                DurationHours = 11
-            };
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
-            var route3 = new Route
-            {
-                Id = 3,
-                Departure = "Larvik",
-                Destination = "Hirtshals",
-                DurationDays = 4,
-                DurationHours = 11
-            };
-
-            var routeList = new List<Route>();
-            routeList.Add(route1);
-            routeList.Add(route2);
-            routeList.Add(route3);
-
-            mockRep.Setup(k => k.()).ReturnsAsync(kundeListe);
-
-            var authController = new AuthController(mockRep.Object, mockLog.Object);
-
-            mockSession[_loggedIn] = _loggedIn;
-            mockHttpContext.Setup(s => s.Session).Returns(mockSession);
-            authController.ControllerContext.HttpContext = mockHttpContext.Object;
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.HentAlle() as OkObjectResult;
+            var res = await authController.CreateAdmin(newAdmin) as OkObjectResult;
 
             // Assert 
-            Assert.Equal((int)HttpStatusCode.OK,res.StatusCode);
-            Assert.Equal<List<Kunde>>((List<Kunde>)resultat.Value, kundeListe);
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.True((bool)res.Value);
         }
-        */
         
         [Fact]
-        public async Task CreateRoute()
+        public async Task CreateAdminNotLoggedIn()
         {
-            var route = new Route
-            {
-                Id = 1,
-                Departure = "Oslo",
-                Destination = "Kiel",
-                DurationDays = 3,
-                DurationHours = 17
-            };
+            var newAdmin = new Admin { Username = "TestAdmin", Password = "NewAdmin4" };
+            
+            _mockRep.Setup(k => k.CreateAdmin(newAdmin)).ReturnsAsync(true);
 
-            var mock = new Mock<IAuthRepository>();
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
-            mock.Setup(r => r.PostRoute(route)).ReturnsAsync(true);
-            var authController = new AuthController(mock.Object);
-            var res = await authController.PostRoute(route);
-            //Assert.True(res.ExecuteResultAsync());
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.CreateAdmin(newAdmin) as UnauthorizedObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
+            Assert.Equal("Not logged in", res.Value);
         }
     }
 }
