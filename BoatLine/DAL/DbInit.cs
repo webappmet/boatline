@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -5,6 +6,7 @@ namespace BoatLine.DAL
 {
     public static class DbInit
     {
+        [ExcludeFromCodeCoverage]
         public static void Initialize(IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.CreateScope();

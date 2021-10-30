@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace BoatLine.Models.Auth
 {
+    [ExcludeFromCodeCoverage]
     public class DbAdmin
     {
         public int Id { get; set; }

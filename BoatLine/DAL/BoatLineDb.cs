@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
@@ -6,6 +7,7 @@ namespace BoatLine.DAL
 {
     public sealed class BoatLineDb : DbContext
     {
+        [ExcludeFromCodeCoverage]
         public BoatLineDb(DbContextOptions<BoatLineDb> options) : base(options)
         {
             Database.EnsureCreated();

@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using BoatLine.DAL.Repositories;
 using BoatLine.Models;
@@ -17,13 +16,14 @@ namespace BoatLine.Controllers
         private readonly ILogger<AuthController> _log;
 
         private const string LoggedIn = "loggedIn";
+        private const string NotLoggedIn = "";
 
         public AuthController(IAuthRepository db, ILogger<AuthController> log)
         {
             _db = db;
             _log = log;
         }
-        
+
         public async Task<ActionResult> LogIn(Admin admin)
         {
             if (ModelState.IsValid)
@@ -31,16 +31,16 @@ namespace BoatLine.Controllers
                 var ret = await _db.LogIn(admin);
                 if (ret)
                 {
-                    HttpContext.Session.SetString(LoggedIn, "loggedIn");
+                    HttpContext.Session.SetString(LoggedIn, LoggedIn);
                     return Ok(true);
                 }
 
-                _log.LogInformation("Log in failed for admin: " + admin.Username);
-                HttpContext.Session.SetString(LoggedIn, "");
+                _log.LogInformation("Log in failed for admin");
+                HttpContext.Session.SetString(LoggedIn, NotLoggedIn);
                 return Ok(false);
             }
 
-            _log.LogInformation("Input validation failed");
+            _log.LogInformation("Input validation failed on server");
             return BadRequest("Input validation failed on server");
         }
 
@@ -57,7 +57,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             if (ModelState.IsValid)
             {
@@ -72,7 +72,7 @@ namespace BoatLine.Controllers
                 return Ok(false);
             }
 
-            _log.LogInformation("Input validation for admin failed");
+            _log.LogInformation("Input validation for admin failed on server");
             return BadRequest("Input validation for admin failed on server");
         }
         
@@ -83,20 +83,20 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             var ret = await _db.DeleteAdmin(username);
 
             if (ret) return Ok("Admin deleted");
-            _log.LogInformation("Admin was not deleted");
-            return NotFound("Admin was not deleted");
+            _log.LogInformation("Admin was not found and not deleted");
+            return NotFound("Admin was not found and not deleted");
         }
 
         public async Task<ActionResult> PostRoute(Route route)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             if (ModelState.IsValid)
             {
@@ -107,17 +107,15 @@ namespace BoatLine.Controllers
                 return BadRequest("Route was not saved");
             }
 
-            var message = GetModelStateMessage();
-
-            _log.LogInformation("Route was not saved: " + message);
-            return BadRequest("Route was not saved: " + message);
+            _log.LogInformation("Input validation for route failed on server");
+            return BadRequest("Input validation for route failed on server");
         }
 
         public async Task<ActionResult> UpdateRoute(Route route)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
 
             if (ModelState.IsValid)
@@ -133,28 +131,29 @@ namespace BoatLine.Controllers
                 return NotFound("Route was not found");
             }
 
-            _log.LogInformation("Input validation for route failed");
-            return BadRequest("Input validation for route failed");
+            _log.LogInformation("Input validation for route failed on server");
+            return BadRequest("Input validation for route failed on server");
         }
 
         public async Task<ActionResult> DeleteRoute(int id)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             var ret = await _db.DeleteRoute(id);
 
             if (ret) return Ok("Route deleted");
-            _log.LogInformation("Route was not deleted");
-            return NotFound("Route was not deleted");
+            _log.LogInformation("Route was not found");
+            return NotFound("Route was not found");
         }
-
+        
+        
         public async Task<ActionResult> PostCabin(Cabin cabin)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             if (ModelState.IsValid)
             {
@@ -165,35 +164,35 @@ namespace BoatLine.Controllers
                 return BadRequest("Cabin was not saved");
             }
 
-            var message = GetModelStateMessage();
-
-            _log.LogInformation("Cabin was not saved: " + message);
-            return BadRequest("Cabin was not saved: " + message);
+            _log.LogInformation("Input validation failed for cabin on server");
+            return BadRequest("Input validation failed for cabin on server");
         }
+        
 
         public async Task<ActionResult> UpdateCabin(Cabin cabin)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             
             var ret = await _db.UpdateCabin(cabin);
             if (ret)
             {
                 _log.LogInformation("Cabin updated");
-                return Ok("Route updated");
+                return Ok("Cabin updated");
             }
 
             _log.LogInformation("Cabin was not found");
             return NotFound("Cabin was not found");
         }
-
+        
+        /*
         public async Task<ActionResult> DeleteCabin(int id)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             var ret = await _db.DeleteCabin(id);
 
@@ -201,12 +200,13 @@ namespace BoatLine.Controllers
             _log.LogInformation("Cabin was not deleted");
             return NotFound("Cabin was not deleted");
         }
-
+        */
+        
         public async Task<ActionResult> DeletePostalCode(string code)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
             var ret = await _db.DeletePostalCode(code);
 
@@ -219,7 +219,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
 
             if (ModelState.IsValid)
@@ -244,7 +244,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
 
             if (ModelState.IsValid)
@@ -270,7 +270,7 @@ namespace BoatLine.Controllers
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
-                return Unauthorized();
+                return Unauthorized("Not logged in");
             }
 
             if (ModelState.IsValid)
@@ -290,15 +290,5 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation for customer failed");
         }
         */
-
-        /**
-         * Formatting multiple model state messages for better logging
-         */
-        private string GetModelStateMessage()
-        {
-            return string.Join(", ", ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage));
-        }
     }
 }
