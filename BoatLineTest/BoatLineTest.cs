@@ -16,14 +16,33 @@ namespace BoatLineTest
 {
     public class UnitTest1
     {
-        private const string _loggedIn = "loggedIn";
-        private const string _notLoggedInn = "";
+        private const string LoggedIn = "loggedIn";
+        private const string NotLoggedInn = "";
 
         private readonly Mock<IAuthRepository> mockRep = new Mock<IAuthRepository>();
         private readonly Mock<ILogger<AuthController>> mockLog = new Mock<ILogger<AuthController>>();
 
         private readonly Mock<HttpContext> mockHttpContext = new Mock<HttpContext>();
         private readonly MockHttpSession mockSession = new MockHttpSession();
+        
+        [Fact]
+        public async Task LogInIncorrectPasswordOrUser()
+        {
+            mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(false);
+
+            var authController = new AuthController(mockRep.Object, mockLog.Object);
+
+            mockSession[LoggedIn] = NotLoggedInn;
+            mockHttpContext.Setup(s => s.Session).Returns(mockSession);
+            authController.ControllerContext.HttpContext = mockHttpContext.Object;
+
+            // Act
+            var res = await authController.LogIn(It.IsAny<Admin>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.False((bool)res.Value);
+        }
 
         [Fact]
         public async Task LoggInInputError()
@@ -34,7 +53,7 @@ namespace BoatLineTest
 
             authController.ModelState.AddModelError("Username", "Input validation failed on server");
 
-            mockSession[_loggedIn] = _loggedIn;
+            mockSession[LoggedIn] = LoggedIn;
             mockHttpContext.Setup(s => s.Session).Returns(mockSession);
             authController.ControllerContext.HttpContext = mockHttpContext.Object;
 
@@ -52,14 +71,14 @@ namespace BoatLineTest
             var authController = new AuthController(mockRep.Object, mockLog.Object);
             
             mockHttpContext.Setup(s => s.Session).Returns(mockSession);
-            mockSession[_loggedIn] = _loggedIn;
+            mockSession[LoggedIn] = LoggedIn;
             authController.ControllerContext.HttpContext = mockHttpContext.Object;
          
             // Act
             authController.LogOut();
 
             // Assert
-            Assert.Equal(_notLoggedInn,mockSession[_loggedIn]);
+            Assert.Equal(NotLoggedInn,mockSession[LoggedIn]);
         }
         
         /*

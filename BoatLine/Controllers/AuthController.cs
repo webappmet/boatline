@@ -17,6 +17,7 @@ namespace BoatLine.Controllers
         private readonly ILogger<AuthController> _log;
 
         private const string LoggedIn = "loggedIn";
+        private const string NotLoggedIn = "";
 
         public AuthController(IAuthRepository db, ILogger<AuthController> log)
         {
@@ -39,12 +40,12 @@ namespace BoatLine.Controllers
                 var ret = await _db.LogIn(admin);
                 if (ret)
                 {
-                    HttpContext.Session.SetString(LoggedIn, "loggedIn");
+                    HttpContext.Session.SetString(LoggedIn, LoggedIn);
                     return Ok(true);
                 }
 
-                _log.LogInformation("Log in failed for admin: " + admin.Username);
-                HttpContext.Session.SetString(LoggedIn, "");
+                _log.LogInformation("Log in failed for admin");
+                HttpContext.Session.SetString(LoggedIn, NotLoggedIn);
                 return Ok(false);
             }
 
