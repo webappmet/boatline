@@ -6,3 +6,6 @@ BoatLine/BoatLine.db-wal
 .idea
 obj
 Boatline/BoatLine.db
+
+BoatLineTest/bin
+BoatLineTest/obj
