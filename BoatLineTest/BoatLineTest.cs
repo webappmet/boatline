@@ -577,5 +577,71 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
             Assert.Equal("Cabin was not saved", res.Value);
         }
+        
+        /**
+         * --------------------------------- Test update cabin -----------------------------
+         */
+        
+        [Fact]
+        public async Task UpdateCabinLoggedInOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.UpdateCabin(It.IsAny<Cabin>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.UpdateCabin(It.IsAny<Cabin>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal("Cabin updated", res.Value);
+        }
+        
+        [Fact]
+        public async Task UpdateCabinNotLoggedIn()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.UpdateCabin(It.IsAny<Cabin>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.UpdateCabin(It.IsAny<Cabin>()) as UnauthorizedObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
+            Assert.Equal("Not logged in", res.Value);
+        }
+
+        [Fact]
+        public async Task UpdateCabinLoggedInNotOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.UpdateCabin(It.IsAny<Cabin>())).ReturnsAsync(false);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.UpdateCabin(It.IsAny<Cabin>()) as NotFoundObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
+            Assert.Equal("Cabin was not found", res.Value);
+        }
+        
+        
     }
 }

@@ -186,7 +186,7 @@ namespace BoatLine.Controllers
             if (ret)
             {
                 _log.LogInformation("Cabin updated");
-                return Ok("Route updated");
+                return Ok("Cabin updated");
             }
 
             _log.LogInformation("Cabin was not found");
