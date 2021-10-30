@@ -141,5 +141,50 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
             Assert.Equal("Not logged in", res.Value);
         }
+        
+        [Fact]
+        public async Task CreateAdminLoggedInInvalidModelState()
+        {
+            // Arrange
+            var newAdmin = new Admin { Username = "", Password = "NewAdmin4" };
+            
+            _mockRep.Setup(k => k.CreateAdmin(newAdmin)).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            authController.ModelState.AddModelError("Username", "Input validation for admin failed on server");
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.CreateAdmin(newAdmin) as BadRequestObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal("Input validation for admin failed on server", res.Value);
+        }
+        
+        [Fact]
+        public async Task CreateAdminLoggInFailedToCreate()
+        {
+            var newAdmin = new Admin { Username = "TestAdmin", Password = "NewAdmin4" };
+            
+            _mockRep.Setup(k => k.CreateAdmin(newAdmin)).ReturnsAsync(false);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.CreateAdmin(newAdmin) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.False((bool)res.Value);
+        }
     }
 }

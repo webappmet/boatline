@@ -81,7 +81,7 @@ namespace BoatLine.Controllers
                 return Ok(false);
             }
 
-            _log.LogInformation("Input validation for admin failed");
+            _log.LogInformation("Input validation for admin failed on server");
             return BadRequest("Input validation for admin failed on server");
         }
         
