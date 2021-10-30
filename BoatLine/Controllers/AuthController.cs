@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using BoatLine.DAL.Repositories;
 using BoatLine.Models;
@@ -116,10 +115,8 @@ namespace BoatLine.Controllers
                 return BadRequest("Route was not saved");
             }
 
-            var message = GetModelStateMessage();
-
-            _log.LogInformation("Route was not saved: " + message);
-            return BadRequest("Route was not saved: " + message);
+            _log.LogInformation("Input validation for route failed on server");
+            return BadRequest("Input validation for route failed on server");
         }
 
         public async Task<ActionResult> UpdateRoute(Route route)
@@ -174,10 +171,8 @@ namespace BoatLine.Controllers
                 return BadRequest("Cabin was not saved");
             }
 
-            var message = GetModelStateMessage();
-
-            _log.LogInformation("Cabin was not saved: " + message);
-            return BadRequest("Cabin was not saved: " + message);
+            _log.LogInformation("Input validation failed for cabin on server");
+            return BadRequest("Input validation failed for cabin on server");
         }
 
         public async Task<ActionResult> UpdateCabin(Cabin cabin)
@@ -299,15 +294,5 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation for customer failed");
         }
         */
-
-        /**
-         * Formatting multiple model state messages for better logging
-         */
-        private string GetModelStateMessage()
-        {
-            return string.Join(", ", ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage));
-        }
     }
 }

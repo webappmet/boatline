@@ -243,5 +243,87 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
             Assert.Equal("Admin was not found and not deleted", res.Value);
         }
+        
+        [Fact]
+        public async Task PostRouteLoggedInOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.PostRoute(It.IsAny<Route>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostRoute(It.IsAny<Route>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal("Route saved", res.Value);
+        }
+        
+        [Fact]
+        public async Task PostRouteNotLoggedIn()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.PostRoute(It.IsAny<Route>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostRoute(It.IsAny<Route>()) as UnauthorizedObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
+            Assert.Equal("Not logged in", res.Value);
+        }
+        
+        [Fact]
+        public async Task PostRouteLoggedInOkInvalidModelState()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.PostRoute(It.IsAny<Route>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            authController.ModelState.AddModelError("Departure","Input validation for route failed on server");
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostRoute(It.IsAny<Route>()) as BadRequestObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal("Input validation for route failed on server", res.Value);
+        }
+        
+        [Fact]
+        public async Task PostRouteLoggedInOkNotOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.PostRoute(It.IsAny<Route>())).ReturnsAsync(false);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostRoute(It.IsAny<Route>()) as BadRequestObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal("Route was not saved", res.Value);
+        }
     }
 }
