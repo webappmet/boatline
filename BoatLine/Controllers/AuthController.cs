@@ -155,7 +155,8 @@ namespace BoatLine.Controllers
             _log.LogInformation("Route was not found");
             return NotFound("Route was not found");
         }
-
+        
+        
         public async Task<ActionResult> PostCabin(Cabin cabin)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
@@ -174,6 +175,7 @@ namespace BoatLine.Controllers
             _log.LogInformation("Input validation failed for cabin on server");
             return BadRequest("Input validation failed for cabin on server");
         }
+        
 
         public async Task<ActionResult> UpdateCabin(Cabin cabin)
         {
@@ -192,7 +194,8 @@ namespace BoatLine.Controllers
             _log.LogInformation("Cabin was not found");
             return NotFound("Cabin was not found");
         }
-
+        
+        /*
         public async Task<ActionResult> DeleteCabin(int id)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
@@ -205,7 +208,8 @@ namespace BoatLine.Controllers
             _log.LogInformation("Cabin was not deleted");
             return NotFound("Cabin was not deleted");
         }
-
+        */
+        
         public async Task<ActionResult> DeletePostalCode(string code)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))

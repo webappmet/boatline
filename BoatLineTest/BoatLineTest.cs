@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using BoatLine.Controllers;
 using BoatLine.DAL.Repositories;
@@ -641,7 +639,5 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
             Assert.Equal("Cabin was not found", res.Value);
         }
-        
-        
     }
 }
