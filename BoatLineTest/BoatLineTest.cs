@@ -25,6 +25,10 @@ namespace BoatLineTest
         private readonly Mock<HttpContext> _mockHttpContext = new();
         private readonly MockHttpSession _mockSession = new();
         
+        /**
+         * --------------------------------- Test logg in -----------------------------
+         */
+        
         [Fact]
         public async Task LoggInnOk()
         {
@@ -43,7 +47,7 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
             Assert.True((bool)res.Value);
         }
-        
+
         [Fact]
         public async Task LogInIncorrectPasswordOrUser()
         {
@@ -99,6 +103,10 @@ namespace BoatLineTest
             // Assert
             Assert.Equal(NotLoggedInn,_mockSession[LoggedIn]);
         }
+        
+        /**
+         * --------------------------------- Test create admin -----------------------------
+         */
 
         [Fact]
         public async Task CreateAdminLoggedInOk()
@@ -187,6 +195,10 @@ namespace BoatLineTest
             Assert.False((bool)res.Value);
         }
         
+        /**
+         * --------------------------------- Test delete admin -----------------------------
+         */
+        
         [Fact]
         public async Task DeleteAdminLoggedInOk()
         {
@@ -243,6 +255,10 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
             Assert.Equal("Admin was not found and not deleted", res.Value);
         }
+        
+        /**
+         * --------------------------------- Test post route -----------------------------
+         */
         
         [Fact]
         public async Task PostRouteLoggedInOk()
@@ -325,6 +341,10 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
             Assert.Equal("Route was not saved", res.Value);
         }
+        
+        /**
+         * --------------------------------- Test update route -----------------------------
+         */
 
         [Fact]
         public async Task UpdateRouteLoggedInOk()
@@ -407,6 +427,10 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
             Assert.Equal("Input validation for route failed on server", res.Value);
         }
+        
+        /**
+         * --------------------------------- Test delete route -----------------------------
+         */
 
         [Fact]
         public async Task DeleteRouteLoggedInOk()
@@ -466,6 +490,92 @@ namespace BoatLineTest
             // Assert 
             Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
             Assert.Equal("Route was not found", res.Value);
+        }
+        
+        /**
+         * --------------------------------- Test post cabin -----------------------------
+         */
+        
+        [Fact]
+        public async Task PostCabinLoggedInOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.PostCabin(It.IsAny<Cabin>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostCabin(It.IsAny<Cabin>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal("Cabin saved", res.Value);
+        }
+        
+        [Fact]
+        public async Task PostCabinNotLoggedIn()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.PostCabin(It.IsAny<Cabin>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostCabin(It.IsAny<Cabin>()) as UnauthorizedObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
+            Assert.Equal("Not logged in", res.Value);
+        }
+        
+        [Fact]
+        public async Task PostCabinLoggedInOkInvalidModelState()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.PostCabin(It.IsAny<Cabin>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            authController.ModelState.AddModelError("Departure","Input validation for route failed on server");
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostCabin(It.IsAny<Cabin>()) as BadRequestObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal("Input validation failed for cabin on server", res.Value);
+        }
+        
+        [Fact]
+        public async Task PostCabinLoggedInNotOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.PostCabin(It.IsAny<Cabin>())).ReturnsAsync(false);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostCabin(It.IsAny<Cabin>()) as BadRequestObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal("Cabin was not saved", res.Value);
         }
     }
 }
