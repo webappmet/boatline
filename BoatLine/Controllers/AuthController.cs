@@ -48,7 +48,7 @@ namespace BoatLine.Controllers
                 return Ok(false);
             }
 
-            _log.LogInformation("Input validation failed");
+            _log.LogInformation("Input validation failed on server");
             return BadRequest("Input validation failed on server");
         }
 

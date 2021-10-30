@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BoatLine.Controllers;
 using BoatLine.DAL.Repositories;
 using BoatLine.Models;
+using BoatLine.Models.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,6 +24,27 @@ namespace BoatLineTest
 
         private readonly Mock<HttpContext> mockHttpContext = new Mock<HttpContext>();
         private readonly MockHttpSession mockSession = new MockHttpSession();
+
+        [Fact]
+        public async Task LoggInInputError()
+        {
+            mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(true);
+
+            var authController = new AuthController(mockRep.Object, mockLog.Object);
+
+            authController.ModelState.AddModelError("Username", "Input validation failed on server");
+
+            mockSession[_loggedIn] = _loggedIn;
+            mockHttpContext.Setup(s => s.Session).Returns(mockSession);
+            authController.ControllerContext.HttpContext = mockHttpContext.Object;
+
+            // Act
+            var res = await authController.LogIn(It.IsAny<Admin>()) as BadRequestObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal("Input validation failed on server", res.Value);
+        }
         
         [Fact]
         public void LogOut()
