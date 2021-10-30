@@ -407,5 +407,65 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
             Assert.Equal("Input validation for route failed on server", res.Value);
         }
+
+        [Fact]
+        public async Task DeleteRouteLoggedInOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.DeleteRoute(It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.DeleteRoute(It.IsAny<int>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal("Route deleted", res.Value);
+        }
+        
+        [Fact]
+        public async Task DeleteRouteNotLoggedIn()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.DeleteRoute(It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.DeleteRoute(It.IsAny<int>()) as UnauthorizedObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
+            Assert.Equal("Not logged in", res.Value);
+        }
+        
+        [Fact]
+        public async Task DeleteRouteLoggedInNotOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.DeleteRoute(It.IsAny<int>())).ReturnsAsync(false);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.DeleteRoute(It.IsAny<int>()) as NotFoundObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
+            Assert.Equal("Route was not found", res.Value);
+        }
     }
 }

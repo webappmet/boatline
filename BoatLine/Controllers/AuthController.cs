@@ -152,8 +152,8 @@ namespace BoatLine.Controllers
             var ret = await _db.DeleteRoute(id);
 
             if (ret) return Ok("Route deleted");
-            _log.LogInformation("Route was not deleted");
-            return NotFound("Route was not deleted");
+            _log.LogInformation("Route was not found");
+            return NotFound("Route was not found");
         }
 
         public async Task<ActionResult> PostCabin(Cabin cabin)
