@@ -9,24 +9,24 @@ namespace BoatLineTest
 {
     public class MockHttpSession : ISession
     {
-        readonly Dictionary<string, object> sessionStorage = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _sessionStorage = new();
 
         public object this[string name]
         {
-            get => sessionStorage[name];
-            set => sessionStorage[name] = value;
+            get => _sessionStorage[name];
+            set => _sessionStorage[name] = value;
         }
 
         void ISession.Set(string key, byte[] value)
         {
-            sessionStorage[key] = value;
+            _sessionStorage[key] = value;
         }
 
         bool ISession.TryGetValue(string key, out byte[] value)
         {
-            if (sessionStorage[key] != null)
+            if (_sessionStorage[key] != null)
             {
-                value = Encoding.ASCII.GetBytes(sessionStorage[key].ToString());
+                value = Encoding.ASCII.GetBytes(_sessionStorage[key].ToString());
                 return true;
             }
 
