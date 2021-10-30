@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace BoatLine.DAL.Utilities
 {
+    [ExcludeFromCodeCoverage]
     public static class Utility
     {
         private static readonly Random Random = new();

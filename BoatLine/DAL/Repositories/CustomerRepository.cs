@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using BoatLine.DAL.Utilities;
@@ -10,6 +11,7 @@ using BoatLine.Models;
 
 namespace BoatLine.DAL.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class CustomerRepository : ICustomerRepository
     {
         private readonly BoatLineDb _boatLineDb;

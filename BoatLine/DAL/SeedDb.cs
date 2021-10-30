@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using BoatLine.DAL.Utilities;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
 
 namespace BoatLine.DAL
 {
+    [ExcludeFromCodeCoverage]
     public class SeedDb
     {
         private readonly BoatLineDb _db;

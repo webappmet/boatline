@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using BoatLine.DAL.Utilities;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BoatLine.DAL.Repositories
 {
+    [ExcludeFromCodeCoverage]
     public class AuthRepository : IAuthRepository
     {
         private readonly BoatLineDb _db;
