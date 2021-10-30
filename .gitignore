@@ -9,3 +9,5 @@ Boatline/BoatLine.db
 
 BoatLineTest/bin
 BoatLineTest/obj
+.vs
+.DS_Store
