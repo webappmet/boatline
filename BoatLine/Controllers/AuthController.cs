@@ -139,8 +139,8 @@ namespace BoatLine.Controllers
                 return NotFound("Route was not found");
             }
 
-            _log.LogInformation("Input validation for route failed");
-            return BadRequest("Input validation for route failed");
+            _log.LogInformation("Input validation for route failed on server");
+            return BadRequest("Input validation for route failed on server");
         }
 
         public async Task<ActionResult> DeleteRoute(int id)
