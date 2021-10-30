@@ -5,6 +5,7 @@
         <RootNamespace>BoatLine</RootNamespace>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(RunConfiguration)' == 'webapp_gruppeoppgave' " />
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
       <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.10" />
@@ -12,6 +13,8 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.10" />
       <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
+      <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />  
+      <PackageReference Include="Serilog.Settings.Configuration" Version="2.6.1" />  
     </ItemGroup>
 
     <ItemGroup>

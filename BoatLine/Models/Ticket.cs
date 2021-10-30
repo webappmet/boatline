@@ -9,7 +9,9 @@ namespace BoatLine.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Reference { get; set; }
-        public virtual Route Route { get; set; }
+        public virtual Departure Departure { get; set; }
+        // Storing price on ticket so that it does not change if cabin price is updated/changed in the future by admin
+        public double Price { get; set; }
         public string Date { get; set; }
         public string StartTime { get; set; }
 

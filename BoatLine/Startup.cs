@@ -8,11 +8,23 @@ using Microsoft.Extensions.Logging;
 using BoatLine.DAL;
 using BoatLine.DAL.Repositories;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace BoatLine
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; private set; }
+
+        public Startup(IConfiguration configuration)  
+        {  
+            Configuration = configuration;
+            Log.Logger = new LoggerConfiguration()  
+                .ReadFrom.Configuration(configuration)  
+                .CreateLogger();
+        }
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -52,6 +64,8 @@ namespace BoatLine
                 loggerFactory.AddFile("Logs/log.txt");
                 DbInit.Initialize(app);
             }
+
+            loggerFactory.AddSerilog();
 
             app.UseHttpsRedirection();
             

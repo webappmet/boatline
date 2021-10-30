@@ -1,0 +1,10 @@
+2021-10-28 17:01:11.758 +02:00 [Information] Now listening on: "https://localhost:5001"
+2021-10-28 17:01:11.774 +02:00 [Information] Now listening on: "http://localhost:5000"
+2021-10-28 17:01:11.774 +02:00 [Information] Application started. Press Ctrl+C to shut down.
+2021-10-28 17:01:11.774 +02:00 [Information] Hosting environment: "Development"
+2021-10-28 17:01:11.774 +02:00 [Information] Content root path: "/Users/eriksommer/Documents/GitHub/boatline/BoatLine"
+2021-10-28 17:03:45.252 +02:00 [Information] An exception was thrown while attempting to evaluate a LINQ query parameter expression. See the inner exception for more information. To show additional information call 'DbContextOptionsBuilder.EnableSensitiveDataLogging'.
+2021-10-28 17:03:45.253 +02:00 [Information] Customer ticket was not saved
+2021-10-28 17:03:45.793 +02:00 [Information] Did not find anny tickets by reference
+2021-10-28 17:03:45.793 +02:00 [Information] Did not find tickets by reference
+2021-10-28 17:04:39.907 +02:00 [Information] Application is shutting down...
