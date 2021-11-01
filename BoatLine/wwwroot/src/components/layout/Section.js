@@ -5,7 +5,7 @@ const Section = ({ color, children, padding }) => {
         <Styled
             style={{
                 '--color' : color,
-                '--padding' : padding
+                '--padding' : padding || '5.6rem'
             }}
         >{children}</Styled>
     );
@@ -13,7 +13,7 @@ const Section = ({ color, children, padding }) => {
 
 const Styled = styled.section`
     background-color: var(--color);
-    padding: var(--padding, 5.6rem) 0;
+    padding: var(--padding) 0;
 `;
 
 export default Section;

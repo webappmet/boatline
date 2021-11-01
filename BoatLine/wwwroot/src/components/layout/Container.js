@@ -4,8 +4,8 @@ const Container = ({ children, padding, max }) => {
     return (
         <Wrapper
             style={{
-                '--padding' : padding,
-                '--max' : max
+                '--padding' : padding || '1.8rem',
+                '--max' : max || '110rem'
             }}
         >
             {children}
@@ -14,9 +14,9 @@ const Container = ({ children, padding, max }) => {
 }
 
 const Wrapper = styled.div`
-    max-width: var(--max, 110rem);
+    max-width: var(--max);
     margin: 0 auto;
-    padding: var(--padding, 1.8rem);
+    padding: 0 var(--padding);
 `;
 
 export default Container;

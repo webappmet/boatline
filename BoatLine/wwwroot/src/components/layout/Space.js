@@ -14,7 +14,7 @@ const Space = ({ children, col, gap }) => {
 const Styled = styled.div`
     display: grid;
     gap: var(--gap);
-    grid-template-rows: repeat(var(--columns), 1fr);
+    grid-template-columns: repeat(var(--columns), 1fr);
 `
 
 export default Space;
