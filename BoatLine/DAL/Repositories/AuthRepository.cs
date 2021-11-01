@@ -146,24 +146,6 @@ namespace BoatLine.DAL.Repositories
             }
         }
 
-        public async Task<bool> PostCabin(Cabin cabin)
-        {
-            try
-            {
-                var dbCabin = await _db.Cabins.FirstOrDefaultAsync(r => r.Id == cabin.Id);
-
-                if (dbCabin != null) return false;
-                await _db.Cabins.AddAsync(cabin);
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                _log.LogInformation(e.Message);
-                return false;
-            }
-        }
-
         public async Task<bool> UpdateCabin(Cabin cabin)
         {
             try
@@ -185,63 +167,6 @@ namespace BoatLine.DAL.Repositories
             }
 
             return true;
-        }
-
-        public async Task<bool> DeleteCabin(int id)
-        {
-            try
-            {
-                var cabin = await _db.Cabins.FindAsync(id);
-                _db.Cabins.Remove(cabin);
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /**
-         * Method that updates the city name from postal code
-         */
-        public async Task<bool> UpdatePostalCode(PostalCode postalCode)
-        {
-            try
-            {
-                var dbPostalCode = await _db.PostalCodes.FirstOrDefaultAsync(p => p.Code == postalCode.Code);
-
-                if (dbPostalCode != null)
-                {
-                    dbPostalCode.Name = postalCode.Name;
-
-                    await _db.SaveChangesAsync();
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /**
-         * Method that deletes postalcode with given code
-         */
-        public async Task<bool> DeletePostalCode(string code)
-        {
-            try
-            {
-                var postalCode = await _db.PostalCodes.FindAsync(code);
-                _db.PostalCodes.Remove(postalCode);
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }
