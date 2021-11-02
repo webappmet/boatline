@@ -168,5 +168,27 @@ namespace BoatLine.DAL.Repositories
 
             return true;
         }
+
+        public async Task<bool> CreateDeparture(Departure departure, int routeId)
+        {
+            try
+            {
+                var route = _db.Routes.FirstOrDefaultAsync(r => r.Id == routeId).Result;
+                if (route == null)
+                {
+                    throw new Exception($"Route with id {routeId} could not be found");
+                }
+
+                departure.Route = route;
+                await _db.Departures.AddAsync(departure);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return false;
+            }
+        }
     }
 }

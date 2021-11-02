@@ -42,8 +42,8 @@ namespace BoatLine.DAL.Repositories
                 for (var i = 0; i < customer.Tickets.Count; i++)
                 {
                     // Setting route
-                    customer.Tickets[i].Route =
-                        await _boatLineDb.Routes.FirstOrDefaultAsync(r => r.Id == customer.Tickets[i].Route.Id);
+                    customer.Tickets[i].Departure =
+                        await _boatLineDb.Departures.FirstOrDefaultAsync(d => d.Id == customer.Tickets[i].Departure.Id);
 
                     // Setting cabin
                     var newCabinHash = new Collection<Cabin>();
@@ -365,6 +365,32 @@ namespace BoatLine.DAL.Repositories
             catch (Exception e)
             {
                 _log.LogInformation(e.Message);
+                return null;
+            }
+        }
+
+        public async Task<List<Departure>> GetDeparturesByDateAndRoute(string date, int routeId)
+        {
+            try
+            {
+                return await _boatLineDb.Departures.Where(d => (date == null || d.Date == date) && (routeId == 0 || d.Route.Id == routeId)).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+        
+        public async Task<List<Departure>> GetDepartures()
+        {
+            try
+            {
+                return await _boatLineDb.Departures.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
                 return null;
             }
         }

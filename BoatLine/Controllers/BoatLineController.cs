@@ -203,6 +203,18 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation failed: " + message);
         }
         
+        public async Task<ActionResult> GetDeparturesByDateAndRoute(string date, int routeId)
+        {
+            var res = await _db.GetDeparturesByDateAndRoute(date, routeId);
+            return Ok(res);
+        }
+        
+        public async Task<ActionResult> GetDepartures()
+        {
+            var res = await _db.GetDepartures();
+            return Ok(res);
+        }
+        
         /**
          * Formatting multiple model state messages for better logging
          */

@@ -138,13 +138,13 @@ const OrderHandler = () => {
                 email: traveler.email,
                 tickets: [
                     {
-                        route: {
-                            id: selectedRoute.id
+                        departure: { //route
+                            id: 1 //selectedRoute.id
                         },
                         cabins: [
                             {id: parseInt(traveler.room)}
                         ],
-                        date: `${day}.${month}.${year}`,
+                        //date: `${day}.${month}.${year}`,
                         reference: refNr
                     }
                 ]

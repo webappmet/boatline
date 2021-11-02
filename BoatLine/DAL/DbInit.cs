@@ -23,6 +23,7 @@ namespace BoatLine.DAL
             seedDb.SeedRoutes();
             seedDb.SeedCabins();
             seedDb.SeedAuthAdmin();
+            seedDb.SeedDepartures();
         }
     }
 }

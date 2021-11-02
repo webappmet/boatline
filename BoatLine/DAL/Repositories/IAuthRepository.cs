@@ -13,5 +13,6 @@ namespace BoatLine.DAL.Repositories
         Task<bool> UpdateRoute(Route route);
         Task<bool> DeleteRoute(int id);
         Task<bool> UpdateCabin(Cabin cabin);
+        Task<bool> CreateDeparture(Departure departure, int routeId);
     }
 }

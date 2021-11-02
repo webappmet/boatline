@@ -1,7 +1,11 @@
+using System;
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using BoatLine.DAL.Utilities;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoatLine.DAL
 {
@@ -155,6 +159,23 @@ namespace BoatLine.DAL
             admin.Password = hash;
             admin.Salt = salt;
             _db.Admins.Add(admin);
+
+            _db.SaveChanges();
+        }
+
+        public void SeedDepartures()
+        {
+            var routes = _db.Routes.ToList();
+            
+            foreach (var route in routes)
+            {
+                _db.Departures.Add(new Departure
+                {
+                    Route = route,
+                    Date = DateTime.Today.ToString("yyyy-MM-dd"),
+                    Time = "08:30:00"
+                });
+            }
 
             _db.SaveChanges();
         }
