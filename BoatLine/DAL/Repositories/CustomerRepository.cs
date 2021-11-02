@@ -369,6 +369,32 @@ namespace BoatLine.DAL.Repositories
             }
         }
 
+        public async Task<List<Departure>> GetDeparturesByDateAndRoute(string date, int routeId)
+        {
+            try
+            {
+                return await _boatLineDb.Departures.Where(d => (date == null || d.Date == date) && (routeId == 0 || d.Route.Id == routeId)).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+        
+        public async Task<List<Departure>> GetDepartures()
+        {
+            try
+            {
+                return await _boatLineDb.Departures.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
         /**
          * Method that generates price from cabin price
          */

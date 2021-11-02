@@ -21,6 +21,8 @@ namespace BoatLine.DAL.Repositories
         Task<PostalCode> GetPostalCode(string code);
         Task<List<Customer>> GetCustomersByReferences(IEnumerable<string> references);
         Task<string> GenerateReference(string firstname, string lastname);
+        Task<List<Departure>> GetDeparturesByDateAndRoute(string date, int routeId);
+        Task<List<Departure>> GetDepartures();
         double GeneratePrice(IEnumerable<Cabin> cabins);
         bool PaymentCheck(Payment payment);
     }

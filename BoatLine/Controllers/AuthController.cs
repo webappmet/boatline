@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using BoatLine.DAL.Repositories;
 using BoatLine.Models;
@@ -26,6 +27,7 @@ namespace BoatLine.Controllers
 
         public async Task<ActionResult> LogIn(Admin admin)
         {
+            _log.LogInformation(admin.Username);
             if (ModelState.IsValid)
             {
                 var ret = await _db.LogIn(admin);
@@ -164,6 +166,25 @@ namespace BoatLine.Controllers
 
             _log.LogInformation("Cabin was not found");
             return NotFound("Cabin was not found");
+        }
+        public async Task<ActionResult> PostDeparture([FromBody] Departure departure, int routeId)
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
+            {
+                return Unauthorized("Not logged in");
+            }
+            
+            if (true || ModelState.IsValid)
+            {
+                var res = await _db.CreateDeparture(departure, routeId);
+
+                if (res) return Ok("Departure saved");
+                _log.LogInformation("Departure was not saved");
+                return BadRequest("Departure was not saved");
+            }
+
+            _log.LogInformation("Input validation for departure failed on server");
+            return BadRequest("Input validation for departure failed on server");
         }
     }
 }
