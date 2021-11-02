@@ -13,7 +13,7 @@ const Ticket = ({ ticket }) => {
                     </div>
                     <div>
                         <h3 className="no-margin">Date:</h3>
-                        <p className="no-margin">{ticket.date} - {ticket.route.durationDays}D, {ticket.route.durationHours}H</p>
+                        <p className="no-margin">{ticket.route.date} - {ticket.route.time} - {ticket.route.durationDays}D, {ticket.route.durationHours}H</p>
                     </div>
                     <div>
                         <h3 className="no-margin">Departure:</h3>
