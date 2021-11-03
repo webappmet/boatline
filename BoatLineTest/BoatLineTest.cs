@@ -578,5 +578,241 @@ namespace BoatLineTest
             Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
             Assert.Equal("Cabin was not found", res.Value);
         }
+        
+        /**
+         * --------------------------------- Test create departure -----------------------------
+         */
+        
+        [Fact]
+        public async Task PostDepartureLoggedInOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal("Departure saved", res.Value);
+        }
+        
+        [Fact]
+        public async Task PostDepartureNotLoggedIn()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as UnauthorizedObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
+            Assert.Equal("Not logged in", res.Value);
+        }
+        
+        [Fact]
+        public async Task PostDepartureLoggedInOkInvalidModelState()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            authController.ModelState.AddModelError("Departure","Input validation for route failed on server");
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as BadRequestObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal("Input validation for departure failed on server", res.Value);
+        }
+        
+        [Fact]
+        public async Task PostDepartureLoggedInNotOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(false);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.PostDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as BadRequestObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal("Departure was not saved", res.Value);
+        }
+        
+        /**
+         * --------------------------------- Test update departure -----------------------------
+         */
+        
+        [Fact]
+        public async Task UpdateDepartureLoggedInOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal("Departure updated", res.Value);
+        }
+        
+        [Fact]
+        public async Task UpdateDepartureNotLoggedIn()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as UnauthorizedObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
+            Assert.Equal("Not logged in", res.Value);
+        }
+        
+        [Fact]
+        public async Task UpdateDepartureLoggedInNotOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(false);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as NotFoundObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
+            Assert.Equal("Departure was not found", res.Value);
+        }
+        
+        [Fact]
+        public async Task UpdateDepartureLoggedInInvalidModelState()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            authController.ModelState.AddModelError("Departure","Input validation for route failed on server");
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as BadRequestObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
+            Assert.Equal("Input validation for departure failed on server", res.Value);
+        }
+        
+        /**
+         * --------------------------------- Test delete departure -----------------------------
+         */
+        
+        [Fact]
+        public async Task DeleteDepartureLoggedInOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.DeleteDeparture(It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.DeleteDeparture(It.IsAny<int>()) as OkObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
+            Assert.Equal("Departure deleted", res.Value);
+        }
+        
+        [Fact]
+        public async Task DeleteDepartureNotLoggedIn()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.DeleteDeparture(It.IsAny<int>())).ReturnsAsync(true);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = NotLoggedInn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.DeleteDeparture(It.IsAny<int>()) as UnauthorizedObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
+            Assert.Equal("Not logged in", res.Value);
+        }
+        
+        [Fact]
+        public async Task DeleteDepartureLoggedInNotOk()
+        {
+            // Arrange
+            _mockRep.Setup(k => k.DeleteDeparture(It.IsAny<int>())).ReturnsAsync(false);
+
+            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+
+            _mockSession[LoggedIn] = LoggedIn;
+            _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
+            authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+
+            // Act
+            var res = await authController.DeleteDeparture(It.IsAny<int>()) as NotFoundObjectResult;
+
+            // Assert 
+            Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
+            Assert.Equal("Departure was not found", res.Value);
+        }
     }
 }
