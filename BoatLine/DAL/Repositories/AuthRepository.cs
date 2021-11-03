@@ -174,19 +174,61 @@ namespace BoatLine.DAL.Repositories
             try
             {
                 var route = _db.Routes.FirstOrDefaultAsync(r => r.Id == routeId).Result;
-                if (route == null)
+                if (route != null)
                 {
-                    throw new Exception($"Route with id {routeId} could not be found");
+                    departure.Route = route;
+                    await _db.Departures.AddAsync(departure);
+                    await _db.SaveChangesAsync();
+                    return true;
                 }
-
-                departure.Route = route;
-                await _db.Departures.AddAsync(departure);
-                await _db.SaveChangesAsync();
-                return true;
+                _log.LogInformation($"Route with id {routeId} could not be found");
+                return false;
             }
             catch (Exception e)
             {
                 _log.LogInformation(e.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateDeparture(Departure departure, int routeId)
+        {
+            try
+            {
+                var dbDeparture = _db.Departures.FirstOrDefaultAsync(d => d.Id == departure.Id).Result;
+                if (dbDeparture != null)
+                {
+                    var route = _db.Routes.FirstOrDefaultAsync(r => r.Id == routeId).Result;
+                    if (route != null)
+                    {
+                        dbDeparture.Route = route;
+                    }
+                    dbDeparture.Date = departure.Date;
+                    dbDeparture.Time = departure.Time;
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                _log.LogInformation($"Route with id {routeId} could not be found");
+                return false;
+            }
+            catch (Exception e)
+            {
+                _log.LogInformation(e.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteDeparture(int id)
+        {
+            try
+            {
+                var departure = await _db.Departures.FindAsync(id);
+                _db.Departures.Remove(departure);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
                 return false;
             }
         }
