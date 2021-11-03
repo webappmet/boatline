@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Cryptography;
+using BoatLine.Models.Auth;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace BoatLine.DAL.Utilities
@@ -44,6 +45,25 @@ namespace BoatLine.DAL.Utilities
             var salt = new byte[24];
             csp.GetBytes(salt);
             return salt;
+        }
+        
+        public static string Base64Encode(string plainText) {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
+        }
+        
+        public static string Base64Decode(string base64EncodedData) {
+            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+        }
+
+        public static Admin DecodeAdmin(string credentials)
+        {
+            var sub = credentials[6..];
+            var decode = Base64Decode(sub);
+            var res = decode.Split(":");
+
+            return new Admin { Username = res[0], Password = res[1] };
         }
     }
 }

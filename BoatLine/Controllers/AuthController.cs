@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using BoatLine.DAL.Repositories;
+using BoatLine.DAL.Utilities;
 using BoatLine.Models;
-using BoatLine.Models.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,9 +25,10 @@ namespace BoatLine.Controllers
             _log = log;
         }
 
-        public async Task<ActionResult> LogIn(Admin admin)
+        public async Task<ActionResult> LogIn(string credentials)
         {
-            _log.LogInformation(admin.Username);
+            var admin = Utility.DecodeAdmin(credentials);
+            
             if (ModelState.IsValid)
             {
                 var ret = await _db.LogIn(admin);
@@ -55,15 +56,19 @@ namespace BoatLine.Controllers
         /**
          * Already authorized user creates new admin user
          */
-        public async Task<ActionResult> CreateAdmin(Admin admin)
+        public async Task<ActionResult> CreateAdmin(string credentials)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
                 return Unauthorized("Not logged in");
             }
+
+            var admin = Utility.DecodeAdmin(credentials);
+
             if (ModelState.IsValid)
             {
                 var ret = await _db.CreateAdmin(admin);
+                
                 if (ret)
                 {
                     _log.LogInformation("New admin user created");

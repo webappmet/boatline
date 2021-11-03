@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BoatLine.Controllers;
 using BoatLine.DAL.Repositories;
+using BoatLine.DAL.Utilities;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
 using Microsoft.AspNetCore.Http;
@@ -38,8 +39,11 @@ namespace BoatLineTest
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
+            const string str = "Admin:Admin123";
+            var encode = Utility.Base64Encode(str);
+            var credentials = "Basic " + encode;
             // Act
-            var res = await authController.LogIn(It.IsAny<Admin>()) as OkObjectResult;
+            var res = await authController.LogIn(credentials) as OkObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
@@ -56,9 +60,12 @@ namespace BoatLineTest
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
-
+            
+            const string str = "Admin:Admin123";
+            var encode = Utility.Base64Encode(str);
+            var credentials = "Basic " + encode;
             // Act
-            var res = await authController.LogIn(It.IsAny<Admin>()) as OkObjectResult;
+            var res = await authController.LogIn(credentials) as OkObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
@@ -78,8 +85,12 @@ namespace BoatLineTest
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
+            const string str = "Admin:Admin123";
+            var encode = Utility.Base64Encode(str);
+            var credentials = "Basic " + encode;
+            
             // Act
-            var res = await authController.LogIn(It.IsAny<Admin>()) as BadRequestObjectResult;
+            var res = await authController.LogIn(credentials) as BadRequestObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
@@ -109,18 +120,20 @@ namespace BoatLineTest
         [Fact]
         public async Task CreateAdminLoggedInOk()
         {
-            var newAdmin = new Admin { Username = "TestAdmin", Password = "NewAdmin4" };
-            
-            _mockRep.Setup(k => k.CreateAdmin(newAdmin)).ReturnsAsync(true);
+            _mockRep.Setup(k => k.CreateAdmin(It.IsAny<Admin>())).ReturnsAsync(true);
 
             var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+            
+            const string str = "Admin:Admin123";
+            var encode = Utility.Base64Encode(str);
+            var credentials = "Basic " + encode;
 
             // Act
-            var res = await authController.CreateAdmin(newAdmin) as OkObjectResult;
+            var res = await authController.CreateAdmin(credentials) as OkObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
@@ -139,9 +152,13 @@ namespace BoatLineTest
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+            
+            const string str = "Admin:Admin123";
+            var encode = Utility.Base64Encode(str);
+            var credentials = "Basic " + encode;
 
             // Act
-            var res = await authController.CreateAdmin(newAdmin) as UnauthorizedObjectResult;
+            var res = await authController.CreateAdmin(credentials) as UnauthorizedObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
@@ -163,9 +180,13 @@ namespace BoatLineTest
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+            
+            const string str = "Admin:Admin123";
+            var encode = Utility.Base64Encode(str);
+            var credentials = "Basic " + encode;
 
             // Act
-            var res = await authController.CreateAdmin(newAdmin) as BadRequestObjectResult;
+            var res = await authController.CreateAdmin(credentials) as BadRequestObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
@@ -184,9 +205,13 @@ namespace BoatLineTest
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
+            
+            const string str = "Admin:Admin123";
+            var encode = Utility.Base64Encode(str);
+            var credentials = "Basic " + encode;
 
             // Act
-            var res = await authController.CreateAdmin(newAdmin) as OkObjectResult;
+            var res = await authController.CreateAdmin(credentials) as OkObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
