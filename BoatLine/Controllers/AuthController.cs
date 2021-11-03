@@ -172,14 +172,15 @@ namespace BoatLine.Controllers
             _log.LogInformation("Cabin was not found");
             return NotFound("Cabin was not found");
         }
-        public async Task<ActionResult> PostDeparture([FromBody] Departure departure, int routeId)
+        
+        public async Task<ActionResult> PostDeparture([FromBody] HttpDeparture departure, int routeId)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
                 return Unauthorized("Not logged in");
             }
-            
-            if (true || ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 var res = await _db.CreateDeparture(departure, routeId);
 
@@ -190,6 +191,42 @@ namespace BoatLine.Controllers
 
             _log.LogInformation("Input validation for departure failed on server");
             return BadRequest("Input validation for departure failed on server");
+        }
+
+        public async Task<ActionResult> UpdateDeparture([FromBody] HttpDeparture departure, int departureId, int routeId)
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
+            {
+                return Unauthorized("Not logged in");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var ret = await _db.UpdateDeparture(departure, departureId, routeId);
+                if (ret)
+                {
+                    _log.LogInformation("Departure updated");
+                    return Ok("Departure updated");
+                }
+
+                _log.LogInformation("Departure was not found");
+                return NotFound("Departure was not found");
+            }
+            _log.LogInformation("Input validation for departure failed on server");
+            return BadRequest("Input validation for departure failed on server");
+        }
+
+        public async Task<ActionResult> DeleteDeparture(int id)
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
+            {
+                return Unauthorized("Not logged in");
+            }
+            var ret = await _db.DeleteDeparture(id);
+
+            if (ret) return Ok("Departure deleted");
+            _log.LogInformation("Departure was not found");
+            return NotFound("Departure was not found");
         }
     }
 }
