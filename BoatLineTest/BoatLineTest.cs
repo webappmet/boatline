@@ -13,7 +13,7 @@ using Xunit;
 
 namespace BoatLineTest
 {
-    public class UnitTest1
+    public class BoatLineTest
     {
         private const string LoggedIn = "loggedIn";
         private const string NotLoggedInn = "";
