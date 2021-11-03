@@ -1,8 +1,15 @@
+using System;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using BoatLine.DAL.Utilities;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoatLine.DAL
 {
+    [ExcludeFromCodeCoverage]
     public class SeedDb
     {
         private readonly BoatLineDb _db;
@@ -19,7 +26,7 @@ namespace BoatLine.DAL
         {
             // Source: https://www.bring.no/tjenester/adressetjenester/postnummer
             // Extra source: https://social.msdn.microsoft.com/Forums/vstudio/en-US/3d482df5-226f-41a4-a0a6-a67f16b2b4a1/how-to-parse-efficiently-a-tab-separated-text-file?forum=csharpgeneral
-            string[] postInfo = System.IO.File.ReadAllLines("Postnummerregister-ansi.txt");
+            var postInfo = System.IO.File.ReadAllLines("Postnummerregister-ansi.txt");
             foreach (var line in postInfo)
             {
                 var temp = new PostalCode()
@@ -152,6 +159,23 @@ namespace BoatLine.DAL
             admin.Password = hash;
             admin.Salt = salt;
             _db.Admins.Add(admin);
+
+            _db.SaveChanges();
+        }
+
+        public void SeedDepartures()
+        {
+            var routes = _db.Routes.ToList();
+            
+            foreach (var route in routes)
+            {
+                _db.Departures.Add(new Departure
+                {
+                    Route = route,
+                    Date = DateTime.Today.ToString("yyyy-MM-dd"),
+                    Time = "08:30:00"
+                });
+            }
 
             _db.SaveChanges();
         }

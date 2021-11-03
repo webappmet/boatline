@@ -23,24 +23,24 @@ const TicketList = () => {
 
             for (const [index, customer] of customers.entries()) {
                 let ticket = customer.tickets.find((ticket) => ticket.reference === referenceNumbers[index]);
-    
                 if (ticket) {
                     selectedTickets.push({
                         firstName: customer.firstName,
                         lastName: customer.lastName,
                         reference: ticket.reference,
                         route: {
-                            id: ticket.route.id,
-                            departure: ticket.route.departure,
-                            destination: ticket.route.destination,
-                            durationDays: ticket.route.durationDays,
-                            durationHours: ticket.route.durationHours
+                            id: ticket.departure.route.id, //ticket.route.id,
+                            departure: ticket.departure.route.departure,
+                            destination: ticket.departure.route.destination,
+                            durationDays: ticket.departure.route.durationDays,
+                            durationHours: ticket.departure.route.durationHours,
+                            date: ticket.departure.date,
+                            time: ticket.departure.time
                         },
                         cabin: {
                             id: ticket.cabins[0].id,
                             type: ticket.cabins[0].type
-                        },
-                        date: ticket.date
+                        }
                     })
                 }
             }

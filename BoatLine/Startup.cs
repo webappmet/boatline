@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -6,10 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using BoatLine.DAL;
+using BoatLine.DAL.Repositories;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace BoatLine
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -20,6 +23,7 @@ namespace BoatLine
             services.AddControllers();
             services.AddDbContext<BoatLineDb>(options => options.UseSqlite("Data Source=BoatLine.db"));
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             
             services.AddSession(options =>
             {

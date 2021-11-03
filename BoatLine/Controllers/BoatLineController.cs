@@ -1,13 +1,15 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BoatLine.DAL;
+using BoatLine.DAL.Repositories;
 using BoatLine.Models;
 
 namespace BoatLine.Controllers
 {
+    [ExcludeFromCodeCoverage]
     [Route("api/v1/[controller]/[action]")]
     public class BoatLineController : ControllerBase
     {
@@ -199,6 +201,18 @@ namespace BoatLine.Controllers
 
             _log.LogInformation("Input validation failed: " + message);
             return BadRequest("Input validation failed: " + message);
+        }
+        
+        public async Task<ActionResult> GetDeparturesByDateAndRoute(string date, int routeId)
+        {
+            var res = await _db.GetDeparturesByDateAndRoute(date, routeId);
+            return Ok(res);
+        }
+        
+        public async Task<ActionResult> GetDepartures()
+        {
+            var res = await _db.GetDepartures();
+            return Ok(res);
         }
         
         /**
