@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using BoatLine.DAL.DbLogger;
 using BoatLine.DAL.Utilities;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
@@ -15,11 +16,13 @@ namespace BoatLine.DAL.Repositories
     {
         private readonly BoatLineDb _db;
         private readonly ILogger<AuthRepository> _log;
+        private readonly Logger _dbLogg;
 
-        public AuthRepository(BoatLineDb db, ILogger<AuthRepository> log)
+        public AuthRepository(BoatLineDb db, ILogger<AuthRepository> log, Logger dbLogg)
         {
             _db = db;
             _log = log;
+            _dbLogg = dbLogg;
         }
 
         public async Task<bool> LogIn(Admin admin)
@@ -30,6 +33,7 @@ namespace BoatLine.DAL.Repositories
                 // Test if password matches
                 var hash = Utility.GenerateHash(admin.Password, dbAdmin.Salt);
                 var ok = hash.SequenceEqual(dbAdmin.Password);
+                await _dbLogg.Log("Admin with username: " + admin.Username + " logged in");
                 return ok;
             }
             catch (Exception e)
@@ -59,9 +63,9 @@ namespace BoatLine.DAL.Repositories
                     _db.Admins.Add(newAdmin);
 
                     await _db.SaveChangesAsync();
+                    await _dbLogg.Log("Admin with username: " + admin.Username + " was created");
                     return true;
                 }
-
                 _log.LogInformation("Username already exists");
                 return false;
             }
@@ -79,6 +83,7 @@ namespace BoatLine.DAL.Repositories
                 var admin = await _db.Admins.FindAsync(username);
                 _db.Admins.Remove(admin);
                 await _db.SaveChangesAsync();
+                await _dbLogg.Log("Admin with username: " + admin.Username + " was deleted");
                 return true;
             }
             catch
@@ -98,6 +103,7 @@ namespace BoatLine.DAL.Repositories
                 if (dbRoute != null) return false;
                 await _db.Routes.AddAsync(route);
                 await _db.SaveChangesAsync();
+                await _dbLogg.Log("New route added");
                 return true;
             }
             catch (Exception e)
@@ -119,8 +125,9 @@ namespace BoatLine.DAL.Repositories
                     dbRoute.Destination = route.Destination;
                     dbRoute.DurationDays = route.DurationDays;
                     dbRoute.DurationHours = route.DurationHours;
-
+                    
                     await _db.SaveChangesAsync();
+                    await _dbLogg.Log("Route with id: " + route.Id + " was updated");
                 }
             }
             catch
@@ -138,6 +145,7 @@ namespace BoatLine.DAL.Repositories
                 var route = await _db.Routes.FindAsync(id);
                 _db.Routes.Remove(route);
                 await _db.SaveChangesAsync();
+                await _dbLogg.Log("Route with id: " + id + " was deleted");
                 return true;
             }
             catch
@@ -159,6 +167,7 @@ namespace BoatLine.DAL.Repositories
                     dbCabin.Type = cabin.Type;
 
                     await _db.SaveChangesAsync();
+                    await _dbLogg.Log("Cabin with id: " + cabin.Id + " was updated");
                 }
             }
             catch
@@ -182,6 +191,7 @@ namespace BoatLine.DAL.Repositories
                 departure.Route = route;
                 await _db.Departures.AddAsync(departure);
                 await _db.SaveChangesAsync();
+                await _dbLogg.Log("Created new departure");
                 return true;
             }
             catch (Exception e)

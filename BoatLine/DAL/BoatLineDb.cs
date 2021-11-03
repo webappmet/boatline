@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using BoatLine.DAL.DbLogger;
 using Microsoft.EntityFrameworkCore;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
@@ -17,10 +18,10 @@ namespace BoatLine.DAL
         public DbSet<PostalCode> PostalCodes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Route> Routes { get; set; }
-        
         public DbSet<Departure> Departures { get; set; }
         public DbSet<Cabin> Cabins { get; set; }
         public DbSet<DbAdmin> Admins { get; set; }
+        public DbSet<LogModel> DbLogger { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

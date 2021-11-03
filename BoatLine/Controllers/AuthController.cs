@@ -27,7 +27,6 @@ namespace BoatLine.Controllers
 
         public async Task<ActionResult> LogIn(Admin admin)
         {
-            _log.LogInformation(admin.Username);
             if (ModelState.IsValid)
             {
                 var ret = await _db.LogIn(admin);
@@ -42,8 +41,8 @@ namespace BoatLine.Controllers
                 return Ok(false);
             }
 
-            _log.LogInformation("Input validation failed on server");
-            return BadRequest("Input validation failed on server");
+            _log.LogInformation("Input validation for admin failed on server");
+            return BadRequest("Input validation for admin failed on server");
         }
 
         public void LogOut()
