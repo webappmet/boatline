@@ -10,10 +10,10 @@ const TextLink = ({ to, children }) => {
 const Styled = styled(Link)`
     &:link,
     &:visited {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         text-decoration: none;
-        color: var(--color-pd);
+        color: var(--color-pl);
     }
 
     &:hover {

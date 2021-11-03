@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
-const Button = ({ size, children, to, action }) => {
+const Button = ({ size, children, to, action, disabled }) => {
     let history = useHistory();
 
     const handleClick = () => {
@@ -18,6 +18,7 @@ const Button = ({ size, children, to, action }) => {
             style={{
                 '--padding' : size === 'large' ? '2.5rem 4rem' : '1rem 2rem'
             }}
+            disabled={disabled}
             onClick={handleClick}
         >
             {children}
