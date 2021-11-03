@@ -9,7 +9,7 @@ import Button, { Text as ButtonText } from '../components/interface/control/Butt
 import TextLink from '../components/interface/control/TextLink';
 
 import { useState } from 'react';
-import { useAuthState, useAuthDispatch } from '../context/user';
+import { useAuthDispatch } from '../context/user';
 import { loginUser } from '../api/auth';
 import { useHistory } from 'react-router';
 import { useToastDispatch } from '../context/toast';
@@ -40,7 +40,7 @@ const LoginForm = () => {
         return res;
     }
 
-    const doLogin = async () => {
+    const doRegister = async () => {
         if (validPassword && validUsername) {
             try {
                 let user = await loginUser(dispatch, { username, password })
@@ -56,7 +56,7 @@ const LoginForm = () => {
     }
 
     const handleLogin = () => {
-        doLogin()
+        doRegister()
     }
 
     return (

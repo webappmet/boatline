@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using BoatLine.DAL.Repositories;
 using BoatLine.DAL.Utilities;
@@ -26,9 +27,9 @@ namespace BoatLine.Controllers
             _log = log;
         }
 
-        public async Task<ActionResult> LogIn(string credentials)
+        public async Task<ActionResult> LogIn([FromHeader] string authorization)
         {
-            var admin = Utility.DecodeAdmin(credentials);
+            var admin = Utility.DecodeAdmin(authorization);
 
             if (ModelState.IsValid)
             {
@@ -73,14 +74,14 @@ namespace BoatLine.Controllers
         /**
          * Already authorized user creates new admin user
          */
-        public async Task<ActionResult> CreateAdmin(string credentials)
+        public async Task<ActionResult> CreateAdmin([FromHeader] string authorization)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
                 return Unauthorized("Not logged in");
             }
 
-            var admin = Utility.DecodeAdmin(credentials);
+            var admin = Utility.DecodeAdmin(authorization);
 
             if (ModelState.IsValid)
             {

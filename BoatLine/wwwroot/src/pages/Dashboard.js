@@ -5,7 +5,19 @@ import H1 from '../components/type/H1';
 import H2 from '../components/type/H2';
 import Section from '../components/layout/Section';
 
+import { useEffect } from 'react';
+import { useAuthState } from '../context/user';
+import { useHistory } from 'react-router-dom';
+
 const Dashboard = ({  }) => {
+    const history = useHistory();
+    const auth = useAuthState();
+
+    useEffect(() => {
+        if (!auth.user) {
+            history.push('/');
+        }
+    }, [auth]);
 
     return (
         <Container>

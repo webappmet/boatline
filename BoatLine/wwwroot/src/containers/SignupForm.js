@@ -71,9 +71,9 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (!authState.user) {
-            //history.push('/');
+            history.push('/');
         }
-    }, []);
+    }, [authState]);
 
     return (
         <Container max="50rem">

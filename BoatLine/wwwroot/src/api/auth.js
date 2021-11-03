@@ -19,11 +19,13 @@ export const login = async (username, password) => {
 const ROOT_URL = 'https://localhost:5001';
 
 export const loginUser = async (dispatch, loginPayload) => {
+	const credentials = base64Encode(`${loginPayload.username}:${loginPayload.password}`)
+
 	const requestOptions = {
 		method: 'GET',
 		headers: { 
 			'Content-Type': 'application/json',
-			'Authorization': `Basic ${base64Encode(`${loginPayload.username}:${loginPayload.password}`)}`
+			'Authorization': `Basic ${credentials}`
 		}
 	};
 
@@ -32,9 +34,9 @@ export const loginUser = async (dispatch, loginPayload) => {
 		let response = await fetch(`${ROOT_URL}/api/v1/Auth/LogIn`, requestOptions);
 		let data = await response.text();
 
-		if (data) {
+		if (data !== 'false') {
 			dispatch({ type: 'LOGIN_SUCCESS', payload: { user: data } });
-			localStorage.setItem('currentUser', JSON.stringify(data));
+			localStorage.setItem('currentUser', data);
 			return data
 		}
 

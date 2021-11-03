@@ -22,7 +22,7 @@ namespace BoatLine.Controllers
             _db = db;
             _log = log;
         }
-
+        
         public async Task<ActionResult> SaveCustomer(Customer customer)
         {
             if (ModelState.IsValid)
@@ -39,7 +39,6 @@ namespace BoatLine.Controllers
             _log.LogInformation("Customer was not saved: " + message);
             return BadRequest("Customer was not saved: " + message);
         }
-        
         public async Task<ActionResult> SaveCustomers(List<Customer> customers)
         {
             if (ModelState.IsValid)
@@ -65,7 +64,6 @@ namespace BoatLine.Controllers
             _log.LogInformation("Customer was not found");
             return NotFound("Customer was not found");
         }
-        
         public async Task<ActionResult> GetCustomers()
         {
             var list = await _db.GetCustomers();
