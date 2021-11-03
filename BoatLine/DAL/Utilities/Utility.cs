@@ -59,11 +59,19 @@ namespace BoatLine.DAL.Utilities
 
         public static Admin DecodeAdmin(string credentials)
         {
-            var sub = credentials[6..];
-            var decode = Base64Decode(sub);
-            var res = decode.Split(":");
+            try
+            {
+                var sub = credentials[6..];
+                var decode = Base64Decode(sub);
+                var res = decode.Split(":");
 
-            return new Admin { Username = res[0], Password = res[1] };
+                return new Admin { Username = res[0], Password = res[1] };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
     }
 }
