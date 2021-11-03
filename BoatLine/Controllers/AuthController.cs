@@ -18,6 +18,7 @@ namespace BoatLine.Controllers
 
         private const string LoggedIn = "loggedIn";
         private const string NotLoggedIn = "";
+        private const string SessionName = "SessionName";
 
         public AuthController(IAuthRepository db, ILogger<AuthController> log)
         {
@@ -28,18 +29,20 @@ namespace BoatLine.Controllers
         public async Task<ActionResult> LogIn(string credentials)
         {
             var admin = Utility.DecodeAdmin(credentials);
-            
+
             if (ModelState.IsValid)
             {
                 var ret = await _db.LogIn(admin);
                 if (ret)
                 {
                     HttpContext.Session.SetString(LoggedIn, LoggedIn);
-                    return Ok(true);
+                    HttpContext.Session.SetString(SessionName, admin.Username);
+                    return Ok(admin.Username);
                 }
 
                 _log.LogInformation("Log in failed for admin");
                 HttpContext.Session.SetString(LoggedIn, NotLoggedIn);
+                HttpContext.Session.SetString(SessionName, NotLoggedIn);
                 return Ok(false);
             }
 
@@ -50,7 +53,21 @@ namespace BoatLine.Controllers
         public void LogOut()
         {
             HttpContext.Session.SetString(LoggedIn, "");
+            HttpContext.Session.SetString(SessionName, "");
             _log.LogInformation("Logged out");
+        }
+        
+        /**
+         * Method for retrieving session name (admin username that is logged in)
+         */
+        public ActionResult GetCurrentUser()
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
+            {
+                return Unauthorized("Not logged in");
+            }
+            
+            return Ok(HttpContext.Session.GetString(SessionName));
         }
 
         /**
