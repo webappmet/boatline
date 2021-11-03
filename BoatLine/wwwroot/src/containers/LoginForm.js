@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { useAuthState, useAuthDispatch } from '../context/user';
 import { loginUser } from '../api/auth';
 import { useHistory } from 'react-router';
+import { useToastDispatch } from '../context/toast';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
@@ -21,6 +22,7 @@ const LoginForm = () => {
     const history = useHistory();
 
     const dispatch = useAuthDispatch();
+    const toastDispatch = useToastDispatch();
 
     const usernameValidator = (value) => {
         setUsername(value);
@@ -41,11 +43,14 @@ const LoginForm = () => {
     const doLogin = async () => {
         if (validPassword && validUsername) {
             try {
-                let response = await loginUser(dispatch, { username, password })
-                if (!response.user) return;
+                let user = await loginUser(dispatch, { username, password })
+                if (!user) {
+                    toastDispatch({ type: 'SHOW_MESSAGE', payload: { message: 'Username or password and password does not match', timer: 4000 } })
+                    return;
+                }
                 history.push('/dashboard');
             } catch (error) {
-                console.log(error)
+                toastDispatch({ type: 'SHOW_MESSAGE', payload: { message: 'Something went wrong', timer: 3000 } })
             }
         }
     }

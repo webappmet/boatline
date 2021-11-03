@@ -10,8 +10,9 @@ import TextLink from '../components/interface/control/TextLink';
 
 import { useState, useEffect } from 'react';
 import { useAuthState, useAuthDispatch } from '../context/user';
-import { loginUser } from '../api/auth';
+import { loginUser, registerUser } from '../api/auth';
 import { useHistory } from 'react-router';
+import { useToastDispatch } from '../context/toast';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
@@ -23,6 +24,7 @@ const LoginForm = () => {
     const history = useHistory();
 
     const dispatch = useAuthDispatch();
+    const toastDispatch = useToastDispatch();
     const authState = useAuthState();
 
     const usernameValidator = (value) => {
@@ -53,11 +55,12 @@ const LoginForm = () => {
     const doLogin = async () => {
         if (validPassword && validUsername && validConfirmedPassword) {
             try {
-                let response = await loginUser(dispatch, { username, password })
-                if (!response.user) return;
-                history.push('/dashboard');
+                let response = await registerUser(dispatch, { username, password })
+                if (response === true) {
+                    toastDispatch({ type: 'SHOW_MESSAGE', payload: { message: 'Admin user created, you can now try to log into it', timer: 5000 } })
+                }
             } catch (error) {
-                console.log(error)
+                toastDispatch({ type: 'SHOW_MESSAGE', payload: { message: 'Something went wrong when creating a new account', timer: 4000 } })
             }
         }
     }
@@ -68,7 +71,7 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (!authState.user) {
-            history.push('/');
+            //history.push('/');
         }
     }, []);
 

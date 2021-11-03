@@ -13,26 +13,31 @@ import Signup from './pages/Signup';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
 import { AuthProvider } from './context/user';
+import { ToastProvider } from './context/toast';
+import ToastContainer from './containers/ToastContainer';
 
 
 const App = () => {
 
-  return (
-    <div>
-      <AuthProvider>
-        <Navbar />
-        <Switch>
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/order" component={Order} />
-          <Route path="/tickets" component={Tickets} />
-          <Route path="/search" component={Search} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/" component={Home} />
-        </Switch>
-      </AuthProvider>
-    </div>
-  );
+	return (
+		<div>
+		<AuthProvider>
+			<ToastProvider>
+				<Navbar />
+				<Switch>
+					<Route path="/dashboard" component={Dashboard} />
+					<Route path="/order" component={Order} />
+					<Route path="/tickets" component={Tickets} />
+					<Route path="/search" component={Search} />
+					<Route path="/login" component={Login} />
+					<Route path="/signup" component={Signup} />
+					<Route path="/" component={Home} />
+				</Switch>
+				<ToastContainer />
+			</ToastProvider>
+		</AuthProvider>
+		</div>
+	);
 }
 
 export default App;

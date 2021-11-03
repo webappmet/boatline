@@ -16,35 +16,52 @@ export const login = async (username, password) => {
 // Context/actions.js
 
 
-const ROOT_URL = '';
+const ROOT_URL = 'https://localhost:5001';
 
-export async function loginUser(dispatch, loginPayload) {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 
-        'Content-Type': 'application/json',
-        'Authorization': `Basic ${base64Encode(`${loginPayload.username}:${loginPayload.password}`)}`
-    }
-  };
+export const loginUser = async (dispatch, loginPayload) => {
+	const requestOptions = {
+		method: 'GET',
+		headers: { 
+			'Content-Type': 'application/json',
+			'Authorization': `Basic ${base64Encode(`${loginPayload.username}:${loginPayload.password}`)}`
+		}
+	};
 
-  try {
-    dispatch({ type: 'REQUEST_LOGIN' });
-    let response = await fetch(`${ROOT_URL}/login`, requestOptions);
-    let data = await response.json();
+	try {
+		dispatch({ type: 'REQUEST_LOGIN' });
+		let response = await fetch(`${ROOT_URL}/api/v1/Auth/LogIn`, requestOptions);
+		let data = await response.text();
 
-    if (data.user) {
-      dispatch({ type: 'LOGIN_SUCCESS', payload: data });
-      localStorage.setItem('currentUser', JSON.stringify(data));
-      return data
-    }
+		if (data) {
+			dispatch({ type: 'LOGIN_SUCCESS', payload: { user: data } });
+			localStorage.setItem('currentUser', JSON.stringify(data));
+			return data
+		}
 
-    return;
-  } catch (error) {
-    return;
-  }
+		return false;
+  	} catch (error) {
+  		return false;
+  	}
 }
 
-export async function logout(dispatch) {
-  dispatch({ type: 'LOGOUT' });
-  localStorage.removeItem('currentUser');
+export const registerUser = async (dispatch, payload) => {
+	const requestOptions = {
+		method: 'GET',
+		headers: { 
+			'Content-Type': 'application/json',
+			'Authorization': `Basic ${base64Encode(`${payload.username}:${payload.password}`)}`
+		}
+	};
+
+	try {
+		await fetch(`${ROOT_URL}/api/v1/Auth/CreateAdmin`, requestOptions);
+		return true;
+  	} catch (error) {
+  		return { error: "Could not create new user" };
+  	}
+}
+
+export const logout = async (dispatch) => {
+  	dispatch({ type: 'LOGOUT' });
+  	localStorage.removeItem('currentUser');
 }

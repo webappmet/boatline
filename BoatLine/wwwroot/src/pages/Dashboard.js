@@ -6,6 +6,7 @@ import H2 from '../components/type/H2';
 import Section from '../components/layout/Section';
 
 const Dashboard = ({  }) => {
+
     return (
         <Container>
             <Section>
@@ -14,12 +15,6 @@ const Dashboard = ({  }) => {
             <Space col="2">
                 <Panel radius="1rem">
                     <H2>Test</H2>
-                </Panel>
-                <Panel>
-                    <H1>test</H1>
-                </Panel>
-                <Panel>
-                    <H1>test</H1>
                 </Panel>
             </Space>
         </Container>
