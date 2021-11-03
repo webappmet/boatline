@@ -173,14 +173,14 @@ namespace BoatLine.Controllers
             return NotFound("Cabin was not found");
         }
         
-        public async Task<ActionResult> PostDeparture([FromBody] Departure departure, int routeId)
+        public async Task<ActionResult> PostDeparture([FromBody] HttpDeparture departure, int routeId)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
                 return Unauthorized("Not logged in");
             }
-            
-            if (true || ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 var res = await _db.CreateDeparture(departure, routeId);
 
@@ -193,7 +193,7 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation for departure failed on server");
         }
 
-        public async Task<ActionResult> UpdateDeparture(Departure departure, int routeId)
+        public async Task<ActionResult> UpdateDeparture([FromBody] HttpDeparture departure, int departureId, int routeId)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
@@ -202,7 +202,7 @@ namespace BoatLine.Controllers
 
             if (ModelState.IsValid)
             {
-                var ret = await _db.UpdateDeparture(departure, routeId);
+                var ret = await _db.UpdateDeparture(departure, departureId, routeId);
                 if (ret)
                 {
                     _log.LogInformation("Departure updated");

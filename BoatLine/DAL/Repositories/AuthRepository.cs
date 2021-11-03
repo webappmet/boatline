@@ -169,15 +169,20 @@ namespace BoatLine.DAL.Repositories
             return true;
         }
 
-        public async Task<bool> CreateDeparture(Departure departure, int routeId)
+        public async Task<bool> CreateDeparture(HttpDeparture departure, int routeId)
         {
             try
             {
                 var route = _db.Routes.FirstOrDefaultAsync(r => r.Id == routeId).Result;
                 if (route != null)
                 {
-                    departure.Route = route;
-                    await _db.Departures.AddAsync(departure);
+                    var newDeparture = new Departure
+                    {
+                        Date = departure.Date,
+                        Time = departure.Time,
+                        Route = route
+                    };
+                    await _db.Departures.AddAsync(newDeparture);
                     await _db.SaveChangesAsync();
                     return true;
                 }
@@ -191,11 +196,11 @@ namespace BoatLine.DAL.Repositories
             }
         }
 
-        public async Task<bool> UpdateDeparture(Departure departure, int routeId)
+        public async Task<bool> UpdateDeparture(HttpDeparture departure, int departureId, int routeId)
         {
             try
             {
-                var dbDeparture = _db.Departures.FirstOrDefaultAsync(d => d.Id == departure.Id).Result;
+                var dbDeparture = _db.Departures.FirstOrDefaultAsync(d => d.Id == departureId).Result;
                 if (dbDeparture != null)
                 {
                     var route = _db.Routes.FirstOrDefaultAsync(r => r.Id == routeId).Result;

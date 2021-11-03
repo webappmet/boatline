@@ -587,7 +587,7 @@ namespace BoatLineTest
         public async Task PostDepartureLoggedInOk()
         {
             // Arrange
-            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>())).ReturnsAsync(true);
 
             var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
@@ -596,7 +596,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.PostDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as OkObjectResult;
+            var res = await authController.PostDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>()) as OkObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
@@ -607,7 +607,7 @@ namespace BoatLineTest
         public async Task PostDepartureNotLoggedIn()
         {
             // Arrange
-            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>())).ReturnsAsync(true);
 
             var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
@@ -616,7 +616,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.PostDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as UnauthorizedObjectResult;
+            var res = await authController.PostDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>()) as UnauthorizedObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
@@ -627,7 +627,7 @@ namespace BoatLineTest
         public async Task PostDepartureLoggedInOkInvalidModelState()
         {
             // Arrange
-            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>())).ReturnsAsync(true);
 
             var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
@@ -638,7 +638,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.PostDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as BadRequestObjectResult;
+            var res = await authController.PostDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>()) as BadRequestObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
@@ -649,7 +649,7 @@ namespace BoatLineTest
         public async Task PostDepartureLoggedInNotOk()
         {
             // Arrange
-            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(false);
+            _mockRep.Setup(k => k.CreateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>())).ReturnsAsync(false);
 
             var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
@@ -658,7 +658,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.PostDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as BadRequestObjectResult;
+            var res = await authController.PostDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>()) as BadRequestObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
@@ -673,7 +673,7 @@ namespace BoatLineTest
         public async Task UpdateDepartureLoggedInOk()
         {
             // Arrange
-            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<HttpDeparture>(),It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(true);
 
             var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
@@ -682,7 +682,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as OkObjectResult;
+            var res = await authController.UpdateDeparture(It.IsAny<HttpDeparture>(),It.IsAny<int>(), It.IsAny<int>()) as OkObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
@@ -693,7 +693,7 @@ namespace BoatLineTest
         public async Task UpdateDepartureNotLoggedIn()
         {
             // Arrange
-            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<HttpDeparture>(),It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(true);
 
             var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
@@ -702,7 +702,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as UnauthorizedObjectResult;
+            var res = await authController.UpdateDeparture(It.IsAny<HttpDeparture>(),It.IsAny<int>(), It.IsAny<int>()) as UnauthorizedObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
@@ -713,7 +713,7 @@ namespace BoatLineTest
         public async Task UpdateDepartureLoggedInNotOk()
         {
             // Arrange
-            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(false);
+            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<HttpDeparture>(),It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(false);
 
             var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
@@ -722,7 +722,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as NotFoundObjectResult;
+            var res = await authController.UpdateDeparture(It.IsAny<HttpDeparture>(),It.IsAny<int>(), It.IsAny<int>()) as NotFoundObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
@@ -733,7 +733,7 @@ namespace BoatLineTest
         public async Task UpdateDepartureLoggedInInvalidModelState()
         {
             // Arrange
-            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>())).ReturnsAsync(true);
+            _mockRep.Setup(k => k.UpdateDeparture(It.IsAny<HttpDeparture>(),It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(true);
 
             var authController = new AuthController(_mockRep.Object, _mockLog.Object);
 
@@ -744,7 +744,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.UpdateDeparture(It.IsAny<Departure>(), It.IsAny<int>()) as BadRequestObjectResult;
+            var res = await authController.UpdateDeparture(It.IsAny<HttpDeparture>(),It.IsAny<int>(), It.IsAny<int>()) as BadRequestObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.BadRequest, res.StatusCode);
