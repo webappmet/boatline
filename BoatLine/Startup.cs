@@ -23,7 +23,7 @@ namespace BoatLine
             services.AddControllers();
             services.AddDbContext<BoatLineDb>(options => options.UseSqlite("Data Source=BoatLine.db"));
             services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
             
             services.AddSession(options =>
             {
@@ -64,14 +64,12 @@ namespace BoatLine
             app.UseStaticFiles();
             
             app.UseSpaStaticFiles();
-            
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "api/v1/{controller}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
-            
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "wwwroot";

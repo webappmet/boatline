@@ -4,7 +4,7 @@ using BoatLine.Models.Auth;
 
 namespace BoatLine.DAL.Repositories
 {
-    public interface IAuthRepository
+    public interface IAdminRepository
     {
         Task<bool> LogIn(Admin admin);
         Task<bool> CreateAdmin(Admin admin);

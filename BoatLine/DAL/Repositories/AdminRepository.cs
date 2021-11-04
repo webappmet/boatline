@@ -11,12 +11,12 @@ using Microsoft.Extensions.Logging;
 namespace BoatLine.DAL.Repositories
 {
     [ExcludeFromCodeCoverage]
-    public class AuthRepository : IAuthRepository
+    public class AdminRepository : IAdminRepository
     {
         private readonly BoatLineDb _db;
-        private readonly ILogger<AuthRepository> _log;
+        private readonly ILogger<AdminRepository> _log;
 
-        public AuthRepository(BoatLineDb db, ILogger<AuthRepository> log)
+        public AdminRepository(BoatLineDb db, ILogger<AdminRepository> log)
         {
             _db = db;
             _log = log;

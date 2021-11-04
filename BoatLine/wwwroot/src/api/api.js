@@ -2,7 +2,7 @@
 
 export const getRoutes = async () => {
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetRoutes", (routes) => {
+        $.get("/api/v1/customer/routes", (routes) => {
             resolve(routes)
         })
         .fail((e) => {
@@ -13,7 +13,7 @@ export const getRoutes = async () => {
 
 export const getRoute = async (id) => {
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetRoute", id, (route) => {
+        $.get("/api/v1/customer/route", id, (route) => {
             resolve(route)
         })
             .fail((e) => {
@@ -26,7 +26,7 @@ export const getRoute = async (id) => {
 
 export const getCabin = async (id) => {
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetRoute", id, (cabin) => {
+        $.get("/api/v1/customer/route", id, (cabin) => {
             resolve(cabin)
         })
             .fail((e) => {
@@ -39,7 +39,7 @@ export const getCabin = async (id) => {
 
 export const getReferenceNumber = async ({ firstName, lastName }) => {
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetReference", { firstName, lastName },(reference) => {
+        $.get("/api/v1/customer/reference", { firstName, lastName },(reference) => {
             resolve(reference)
         })
         .fail((e) => {
@@ -55,7 +55,7 @@ export const getTicketsByReference = async (references) => {
     }
     refString = refString.slice(0, -1);
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetCustomersByReferences", { reference: refString }, (customers) => {
+        $.get(`/api/v1/customer/references?reference=${refString}`, (customers) => {
             resolve(customers);
         })
         .fail((e) => {
@@ -68,7 +68,7 @@ export const getTicketsByReference = async (references) => {
 
 export const getCabins = async () => {
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetCabins", (cabins) => {
+        $.get("/api/v1/customer/cabins", (cabins) => {
             resolve(cabins)
         })
             .fail((e) => {
@@ -80,7 +80,7 @@ export const getCabins = async () => {
 
 export const saveTicket = async (customer) => {
     return new Promise((resolve, reject) => {
-        $.post("/api/v1/BoatLine/SaveCustomer", customer, (OK) => {
+        $.post("/api/v1/customer/customer", customer, (OK) => {
             console.log("Saved noId")
         });
     });
@@ -88,7 +88,7 @@ export const saveTicket = async (customer) => {
 
 export const getTickets = async () => {
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetTickets", (tickets) => {
+        $.get("/api/v1/customer/tickets", (tickets) => {
             console.log("Got tickets")
             resolve(tickets)
         })
@@ -101,7 +101,7 @@ export const getTickets = async () => {
 
 export const getCustomers = async () => {
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetCustomers", (customers) => {
+        $.get("/api/v1/customer/customers", (customers) => {
             console.log("Got Customers")
             resolve(customers)
         })
@@ -113,7 +113,7 @@ export const getCustomers = async () => {
 
 export const getPrice = async () => {
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetPrice", (price) => {
+        $.get("/api/v1/customer/price", (price) => {
             resolve(price);
         })
             .fail((e) => {
@@ -124,10 +124,12 @@ export const getPrice = async () => {
 
 export const validatePayment = async (payment) => {    
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/ValidatePayment", payment, () => {
+        console.log(payment);
+        $.post("/api/v1/customer/validate", payment, () => {
             resolve(true);
         })
             .fail((e) => {
+                console.log(payment);
                 reject("Payment wasn't validated" + e);
             });
     });
@@ -135,7 +137,7 @@ export const validatePayment = async (payment) => {
 
 export const getCityByZip = async (zip) => {    
     return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetPostalCode", { code: zip }, (postalCode) => {
+        $.get("/api/v1/customer/postalcode", { code: zip }, (postalCode) => {
             resolve(postalCode);
         })
         .fail((e) => {

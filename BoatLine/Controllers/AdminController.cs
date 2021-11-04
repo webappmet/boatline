@@ -9,23 +9,25 @@ using Microsoft.Extensions.Logging;
 
 namespace BoatLine.Controllers
 {
-    [Route("api/v1/[controller]/[action]")]
-    public class AuthController : ControllerBase
+    [ApiController]
+    [Route("api/v1/[controller]")]
+    public class AdminController : ControllerBase
     {
-        private readonly IAuthRepository _db;
+        private readonly IAdminRepository _db;
 
-        private readonly ILogger<AuthController> _log;
+        private readonly ILogger<AdminController> _log;
 
         private const string LoggedIn = "loggedIn";
         private const string NotLoggedIn = "";
         private const string SessionName = "SessionName";
 
-        public AuthController(IAuthRepository db, ILogger<AuthController> log)
+        public AdminController(IAdminRepository db, ILogger<AdminController> log)
         {
             _db = db;
             _log = log;
         }
-
+        
+        [HttpPost("session")]
         public async Task<ActionResult> LogIn(string credentials)
         {
             var admin = Utility.DecodeAdmin(credentials);
@@ -50,6 +52,7 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation failed on server");
         }
 
+        [HttpDelete("session")]
         public void LogOut()
         {
             HttpContext.Session.SetString(LoggedIn, "");
@@ -73,6 +76,7 @@ namespace BoatLine.Controllers
         /**
          * Already authorized user creates new admin user
          */
+        [HttpPost("admin")]
         public async Task<ActionResult> CreateAdmin(string credentials)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
@@ -103,6 +107,7 @@ namespace BoatLine.Controllers
         /**
          * Already authorized user deletes admin user
          */
+        [HttpDelete("admin")]
         public async Task<ActionResult> DeleteAdmin(string username)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
@@ -116,6 +121,7 @@ namespace BoatLine.Controllers
             return NotFound("Admin was not found and not deleted");
         }
 
+        [HttpPost("rute")]
         public async Task<ActionResult> PostRoute(Route route)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
@@ -135,6 +141,7 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation for route failed on server");
         }
 
+        [HttpPut("route")]
         public async Task<ActionResult> UpdateRoute(Route route)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
@@ -159,7 +166,8 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation for route failed on server");
         }
 
-        public async Task<ActionResult> DeleteRoute(int id)
+        [HttpDelete("route/{id:int}")]
+        public async Task<ActionResult> DeleteRoute([FromRoute] int id)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
@@ -172,6 +180,7 @@ namespace BoatLine.Controllers
             return NotFound("Route was not found");
         }
         
+        [HttpPut("cabin")]
         public async Task<ActionResult> UpdateCabin(Cabin cabin)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
@@ -190,6 +199,7 @@ namespace BoatLine.Controllers
             return NotFound("Cabin was not found");
         }
         
+        [HttpPost("departure")]
         public async Task<ActionResult> PostDeparture([FromBody] HttpDeparture departure, int routeId)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
@@ -209,7 +219,8 @@ namespace BoatLine.Controllers
             _log.LogInformation("Input validation for departure failed on server");
             return BadRequest("Input validation for departure failed on server");
         }
-
+        
+        [HttpPut("departure")]
         public async Task<ActionResult> UpdateDeparture([FromBody] HttpDeparture departure, int departureId, int routeId)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
@@ -233,6 +244,7 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation for departure failed on server");
         }
 
+        [HttpDelete("departure/{id:int}")]
         public async Task<ActionResult> DeleteDeparture(int id)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))

@@ -10,19 +10,21 @@ using BoatLine.Models;
 namespace BoatLine.Controllers
 {
     [ExcludeFromCodeCoverage]
-    [Route("api/v1/[controller]/[action]")]
-    public class BoatLineController : ControllerBase
+    [ApiController]
+    [Route("api/v1/[controller]")]
+    public class CustomerController : ControllerBase
     {
         private readonly ICustomerRepository _db;
 
-        private readonly ILogger<BoatLineController> _log;
+        private readonly ILogger<CustomerController> _log;
 
-        public BoatLineController(ICustomerRepository db, ILogger<BoatLineController> log)
+        public CustomerController(ICustomerRepository db, ILogger<CustomerController> log)
         {
             _db = db;
             _log = log;
         }
-
+        
+        [HttpPost("customer")]
         public async Task<ActionResult> SaveCustomer(Customer customer)
         {
             if (ModelState.IsValid)
@@ -40,6 +42,7 @@ namespace BoatLine.Controllers
             return BadRequest("Customer was not saved: " + message);
         }
         
+        [HttpPost("customers")]
         public async Task<ActionResult> SaveCustomers(List<Customer> customers)
         {
             if (ModelState.IsValid)
@@ -57,6 +60,7 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation failed: " + message);
         }
         
+        [HttpGet("customer")]
         public async Task<ActionResult> GetCustomer(string reference)
         {
             var customer = await _db.GetCustomer(reference);
@@ -66,6 +70,7 @@ namespace BoatLine.Controllers
             return NotFound("Customer was not found");
         }
         
+        [HttpGet("customers")]
         public async Task<ActionResult> GetCustomers()
         {
             var list = await _db.GetCustomers();
@@ -75,6 +80,7 @@ namespace BoatLine.Controllers
             return NotFound("Could not get all customers");
         }
         
+        [HttpPut("customer")]
         public async Task<ActionResult> UpdateCustomer(Customer customer)
         {
             if (ModelState.IsValid)
@@ -92,6 +98,7 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation failed " + message);
         }
         
+        [HttpDelete("customer")]
         public async Task<ActionResult> DeleteCustomer(string reference)
         {
             var ret = await _db.DeleteCustomer(reference);
@@ -101,7 +108,8 @@ namespace BoatLine.Controllers
             return NotFound("Customer was not deleted");
         }
         
-        public async Task<ActionResult> GetCabin(int id)
+        [HttpGet("cabin/{id:int}")]
+        public async Task<ActionResult> GetCabin([FromRoute] int id)
         {
             var cabin = await _db.GetCabin(id);
 
@@ -110,6 +118,7 @@ namespace BoatLine.Controllers
             return BadRequest("Could not get cabin");
         }
         
+        [HttpGet("cabins")]
         public async Task<ActionResult> GetCabins()
         {
             var list = await _db.GetCabins();
@@ -119,6 +128,7 @@ namespace BoatLine.Controllers
             return NotFound("Could not get all cabins");
         }
         
+        [HttpGet("cabinunoccupied")]
         public async Task<ActionResult> GetCabinUnoccupied()
         {
             var list = await _db.GetCabinUnoccupied();
@@ -127,7 +137,8 @@ namespace BoatLine.Controllers
             return NotFound("Not able to get unoccupied cabins");
         }
         
-        public async Task<ActionResult> GetRute(int id)
+        [HttpGet("rute/{id:int}")]
+        public async Task<ActionResult> GetRute([FromRoute] int id)
         {
             var rute = await _db.GetRoute(id);
             if (rute != null) return Ok(rute);
@@ -135,6 +146,7 @@ namespace BoatLine.Controllers
             return NotFound("Not able to get rute");
         }
         
+        [HttpGet("routes")]
         public async Task<ActionResult> GetRoutes()
         {
             var list = await _db.GetRoutes();
@@ -144,6 +156,7 @@ namespace BoatLine.Controllers
             return NotFound("Could not get all routes");
         }
         
+        [HttpGet("tickets")]
         public async Task<ActionResult> GetTickets()
         {
             var list = await _db.GetTickets();
@@ -153,6 +166,7 @@ namespace BoatLine.Controllers
             return NotFound("Could not get all tickets");
         }
         
+        [HttpGet("postalcode")]
         public async Task<ActionResult> GetPostalCode(string code)
         {
             var postalcode = await _db.GetPostalCode(code);
@@ -161,6 +175,7 @@ namespace BoatLine.Controllers
             return NotFound("Could not get post name");
         }
         
+        [HttpGet("reference")]
         public ActionResult GetReference(string firstname, string lastname)
         {
             var reference = _db.GenerateReference(firstname, lastname);
@@ -168,10 +183,11 @@ namespace BoatLine.Controllers
             _log.LogInformation("Could not generate reference code");
             return NotFound("Could not generate reference code");
         }
-
-        public async Task<ActionResult> GetCustomersByReferences(string reference)
+        
+        [HttpGet("references")]
+        public async Task<ActionResult> GetCustomersByReferences([FromRoute] string reference)
         {
-            string[] references = reference.Split("-");
+            var references = reference.Split("-");
             
             var customers = await _db.GetCustomersByReferences(references);
             if (customers != null) return Ok(customers);
@@ -179,6 +195,7 @@ namespace BoatLine.Controllers
             return NotFound("Did not find tickets by reference");
         }
 
+        [HttpGet("price")]
         public ActionResult GetPrice(List<Cabin> cabins)
         {
             var price = _db.GeneratePrice(cabins);
@@ -187,6 +204,7 @@ namespace BoatLine.Controllers
             return NotFound("Could not generate price");
         }
 
+        [HttpPost("validate")]
         public ActionResult ValidatePayment(Payment payment)
         {
             if (ModelState.IsValid)
@@ -203,12 +221,14 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation failed: " + message);
         }
         
+        [HttpGet("departure")]
         public async Task<ActionResult> GetDeparturesByDateAndRoute(string date, int routeId)
         {
             var res = await _db.GetDeparturesByDateAndRoute(date, routeId);
             return Ok(res);
         }
         
+        [HttpGet("departures")]
         public async Task<ActionResult> GetDepartures()
         {
             var res = await _db.GetDepartures();

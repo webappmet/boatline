@@ -19,8 +19,8 @@ namespace BoatLineTest
         private const string NotLoggedInn = "";
         private const string SessionName = "SessionName";
 
-        private readonly Mock<IAuthRepository> _mockRep = new();
-        private readonly Mock<ILogger<AuthController>> _mockLog = new();
+        private readonly Mock<IAdminRepository> _mockRep = new();
+        private readonly Mock<ILogger<AdminController>> _mockLog = new();
 
         private readonly Mock<HttpContext> _mockHttpContext = new();
         private readonly MockHttpSession _mockSession = new();
@@ -33,7 +33,7 @@ namespace BoatLineTest
         {
             _mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -55,7 +55,7 @@ namespace BoatLineTest
         {
             _mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -77,7 +77,7 @@ namespace BoatLineTest
         {
             _mockRep.Setup(k => k.LogIn(It.IsAny<Admin>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             authController.ModelState.AddModelError("Username", "Input validation failed on server");
 
@@ -103,7 +103,7 @@ namespace BoatLineTest
         [Fact]
         public void LogOut()
         {
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
             _mockSession[LoggedIn] = LoggedIn;
@@ -122,7 +122,7 @@ namespace BoatLineTest
         [Fact]
         public void GetCurrentUserLoggedInOk()
         {
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             var username = "Admin";
             _mockSession[LoggedIn] = LoggedIn;
@@ -141,7 +141,7 @@ namespace BoatLineTest
         [Fact]
         public void GetCurrentUserNotLoggedIn()
         {
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -164,7 +164,7 @@ namespace BoatLineTest
         {
             _mockRep.Setup(k => k.CreateAdmin(It.IsAny<Admin>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -189,7 +189,7 @@ namespace BoatLineTest
 
             _mockRep.Setup(k => k.CreateAdmin(newAdmin)).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -215,7 +215,7 @@ namespace BoatLineTest
 
             _mockRep.Setup(k => k.CreateAdmin(newAdmin)).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             authController.ModelState.AddModelError("Username", "Input validation for admin failed on server");
 
@@ -242,7 +242,7 @@ namespace BoatLineTest
 
             _mockRep.Setup(k => k.CreateAdmin(newAdmin)).ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -268,7 +268,7 @@ namespace BoatLineTest
         {
             _mockRep.Setup(k => k.DeleteAdmin(It.IsAny<string>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -287,7 +287,7 @@ namespace BoatLineTest
         {
             _mockRep.Setup(k => k.DeleteAdmin(It.IsAny<string>())).ReturnsAsync((true));
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -306,7 +306,7 @@ namespace BoatLineTest
         {
             _mockRep.Setup(k => k.DeleteAdmin(It.IsAny<string>())).ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -329,7 +329,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.PostRoute(It.IsAny<Route>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -349,7 +349,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.PostRoute(It.IsAny<Route>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -369,7 +369,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.PostRoute(It.IsAny<Route>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             authController.ModelState.AddModelError("Departure", "Input validation for route failed on server");
 
@@ -391,7 +391,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.PostRoute(It.IsAny<Route>())).ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -414,7 +414,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.UpdateRoute(It.IsAny<Route>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -434,7 +434,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.UpdateRoute(It.IsAny<Route>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -454,7 +454,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.UpdateRoute(It.IsAny<Route>())).ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -474,7 +474,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.UpdateRoute(It.IsAny<Route>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             authController.ModelState.AddModelError("Departure", "Input validation for route failed on server");
 
@@ -499,7 +499,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.DeleteRoute(It.IsAny<int>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -519,7 +519,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.DeleteRoute(It.IsAny<int>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -539,7 +539,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.DeleteRoute(It.IsAny<int>())).ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -562,7 +562,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.UpdateCabin(It.IsAny<Cabin>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -582,7 +582,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.UpdateCabin(It.IsAny<Cabin>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -602,7 +602,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.UpdateCabin(It.IsAny<Cabin>())).ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -626,7 +626,7 @@ namespace BoatLineTest
             _mockRep.Setup(k =>
                 k.CreateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -647,7 +647,7 @@ namespace BoatLineTest
             _mockRep.Setup(k =>
                 k.CreateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -670,7 +670,7 @@ namespace BoatLineTest
             _mockRep.Setup(k =>
                 k.CreateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             authController.ModelState.AddModelError("Departure", "Input validation for route failed on server");
 
@@ -695,7 +695,7 @@ namespace BoatLineTest
             _mockRep.Setup(k =>
                 k.CreateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>())).ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -722,7 +722,7 @@ namespace BoatLineTest
                     k.UpdateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -746,7 +746,7 @@ namespace BoatLineTest
                     k.UpdateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -770,7 +770,7 @@ namespace BoatLineTest
                     k.UpdateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -794,7 +794,7 @@ namespace BoatLineTest
                     k.UpdateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             authController.ModelState.AddModelError("Departure", "Input validation for route failed on server");
 
@@ -821,7 +821,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.DeleteDeparture(It.IsAny<int>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -841,7 +841,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.DeleteDeparture(It.IsAny<int>())).ReturnsAsync(true);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = NotLoggedInn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
@@ -861,7 +861,7 @@ namespace BoatLineTest
             // Arrange
             _mockRep.Setup(k => k.DeleteDeparture(It.IsAny<int>())).ReturnsAsync(false);
 
-            var authController = new AuthController(_mockRep.Object, _mockLog.Object);
+            var authController = new AdminController(_mockRep.Object, _mockLog.Object);
 
             _mockSession[LoggedIn] = LoggedIn;
             _mockHttpContext.Setup(s => s.Session).Returns(_mockSession);
