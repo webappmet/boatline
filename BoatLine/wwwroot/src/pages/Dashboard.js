@@ -15,6 +15,7 @@ import Button, { Text as ButtonText } from '../components/interface/control/Butt
 import Align from '../components/layout/Align';
 import Flex from '../components/layout/Flex';
 import TicketList from '../containers/TicketList';
+import Ship from '../containers/Ship';
 
 const Dashboard = ({  }) => {
     const history = useHistory();
@@ -69,7 +70,8 @@ const Dashboard = ({  }) => {
                             <Stack>
                                 <Stack gap=".5rem">
                                     <H2>Cabins</H2>
-                                    <P>Edit cabins and prices.</P>
+                                    <P>Click a cabin to edit it.</P>
+                                    <Ship />
                                 </Stack>
                             </Stack>
                         </Panel>

@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
-const Space = ({ children, gap }) => {
+const Flex = ({ children, gap, align }) => {
     return (
         <Styled
             style={{
-                '--gap': gap || '1.8rem'
+                '--gap': gap || '1.8rem',
+                '--alignment' : align || 'initial'
             }}
         >{children}</Styled>
     );
@@ -12,9 +13,10 @@ const Space = ({ children, gap }) => {
 
 const Styled = styled.div`
     display: flex;
+    align-items: var(--alignment);
     gap: var(--gap);
     justify-content: space-between;
     flex-wrap: wrap;
 `
 
-export default Space;
+export default Flex;
