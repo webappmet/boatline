@@ -10,6 +10,11 @@ The application also logs all changes made to the database. Unit tests have been
 
 The web application is developed with React based on JavaScript frontend and ASP.NET Core on the backend with a database structure using Entity Framework code first.
 
+Login information for admin user:
+
+ - **Username:** Admin
+ - **Password:** Admin123
+ 
 ## How to run
 
 - **Package Source:** nuget.org
