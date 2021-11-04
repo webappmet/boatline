@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getRoutes, getCabins, saveTicket, getReferenceNumber, validatePayment } from '../../api/api';
 
-import Walker from "../Walker";
+import Walker from "../interface/control/Walker";
 import Route from "./Route";
 import DateHandler from "./Date";
 import Cabin from './Cabin';
@@ -185,7 +185,7 @@ const OrderHandler = () => {
 
     return (
         <Walker pages={pages} title="Order tickets" setMessage={setMessage} confirm={confirm} message={message} confirmMessage="Confirm Order">
-            <Route routes={routes} setDeparture={setDeparture} setDestination={setDestination} destination={destination} departure={departure} />
+            <Route routes={routes} setDeparture={setDeparture} selectedRoute={selectedRoute} setDestination={setDestination} destination={destination} departure={departure} />
             <DateHandler setDateValid={setDateValid} dateFrom={dateFrom} destination={destination} setDateFrom={setDateFrom} dateUntil={dateUntil} />
             <Cabin cabins={cabins} selectedCabins={selectedCabins} setSelectedCabins={setSelectedCabins} travelers={travelers} setTravelers={setTravelers} />
             <Travelers cabins={cabins} selectedCabins={selectedCabins} travelers={travelers} setTravelers={setTravelers}/>

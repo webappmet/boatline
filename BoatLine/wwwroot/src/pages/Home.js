@@ -1,6 +1,8 @@
 import './styled.css';
 
-import { Link } from 'react-router-dom';
+import Button, { Text as ButtonText, Icon as ButtonIcon } from '../components/interface/control/Button';
+import { ReactComponent as ShipIcon } from '../assets/Ship.svg';
+import Align from '../components/layout/Align';
 
 const Home = () => {
     return (
@@ -11,7 +13,14 @@ const Home = () => {
                     <h1 className="heading">BoatLine</h1>
                     <h2 className="subheading">Quality cruise, low prices</h2>
                 </div>
-                <Link className="action-button" to="/order">Order a Cruise</Link>
+                <Align align="center">
+                    <Button size="large" to="/order">
+                        <ButtonText>Order a Cruise</ButtonText>
+                        <ButtonIcon>
+                            <ShipIcon />
+                        </ButtonIcon>
+                    </Button>
+                </Align>
             </div>
         </div>
     );

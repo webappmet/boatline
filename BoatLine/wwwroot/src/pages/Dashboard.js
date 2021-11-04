@@ -14,6 +14,7 @@ import DepartureList from '../containers/DepartureList';
 import Button, { Text as ButtonText } from '../components/interface/control/Button';
 import Align from '../components/layout/Align';
 import Flex from '../components/layout/Flex';
+import TicketList from '../containers/TicketList';
 
 const Dashboard = ({  }) => {
     const history = useHistory();
@@ -28,32 +29,53 @@ const Dashboard = ({  }) => {
     return (
         <Container>
             <Section>
-                <Flex>
-                    <H1>Admin Dashboard</H1>
-                    <P>Logged in as {auth && auth.user}</P>
-                </Flex>
-            </Section>
-            <Space col="2">
-                <Panel radius="1rem">
-                    <Stack>
-                        <Stack gap=".5rem">
-                            <H2>Departures</H2>
-                            <P>Upcoming departures</P>
-                        </Stack>
-                        <DepartureList items={5} navigable={false}/>
-                        <Align align="right">
-                        <Flex>
-                            <Button to="/departures/create">
-                                <ButtonText>Add Departues</ButtonText>    
-                            </Button>
-                            <Button to="/departures">
-                                <ButtonText>View more</ButtonText>
-                            </Button>
-                        </Flex>
-                    </Align>
+                <Stack gap="5rem">
+                    <Flex>
+                        <H1>Admin Dashboard</H1>
+                        <P>Logged in as {auth && auth.user}</P>
+                    </Flex>
+                    <Stack gap="1.8rem">
+                        <Space col="2" breakpoint="900px">
+                            <Panel radius="1rem">
+                                <Stack>
+                                    <Stack gap=".5rem">
+                                        <H2>Departures</H2>
+                                        <P>Upcoming departures</P>
+                                    </Stack>
+                                    <DepartureList items={5} navigable={false}/>
+                                    <Align align="right">
+                                    <Flex>
+                                        <Button to="/departures/create">
+                                            <ButtonText>Add Departues</ButtonText>    
+                                        </Button>
+                                        <Button to="/departures">
+                                            <ButtonText>View more</ButtonText>
+                                        </Button>
+                                    </Flex>
+                                </Align>
+                                </Stack>
+                            </Panel>
+                            <Panel radius="1rem">
+                                <Stack>
+                                    <Stack gap=".5rem">
+                                        <H2>Tickets</H2>
+                                        <P>All purchased tickets</P>
+                                    </Stack>
+                                    <TicketList />
+                                </Stack>
+                            </Panel>
+                        </Space>
+                        <Panel radius="1rem">
+                            <Stack>
+                                <Stack gap=".5rem">
+                                    <H2>Cabins</H2>
+                                    <P>Edit cabins and prices.</P>
+                                </Stack>
+                            </Stack>
+                        </Panel>
                     </Stack>
-                </Panel>
-            </Space>
+                </Stack>
+            </Section>
         </Container>
     );
 }

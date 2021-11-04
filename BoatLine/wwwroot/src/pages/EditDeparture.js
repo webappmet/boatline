@@ -9,6 +9,8 @@ import { useHistory } from "react-router";
 import { useAuthState } from "../context/user";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Button, { Text as ButtonText } from "../components/interface/control/Button";
+import Align from "../components/layout/Align";
 
 const EditDeparture = ({  }) => {
     const history = useHistory();
@@ -32,6 +34,11 @@ const EditDeparture = ({  }) => {
                     <Panel radius="1rem" padding="4rem">
                         <UpdateDepartureForm id={id} />
                     </Panel>
+                    <Align>
+                        <Button to="/dashboard">
+                            <ButtonText>Back to Dashboard</ButtonText>
+                        </Button>
+                    </Align>
                 </Stack>
             </Section>
         </Container>

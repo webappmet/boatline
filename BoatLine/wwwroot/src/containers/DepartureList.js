@@ -8,7 +8,7 @@ import List from '../components/layout/List';
 import Space from '../components/layout/Space';
 import RouteSelector from "./RouteSelector";
 
-const DepartureList = ({ items = 10, navigable = true }) => {
+const DepartureList = ({ items = 10, navigable = true, routeFilter = true, dateFilter = true }) => {
     const history = useHistory();
     const [selectedRoute, setSelectedRoute] = useState('All');
     const [date, setDate] = useState('')
@@ -20,19 +20,34 @@ const DepartureList = ({ items = 10, navigable = true }) => {
         if (departures) setDepartures(departures);
     }
 
+    const filterRoute = (route) => {
+        setSelectedRoute(route)
+    }
+
     const filterDate = (date) => {
-        setDate(date)
+        setDate(date);
     }
 
     useEffect(() => {
         fetchDepartures()
     }, [selectedRoute, date, routes])
 
+    useEffect(() => {
+        if (routeFilter && routeFilter !== true) setSelectedRoute(routeFilter)
+        if (dateFilter && dateFilter !== true) setDate(dateFilter)
+    })
+
     return (
         <Stack>
             <Space>
-                <Input id="departure-date-filter" value={date} type="date" label="Filter date" validator={filterDate}/>
-                <RouteSelector route={selectedRoute} setRoute={setSelectedRoute} id="filter-route-select" label="Filter route" all={true}/>
+                {dateFilter === true ? 
+                    <Input id="departure-date-filter" value={date} type="date" label="Filter date" validator={filterDate}/> :
+                    ''
+                }
+                {routeFilter === true ?
+                    <RouteSelector route={selectedRoute} setRoute={filterRoute} id="filter-route-select" label="Filter route" all={true}/> :
+                    ''
+                }
             </Space>
             <List count={items} navigable={navigable}>
                 {departures.map((departure, index) => {

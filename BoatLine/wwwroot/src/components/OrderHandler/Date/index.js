@@ -1,5 +1,10 @@
 import './styled.css'
 import Input from '../../interface/control/Input';
+import H3 from '../../type/H3';
+import Align from '../../layout/Align';
+import Stack from '../../layout/Stack';
+import DepartureList from '../../../containers/DepartureList';
+import Panel from '../../interface/module/Panel';
 
 const DatePicker = ({ dateFrom, setDateFrom, destination, dateUntil, setDateValid }) => {
 
@@ -30,15 +35,18 @@ const DatePicker = ({ dateFrom, setDateFrom, destination, dateUntil, setDateVali
     }
 
     return (
-        <div>
-            <h3 className="date__headline">When do you want to travel?</h3>
+        <Stack gap="4rem">
+            <Align align="center">
+                <H3 weight="400" size="2.2rem">When do you want to travel?</H3>
+            </Align>
+            <DepartureList items={5} navigable={false} routeFilter={false} />
             <div className="dates">
                 <div className="date-input">
                     <Input id="travel-date" value={dateFrom} type="date" label="Departure Date" validator={validDate}/>
                 </div>
                 <span className="trip-length">{dateUntil ? `You will arrive in ${destination} at: ${dateUntil}` : 'Select a departure date to see the arrival date.'}</span>
             </div>
-        </div>
+        </Stack>
     );
 }
 

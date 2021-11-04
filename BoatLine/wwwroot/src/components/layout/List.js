@@ -20,6 +20,10 @@ const List = ({ children, count = 10, gap = '.5rem', navigable = true }) => {
     }
 
     useEffect(() => {
+        if (page > pages) setPage(1);
+    }, [pages])
+
+    useEffect(() => {
         setPages(Math.ceil(childArray.length / count))
     }, [childArray]);
 
@@ -43,7 +47,7 @@ const List = ({ children, count = 10, gap = '.5rem', navigable = true }) => {
                         Previous
                     </ButtonText>
                 </Button>
-                <P>{page}</P>
+                <P>{page}/{pages}</P>
                 <Button disabled={page === pages} action={nextPage}>
                     <ButtonText>
                         Next

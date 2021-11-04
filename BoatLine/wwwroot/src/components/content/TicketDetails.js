@@ -6,13 +6,12 @@ import Panel from "../interface/module/Panel";
 import Flex from "../layout/Flex";
 import P from "../type/P";
 
-const Departure = ({ departure, action }) => {
+const TicketDetails = ({ ticket }) => {
     const history = useHistory();
     const [color, setColor] = useState('white');
 
     const handleClick = () => {
-        if (!action) history.push(`/departures/${departure.id}`);
-        else action();
+        history.push(`/tickets?r=${ticket.reference}`)
     }
 
     const handleMouseEnter = () => {
@@ -23,12 +22,13 @@ const Departure = ({ departure, action }) => {
         setColor('white')
     }
 
+
     return (
         <div onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <Panel cursor="pointer" color={color} radius=".5rem" border="1px solid var(--color-gl)" padding="1rem">
                 <Flex>
-                    <P>{departure.route.departure} - {departure.route.destination}</P>
-                    <P>{departure.date} -<Span> {departure.time}</Span></P>
+                    <P>1x {ticket.cabins[0].type} -{ticket.cabins[0].id}</P>
+                    <P>Ref: <Span>{ticket.reference}</Span></P>
                 </Flex>
             </Panel>
         </div>
@@ -40,5 +40,4 @@ const Span = styled.span`
     font-weight: bold;
 `
 
-
-export default Departure;
+export default TicketDetails;

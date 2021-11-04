@@ -167,14 +167,27 @@ namespace BoatLine.DAL
         {
             var routes = _db.Routes.ToList();
             
-            foreach (var route in routes)
+            var date = DateTime.Today;
+            for (var i = 0; i < 30; i++)
             {
-                _db.Departures.Add(new Departure
+                foreach (var route in routes)
                 {
-                    Route = route,
-                    Date = DateTime.Today.ToString("yyyy-MM-dd"),
-                    Time = "08:30:00"
-                });
+                    _db.Departures.Add(new Departure
+                    {
+                        Route = route,
+                        Date = date.ToString("yyyy-MM-dd"),
+                        Time = "10:30"
+                    });
+                
+                    _db.Departures.Add(new Departure
+                    {
+                        Route = route,
+                        Date = date.ToString("yyyy-MM-dd"),
+                        Time = "17:45"
+                    });
+                }
+
+                date = date.AddDays(1);
             }
 
             _db.SaveChanges();
