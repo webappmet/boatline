@@ -25,19 +25,6 @@ export const getRoute = async (id) => {
     });
 }
 
-export const getCabin = async (id) => {
-    return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetRoute", id, (cabin) => {
-            resolve(cabin)
-        })
-            .fail((e) => {
-                console.log("GetRoutes failed")
-                console.log(e);
-                reject("Getroutes Promise failed: ");
-            });
-    });
-}
-
 export const getReferenceNumber = async ({ firstName, lastName }) => {
     return new Promise((resolve, reject) => {
         $.get("/api/v1/BoatLine/GetReference", { firstName, lastName },(reference) => {

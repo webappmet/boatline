@@ -173,7 +173,7 @@ namespace BoatLine.Controllers
             return NotFound("Route was not found");
         }
         
-        public async Task<ActionResult> UpdateCabin(Cabin cabin)
+        public async Task<ActionResult> PutCabin([FromBody] Cabin cabin)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {

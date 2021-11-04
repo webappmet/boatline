@@ -18,6 +18,7 @@ import ToastContainer from './containers/ToastContainer';
 import Departures from './pages/Departures';
 import CreateDeparture from './pages/CreateDeparture';
 import EditDeparture from './pages/EditDeparture';
+import EditCabin from './pages/EditCabin';
 
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
 				<Navbar />
 				<Switch>
 					<Route path="/dashboard" component={Dashboard} />
+					<Route path="/cabin/:id/edit" component={EditCabin} />
 					<Route path="/departures/create" component={CreateDeparture} />
 					<Route path="/departures/:id" component={EditDeparture} />
 					<Route path="/departures" component={Departures} />
