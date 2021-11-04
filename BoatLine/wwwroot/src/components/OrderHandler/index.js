@@ -20,10 +20,11 @@ const OrderHandler = () => {
     const [departure, setDeparture] = useState();
     const [destination, setDestination] = useState();
 
-    const [dateFrom, setDateFrom] = useState('');
+    const [departureTime, setDepartureTime] = useState();
+
+    const [date, setDate] = useState('');
     const [dateValid, setDateValid] = useState(false);
 
-    const [dateUntil, setDateUntil] = useState();
     const [selectedCabins, setSelectedCabins] = useState([]);
     const [travelers, setTravelers] = useState([]);
     const [payment, setPayment] = useState({cardHolderName: '', cardNumber: '', csc: '', expirationMonth: '', expirationYear: '', valid: false});
@@ -31,7 +32,7 @@ const OrderHandler = () => {
     const [pages, setPages] = useState(2);
     useEffect(() => {
         setPages(2);
-        if (dateValid) {
+        if (dateValid && departureTime) {
             setPages(3);
             if (selectedCabins && selectedCabins.length > 0) {
                 setPages(4);
@@ -50,7 +51,7 @@ const OrderHandler = () => {
             }
         }
         
-    }, [dateValid, selectedCabins, travelers, payment])
+    }, [dateValid, selectedCabins, travelers, payment, departureTime])
 
     const fetchRoutes = async () => {
         try {
@@ -93,30 +94,10 @@ const OrderHandler = () => {
         fetchCabins();
     }, [])
 
-    useEffect(() => {
-        if (selectedRoute && dateFrom) {
-            let year = dateFrom.substring(0,4);
-            let month = dateFrom.substring(5,7);
-            let day = dateFrom.substring(8,10);
-
-            let untilDate = new Date(year, month-1, day);
-
-            untilDate.setDate(untilDate.getDate() + selectedRoute.durationDays);
-            setDateUntil(untilDate.toDateString());
-        }
-        else {
-            setDateUntil(null)
-        }
-    }, [dateFrom, selectedRoute])
-
     const createTicket = async (traveler) => {
         const referenceNumber = await getReferenceNumber({ firstName: traveler.firstName, lastName: traveler.lastName });
         let refNr = referenceNumber.result
         if (referenceNumber) {
-            let year = dateFrom.substring(2,4);
-            let month = dateFrom.substring(5,7);
-            let day = dateFrom.substring(8,10);
-
             const customer = {
                 firstName: traveler.firstName,
                 lastName: traveler.lastName,
@@ -138,13 +119,12 @@ const OrderHandler = () => {
                 email: traveler.email,
                 tickets: [
                     {
-                        departure: { //route
-                            id: 1 //selectedRoute.id
+                        departure: {
+                            id: departureTime.id
                         },
                         cabins: [
                             {id: parseInt(traveler.room)}
                         ],
-                        //date: `${day}.${month}.${year}`,
                         reference: refNr
                     }
                 ]
@@ -186,7 +166,7 @@ const OrderHandler = () => {
     return (
         <Walker pages={pages} title="Order tickets" setMessage={setMessage} confirm={confirm} message={message} confirmMessage="Confirm Order">
             <Route routes={routes} setDeparture={setDeparture} selectedRoute={selectedRoute} setDestination={setDestination} destination={destination} departure={departure} />
-            <DateHandler setDateValid={setDateValid} dateFrom={dateFrom} destination={destination} setDateFrom={setDateFrom} dateUntil={dateUntil} />
+            <DateHandler date={date} setDate={setDate} dateValid={dateValid} setDateValid={setDateValid} departure={departureTime} setDeparture={setDepartureTime} route={selectedRoute} />
             <Cabin cabins={cabins} selectedCabins={selectedCabins} setSelectedCabins={setSelectedCabins} travelers={travelers} setTravelers={setTravelers} />
             <Travelers cabins={cabins} selectedCabins={selectedCabins} travelers={travelers} setTravelers={setTravelers}/>
             <Checkout travelers={travelers} cabins={cabins} payment={payment} setPayment={setPayment} />

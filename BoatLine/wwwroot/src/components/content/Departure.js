@@ -1,27 +1,35 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { useEffect } from "react/cjs/react.development";
 import styled from "styled-components";
 
 import Panel from "../interface/module/Panel";
 import Flex from "../layout/Flex";
 import P from "../type/P";
 
-const Departure = ({ departure, action }) => {
+const Departure = ({ departure, action, selected }) => {
     const history = useHistory();
     const [color, setColor] = useState('white');
 
     const handleClick = () => {
         if (!action) history.push(`/departures/${departure.id}`);
-        else action();
+        else {
+            action(departure);
+        }
     }
 
     const handleMouseEnter = () => {
-        setColor('var(--color-gw)')
+        if (!selected) setColor('var(--color-gw)')
     }
 
     const handleMouseLeave = () => {
-        setColor('white')
+        if (!selected) setColor('white')
     }
+
+    useEffect(() => {
+        if (selected) setColor('var(--color-pw)');
+        else setColor('white');
+    }, [selected])
 
     return (
         <div onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
