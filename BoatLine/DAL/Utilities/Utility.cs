@@ -64,10 +64,6 @@ namespace BoatLine.DAL.Utilities
                 var sub = credentials[6..];
                 var decode = Base64Decode(sub);
                 var res = decode.Split(":");
-                
-                Console.WriteLine(decode);
-                Console.WriteLine(res[0]);
-                Console.WriteLine(res[1]);
 
                 return new Admin { Username = res[0], Password = res[1] };
             }

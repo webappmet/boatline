@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BoatLine.DAL.Utilities;
 using BoatLine.Models;
 using BoatLine.Models.Auth;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -169,7 +170,7 @@ namespace BoatLine.DAL.Repositories
             return true;
         }
 
-        public async Task<bool> CreateDeparture(HttpDeparture departure, int routeId)
+        public async Task<bool> CreateDeparture([FromBody] HttpDeparture departure, [FromQuery] int routeId)
         {
             try
             {

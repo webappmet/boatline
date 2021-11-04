@@ -10,6 +10,7 @@ const RouteSelector = ({ id, label, route, setRoute, all = false }) => {
         if (routes) {
             if (all) routes.unshift('All');
             setRoutes(routes);
+            setRoute(routes[0]);
         }
     }
 
