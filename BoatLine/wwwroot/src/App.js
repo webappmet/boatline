@@ -16,6 +16,7 @@ import { AuthProvider } from './context/user';
 import { ToastProvider } from './context/toast';
 import ToastContainer from './containers/ToastContainer';
 import Departures from './pages/Departures';
+import CreateDeparture from './pages/CreateDeparture';
 
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
 				<Navbar />
 				<Switch>
 					<Route path="/dashboard" component={Dashboard} />
+					<Route path="/departures/create" component={CreateDeparture} />
 					<Route path="/departures" component={Departures} />
 					<Route path="/order" component={Order} />
 					<Route path="/tickets" component={Tickets} />

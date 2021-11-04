@@ -8,6 +8,8 @@ import DepartureList from "../containers/DepartureList";
 import { useAuthState } from "../context/user";
 import { useEffect } from "react";
 import { useHistory } from "react-router";
+import H1 from '../components/type/H1';
+import P from '../components/type/P';
 
 const Departures = () => {
     const auth = useAuthState();
@@ -22,7 +24,11 @@ const Departures = () => {
     return (
         <Container>
             <Section>
-                <Stack>
+                <Stack gap="5rem">
+                    <Stack gap="1rem">
+                        <H1>Departures</H1>
+                        <P>Here you can change find, update and add new departures.</P>
+                    </Stack>
                     <Panel radius="1rem" padding="4rem" color="var(--color-gw)">
                         <DepartureList />
                     </Panel>
