@@ -17,6 +17,7 @@ import { ToastProvider } from './context/toast';
 import ToastContainer from './containers/ToastContainer';
 import Departures from './pages/Departures';
 import CreateDeparture from './pages/CreateDeparture';
+import EditDeparture from './pages/EditDeparture';
 
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
 				<Switch>
 					<Route path="/dashboard" component={Dashboard} />
 					<Route path="/departures/create" component={CreateDeparture} />
+					<Route path="/departures/:id" component={EditDeparture} />
 					<Route path="/departures" component={Departures} />
 					<Route path="/order" component={Order} />
 					<Route path="/tickets" component={Tickets} />

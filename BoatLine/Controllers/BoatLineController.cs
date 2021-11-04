@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -210,6 +211,13 @@ namespace BoatLine.Controllers
         public async Task<ActionResult> GetDepartures()
         {
             var res = await _db.GetDepartures();
+            return Ok(res);
+        }
+        
+        public async Task<ActionResult> GetDeparture(int id)
+        {
+            Console.WriteLine(id);
+            var res = await _db.GetDeparture(id);
             return Ok(res);
         }
         

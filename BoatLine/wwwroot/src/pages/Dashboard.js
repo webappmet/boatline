@@ -28,7 +28,10 @@ const Dashboard = ({  }) => {
     return (
         <Container>
             <Section>
-                <H1>Admin Dashboard</H1>
+                <Flex>
+                    <H1>Admin Dashboard</H1>
+                    <P>Logged in as {auth && auth.user}</P>
+                </Flex>
             </Section>
             <Space col="2">
                 <Panel radius="1rem">

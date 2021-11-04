@@ -211,7 +211,7 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation for departure failed on server");
         }
 
-        public async Task<ActionResult> UpdateDeparture([FromBody] HttpDeparture departure, int departureId, int routeId)
+        public async Task<ActionResult> PutDeparture([FromBody] HttpDeparture departure, int departureId, int routeId)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
