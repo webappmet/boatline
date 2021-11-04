@@ -37,7 +37,7 @@ const Dashboard = ({  }) => {
                     </Flex>
                     <Stack gap="1.8rem">
                         <Space col="2" breakpoint="900px">
-                            <Panel radius="1rem">
+                            <Panel radius="1rem" padding="2.5rem">
                                 <Stack>
                                     <Stack gap=".5rem">
                                         <H2>Departures</H2>
@@ -56,7 +56,7 @@ const Dashboard = ({  }) => {
                                 </Align>
                                 </Stack>
                             </Panel>
-                            <Panel radius="1rem">
+                            <Panel radius="1rem" padding="2.5rem">
                                 <Stack>
                                     <Stack gap=".5rem">
                                         <H2>Tickets</H2>
@@ -66,13 +66,13 @@ const Dashboard = ({  }) => {
                                 </Stack>
                             </Panel>
                         </Space>
-                        <Panel radius="1rem">
-                            <Stack>
+                        <Panel radius="1rem" padding="2.5rem">
+                            <Stack gap="3rem">
                                 <Stack gap=".5rem">
                                     <H2>Cabins</H2>
                                     <P>Click a cabin to edit it.</P>
-                                    <Ship />
                                 </Stack>
+                                <Ship />
                             </Stack>
                         </Panel>
                     </Stack>
