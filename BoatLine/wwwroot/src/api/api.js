@@ -1,4 +1,5 @@
 ﻿import $ from 'jquery';
+import { ROOT_URL } from './base';
 
 export const getRoutes = async () => {
     return new Promise((resolve, reject) => {

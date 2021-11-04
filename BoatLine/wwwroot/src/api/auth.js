@@ -1,22 +1,5 @@
-import $ from 'jquery';
 import { base64Encode } from '../scripts/base64';
-
-
-export const login = async (username, password) => {
-    return new Promise((resolve, reject) => {
-        $.post("/api/v1/Auth/LogIn", { username, password }, (OK) => {
-            return true;
-        }).fail(() => {
-            return false;
-        });
-    });
-}
-
-
-// Context/actions.js
-
-
-const ROOT_URL = 'https://localhost:5001';
+import { ROOT_URL } from './base';
 
 export const loginUser = async (dispatch, loginPayload) => {
 	const credentials = base64Encode(`${loginPayload.username}:${loginPayload.password}`)

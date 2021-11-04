@@ -15,6 +15,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import { AuthProvider } from './context/user';
 import { ToastProvider } from './context/toast';
 import ToastContainer from './containers/ToastContainer';
+import Departures from './pages/Departures';
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
 				<Navbar />
 				<Switch>
 					<Route path="/dashboard" component={Dashboard} />
+					<Route path="/departures" component={Departures} />
 					<Route path="/order" component={Order} />
 					<Route path="/tickets" component={Tickets} />
 					<Route path="/search" component={Search} />
