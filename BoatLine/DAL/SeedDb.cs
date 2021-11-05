@@ -91,7 +91,6 @@ namespace BoatLine.DAL
         {
             var route1 = new Route
             {
-                Id = 1,
                 Departure = "Oslo",
                 Destination = "Kiel",
                 DurationDays = 3,
@@ -100,7 +99,6 @@ namespace BoatLine.DAL
 
             var route2 = new Route
             {
-                Id = 2,
                 Departure = "Oslo",
                 Destination = "Copenhagen",
                 DurationDays = 3,
@@ -109,7 +107,6 @@ namespace BoatLine.DAL
 
             var route3 = new Route
             {
-                Id = 3,
                 Departure = "Larvik",
                 Destination = "Hirtshals",
                 DurationDays = 4,
@@ -118,7 +115,6 @@ namespace BoatLine.DAL
 
             var route4 = new Route
             {
-                Id = 4,
                 Departure = "Kristiansand",
                 Destination = "Hirtshals",
                 DurationDays = 2,
@@ -127,7 +123,6 @@ namespace BoatLine.DAL
 
             var route5 = new Route
             {
-                Id = 5,
                 Departure = "Strømstad",
                 Destination = "Sandefjord",
                 DurationDays = 5,

@@ -16,10 +16,14 @@ import Align from '../components/layout/Align';
 import Flex from '../components/layout/Flex';
 import TicketList from '../containers/TicketList';
 import Ship from '../containers/Ship';
+import RouteList from '../containers/RouteList';
+import CreateRoute from '../containers/CreateRoute';
+import { useState } from 'react/cjs/react.development';
 
 const Dashboard = ({  }) => {
     const history = useHistory();
     const auth = useAuthState();
+    const [update, setUpdate] = useState(false);
 
     useEffect(() => {
         if (!auth.user) {
@@ -66,6 +70,26 @@ const Dashboard = ({  }) => {
                                 </Stack>
                             </Panel>
                         </Space>
+                        <Panel radius="1rem" padding="2.5rem">
+                            <Space>
+                                <Stack>
+                                    <Stack gap=".5rem">
+                                        <H2>Routes</H2>
+                                        <P>All current routes</P>
+                                    </Stack>
+                                    <RouteList update={update} />
+                                </Stack>
+                                <div>
+                                    <Stack>
+                                        <Stack gap=".5rem">
+                                            <H2>Create Route</H2>
+                                            <P>Create new route</P>
+                                        </Stack>
+                                        <CreateRoute submit={() => setUpdate(!update)} />
+                                    </Stack>
+                                </div>
+                            </Space>
+                        </Panel>
                         <Panel radius="1rem" padding="2.5rem">
                             <Stack gap="3rem">
                                 <Stack gap=".5rem">

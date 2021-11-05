@@ -117,7 +117,7 @@ namespace BoatLine.Controllers
             return NotFound("Admin was not found and not deleted");
         }
 
-        public async Task<ActionResult> PostRoute(Route route)
+        public async Task<ActionResult> PostRoute([FromBody] Route route)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
