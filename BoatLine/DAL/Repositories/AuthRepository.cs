@@ -136,7 +136,7 @@ namespace BoatLine.DAL.Repositories
         {
             try
             {
-                var route = await _db.Routes.FindAsync(id);
+                var route = await _db.Routes.FirstOrDefaultAsync(r => r.Id == id);
                 _db.Routes.Remove(route);
                 await _db.SaveChangesAsync();
                 return true;

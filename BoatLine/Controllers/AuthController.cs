@@ -162,6 +162,7 @@ namespace BoatLine.Controllers
 
         public async Task<ActionResult> DeleteRoute(int id)
         {
+            Console.WriteLine(id);
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
                 return Unauthorized("Not logged in");

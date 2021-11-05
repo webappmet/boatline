@@ -15,11 +15,12 @@ const RouteList = ({ update }) => {
 
     const removeRoute = async (id) => {
         const res = await deleteRoute(id);
+        console.log(res)
         if (res) {
             toastDispatch({ type: 'SHOW_MESSAGE', payload: { message: 'Deleted route', timer: 3000 }})
             setRoutes(routes.filter((route) => route.id !== id));
         }
-        else toastDispatch({ type: 'SHOW_MESSAGE', payload: { message: 'Could not delete route', timer: 4000 }})
+        else toastDispatch({ type: 'SHOW_MESSAGE', payload: { message: 'Cannot delete routes witch has future departures', timer: 4000 }})
     }
 
     useEffect(() => {

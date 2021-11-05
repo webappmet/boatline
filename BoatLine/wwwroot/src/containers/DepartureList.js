@@ -85,7 +85,7 @@ const DepartureList = ({ setSelectedDeparture, futureOnly = false, items = 10, n
             <List count={items} navigable={navigable}>
                 {departures.map((departure, index) => {
                     return (
-                        <Departure action={selectDeparture} key={index} departure={departure}/>
+                        <Departure key={index} departure={departure}/>
                     );
                 })}
             </List>

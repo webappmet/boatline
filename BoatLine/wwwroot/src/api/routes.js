@@ -39,7 +39,8 @@ export const deleteRoute = async (id) => {
 	try {
 		let response = await fetch(`${ROOT_URL}/api/v1/Auth/DeleteRoute?id=${id}`, requestOptions);
 		let data = await response.text();
-		return data;
+		if (data === 'Route was not found') return false
+		else return true
   	} catch (error) {
   		return false;
   	}
