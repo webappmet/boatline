@@ -91,7 +91,6 @@ namespace BoatLine.DAL
         {
             var route1 = new Route
             {
-                Id = 1,
                 Departure = "Oslo",
                 Destination = "Kiel",
                 DurationDays = 3,
@@ -100,7 +99,6 @@ namespace BoatLine.DAL
 
             var route2 = new Route
             {
-                Id = 2,
                 Departure = "Oslo",
                 Destination = "Copenhagen",
                 DurationDays = 3,
@@ -109,7 +107,6 @@ namespace BoatLine.DAL
 
             var route3 = new Route
             {
-                Id = 3,
                 Departure = "Larvik",
                 Destination = "Hirtshals",
                 DurationDays = 4,
@@ -118,7 +115,6 @@ namespace BoatLine.DAL
 
             var route4 = new Route
             {
-                Id = 4,
                 Departure = "Kristiansand",
                 Destination = "Hirtshals",
                 DurationDays = 2,
@@ -127,7 +123,6 @@ namespace BoatLine.DAL
 
             var route5 = new Route
             {
-                Id = 5,
                 Departure = "Strømstad",
                 Destination = "Sandefjord",
                 DurationDays = 5,
@@ -167,14 +162,27 @@ namespace BoatLine.DAL
         {
             var routes = _db.Routes.ToList();
             
-            foreach (var route in routes)
+            var date = DateTime.Today;
+            for (var i = 0; i < 30; i++)
             {
-                _db.Departures.Add(new Departure
+                foreach (var route in routes)
                 {
-                    Route = route,
-                    Date = DateTime.Today.ToString("yyyy-MM-dd"),
-                    Time = "08:30:00"
-                });
+                    _db.Departures.Add(new Departure
+                    {
+                        Route = route,
+                        Date = date.ToString("yyyy-MM-dd"),
+                        Time = "10:30"
+                    });
+                
+                    _db.Departures.Add(new Departure
+                    {
+                        Route = route,
+                        Date = date.ToString("yyyy-MM-dd"),
+                        Time = "17:45"
+                    });
+                }
+
+                date = date.AddDays(1);
             }
 
             _db.SaveChanges();

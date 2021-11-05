@@ -1,6 +1,6 @@
-import { useState } from "react/cjs/react.development";
+import { useState } from 'react';
 import { getCityByZip } from "../../../api/api";
-import Input from "../../Input";
+import Input from "../../interface/control/Input";
 
 const Traveler = ({ person, traveler, updateTraveler, index, removeSelf }) => {
 

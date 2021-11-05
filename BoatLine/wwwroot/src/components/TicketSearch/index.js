@@ -1,12 +1,13 @@
 import { useState } from 'react/cjs/react.development';
-import { navigate } from '../../Router';
-import Input from '../Input';
+import { useHistory } from 'react-router-dom';
+import Input from '../interface/control/Input';
 import './styled.css'
 
 const TicketSearch = () => {
 
     const [reference, setReference] = useState('');
     const [valid, setValid] = useState(false);
+    let history = useHistory();
 
     const validateReference = (value) => {
         value = value.toUpperCase();
@@ -26,11 +27,15 @@ const TicketSearch = () => {
         return valid || 'Reference numbers are 8 characters';
     }
 
+    const doSearch = () => {
+        history.push(`/tickets?r=${reference}`);
+    }
+
     return (
         <div className="search-box">
             <h2 className="search-text">Search ticket by reference</h2>
             <Input id="search-ticket" value={reference} validator={validateReference} />
-            <button class="search-button" disabled={!valid} onClick={() => navigate(`/tickets?r=${reference}`)}>Find Ticket</button>
+            <button class="search-button" disabled={!valid} onClick={doSearch}>Find Ticket</button>
         </div>
     );
 }

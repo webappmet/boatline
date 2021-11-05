@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Select from '../../Select';
+import Select from '../../interface/control/Select';
 import './styled.css';
 
 const Route = ({ routes, setDeparture, setDestination, departure, destination }) => {

@@ -394,6 +394,21 @@ namespace BoatLine.DAL.Repositories
                 return null;
             }
         }
+        
+        public async Task<Departure> GetDeparture(int id)
+        {
+            try
+            {
+                var dbDeparture = await _boatLineDb.Departures.FirstOrDefaultAsync(d => d.Id == id);
+                if (dbDeparture is null) return null;
+                else return dbDeparture;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
 
         /**
          * Method that generates price from cabin price

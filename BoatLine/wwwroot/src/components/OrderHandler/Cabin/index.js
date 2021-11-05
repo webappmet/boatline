@@ -3,7 +3,7 @@ import React from 'react';
 import { ReactComponent as ArrowUp } from '../../../assets/ArrowUp.svg';
 import { ReactComponent as ArrowDown } from '../../../assets/ArrowDown.svg';
 import { ReactComponent as BoatIcon } from '../../../assets/Boat.svg';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import CabinSelect from './CabinSelect'
 import SelectedCabin from './SelectedCabin';
 

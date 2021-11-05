@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using BoatLine.DAL.Repositories;
 using BoatLine.DAL.Utilities;
@@ -26,9 +27,9 @@ namespace BoatLine.Controllers
             _log = log;
         }
 
-        public async Task<ActionResult> LogIn(string credentials)
+        public async Task<ActionResult> LogIn([FromHeader] string authorization)
         {
-            var admin = Utility.DecodeAdmin(credentials);
+            var admin = Utility.DecodeAdmin(authorization);
 
             if (ModelState.IsValid)
             {
@@ -73,14 +74,14 @@ namespace BoatLine.Controllers
         /**
          * Already authorized user creates new admin user
          */
-        public async Task<ActionResult> CreateAdmin(string credentials)
+        public async Task<ActionResult> CreateAdmin([FromHeader] string authorization)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
                 return Unauthorized("Not logged in");
             }
 
-            var admin = Utility.DecodeAdmin(credentials);
+            var admin = Utility.DecodeAdmin(authorization);
 
             if (ModelState.IsValid)
             {
@@ -116,7 +117,7 @@ namespace BoatLine.Controllers
             return NotFound("Admin was not found and not deleted");
         }
 
-        public async Task<ActionResult> PostRoute(Route route)
+        public async Task<ActionResult> PostRoute([FromBody] Route route)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
@@ -172,7 +173,7 @@ namespace BoatLine.Controllers
             return NotFound("Route was not found");
         }
         
-        public async Task<ActionResult> UpdateCabin(Cabin cabin)
+        public async Task<ActionResult> PutCabin([FromBody] Cabin cabin)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {
@@ -210,7 +211,7 @@ namespace BoatLine.Controllers
             return BadRequest("Input validation for departure failed on server");
         }
 
-        public async Task<ActionResult> UpdateDeparture([FromBody] HttpDeparture departure, int departureId, int routeId)
+        public async Task<ActionResult> PutDeparture([FromBody] HttpDeparture departure, int departureId, int routeId)
         {
             if (string.IsNullOrEmpty(HttpContext.Session.GetString(LoggedIn)))
             {

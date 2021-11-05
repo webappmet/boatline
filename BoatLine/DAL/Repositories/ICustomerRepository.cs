@@ -23,6 +23,7 @@ namespace BoatLine.DAL.Repositories
         Task<string> GenerateReference(string firstname, string lastname);
         Task<List<Departure>> GetDeparturesByDateAndRoute(string date, int routeId);
         Task<List<Departure>> GetDepartures();
+        Task<Departure> GetDeparture(int id);
         double GeneratePrice(IEnumerable<Cabin> cabins);
         bool PaymentCheck(Payment payment);
     }

@@ -1,4 +1,5 @@
 ﻿import $ from 'jquery';
+import { ROOT_URL } from './base';
 
 export const getRoutes = async () => {
     return new Promise((resolve, reject) => {
@@ -15,19 +16,6 @@ export const getRoute = async (id) => {
     return new Promise((resolve, reject) => {
         $.get("/api/v1/BoatLine/GetRoute", id, (route) => {
             resolve(route)
-        })
-            .fail((e) => {
-                console.log("GetRoutes failed")
-                console.log(e);
-                reject("Getroutes Promise failed: ");
-            });
-    });
-}
-
-export const getCabin = async (id) => {
-    return new Promise((resolve, reject) => {
-        $.get("/api/v1/BoatLine/GetRoute", id, (cabin) => {
-            resolve(cabin)
         })
             .fail((e) => {
                 console.log("GetRoutes failed")
