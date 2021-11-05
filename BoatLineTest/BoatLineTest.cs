@@ -569,7 +569,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.UpdateCabin(It.IsAny<Cabin>()) as OkObjectResult;
+            var res = await authController.PutCabin(It.IsAny<Cabin>()) as OkObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.OK, res.StatusCode);
@@ -589,7 +589,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.UpdateCabin(It.IsAny<Cabin>()) as UnauthorizedObjectResult;
+            var res = await authController.PutCabin(It.IsAny<Cabin>()) as UnauthorizedObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.Unauthorized, res.StatusCode);
@@ -609,7 +609,7 @@ namespace BoatLineTest
             authController.ControllerContext.HttpContext = _mockHttpContext.Object;
 
             // Act
-            var res = await authController.UpdateCabin(It.IsAny<Cabin>()) as NotFoundObjectResult;
+            var res = await authController.PutCabin(It.IsAny<Cabin>()) as NotFoundObjectResult;
 
             // Assert 
             Assert.Equal((int)HttpStatusCode.NotFound, res.StatusCode);
@@ -730,7 +730,7 @@ namespace BoatLineTest
 
             // Act
             var res =
-                await authController.UpdateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()) as
+                await authController.PutDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()) as
                     OkObjectResult;
 
             // Assert 
@@ -754,7 +754,7 @@ namespace BoatLineTest
 
             // Act
             var res =
-                await authController.UpdateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()) as
+                await authController.PutDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()) as
                     UnauthorizedObjectResult;
 
             // Assert 
@@ -778,7 +778,7 @@ namespace BoatLineTest
 
             // Act
             var res =
-                await authController.UpdateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()) as
+                await authController.PutDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()) as
                     NotFoundObjectResult;
 
             // Assert 
@@ -804,7 +804,7 @@ namespace BoatLineTest
 
             // Act
             var res =
-                await authController.UpdateDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()) as
+                await authController.PutDeparture(It.IsAny<HttpDeparture>(), It.IsAny<int>(), It.IsAny<int>()) as
                     BadRequestObjectResult;
 
             // Assert 
