@@ -1,8 +1,5 @@
 # Project assignment for Web applications Part 2, 2021
 
-### Group: 0221
-### Candidate numbers: 442, 445, 446
-
 ## Description
 
 A web application for booking tickets for boat trips. The application has login mechanism for admin users, who can create new admin users and administration of routes, departures, cabins, prices and more.
